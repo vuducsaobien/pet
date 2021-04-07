@@ -4,15 +4,18 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use App\Models\CustomerModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; 
+
 class CommentModel extends AdminModel
 {
-        protected $table               = 'comment';
-        protected $folderUpload        = 'comment' ;
-        protected $fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-        protected $crudNotAccepted     = ['_token','thumb_current', 'username'];
+
+    public function __construct()
+    {
+        $this->table               = 'comment';
+        $this->folderUpload        = 'comment';
+        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        $this->crudNotAccepted     = ['_token','thumb_current', 'username'];    
+    }
 
 
     public function listItems($params = null, $options = null) {

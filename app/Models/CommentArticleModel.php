@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Helpers\Template;
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; 
 use Kalnoy\Nestedset\NodeTrait;
+
 class CommentArticleModel extends AdminModel
 {
     use NodeTrait;
@@ -26,7 +25,7 @@ class CommentArticleModel extends AdminModel
 
         if($options['task'] == "admin-list-items") {
             $result = self::with('article')->withDepth()
-//                ->withDepth()
+                // ->withDepth()
                 ->defaultOrder()
                 ->where('status', 'active')
                 ->get()

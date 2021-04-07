@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Helpers\Template;
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB;
 
-class RssModel extends AdminModel
+class RssContentModel extends AdminModel
 {
     public function __construct()
     {
-        $this->table               = 'rss';
+        $this->table               = 'rss_content';
         $this->folderUpload        = 'slider';
         $this->fieldSearchAccepted = ['id', 'name', 'link'];
         $this->crudNotAccepted     = ['_token'];

@@ -4,26 +4,22 @@ namespace App\Models;
 
 use App\Helpers\Template;
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use DB; 
+use Illuminate\Support\Facades\DB;
+
 class ArticleModel extends AdminModel
 {
-/*    public function __construct() {
+    public function __construct() {
         $this->table               = 'article';
         $this->folderUpload        = 'article' ; 
         $this->fieldSearchAccepted = ['name', 'content']; 
         $this->crudNotAccepted     = ['_token','thumb_current'];
-    }*/
-    protected $table='article';
-    protected $folderUpload='article';
-    protected $fieldSearchAccepted=['name','content'];
-    protected $crudNotAccepted=['_token','thumb_current'];
+    }
 
     public function comments()
     {
         return $this->hasMany(CommentArticleModel::class,'article_id','id');
     }
+    
     public function listItems($params = null, $options = null) {
      
         $result = null;
@@ -31,7 +27,7 @@ class ArticleModel extends AdminModel
         if($options['task'] == "admin-list-items") {
             $query = $this
                     ->select("*")
-//                ->leftJoin('category as c', 'article.category_id', '=', 'c.id')
+            // ->leftJoin('category as c', 'article.category_id', '=', 'c.id')
             ;
 
 
@@ -82,7 +78,6 @@ class ArticleModel extends AdminModel
 
             $result = $query->get()->toArray();
         }
-
         
         if($options['task'] == 'news-list-items-latest') {
             
@@ -113,8 +108,6 @@ class ArticleModel extends AdminModel
             ;
             $result = $query->get()->toArray();
         }
-        
-        
 
         return $result;
     }
@@ -159,19 +152,14 @@ class ArticleModel extends AdminModel
             $result = self::select('id', 'thumb')->where('id', $params['id'])->first();
         }
 
-/*        if($options['task'] == 'news-get-item') {
-            $result = self::select('a.id', 'a.name','a.slug', 'content', 'a.category_id', 'c.name as category_name', 'a.thumb', 'a.created', 'c.display')
-                         ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
-                         ->where('a.id', '=', $params['article_id'])
-                         ->where('a.status', '=', 'active')->first();
-            if($result) $result = $result->toArray();
-        }*/
         if($options['task']=='news-get-item'){
             $result=self::select('id','name','slug','content','created_by','created','thumb')->paginate(6);
         }
+
         if($options['task']=='news-get-item-recent'){
             $result=self::select('id','name','slug','content','created_by','created','thumb')->take(3)->orderBy('id','desc')->get();
         }
+
         if($options['task']=='news-get-item-by-slug'){
             $result=self::with('comments')->where('slug',$params['slug'])->first();
         }
@@ -181,7 +169,6 @@ class ArticleModel extends AdminModel
 
     public function saveItem($params = null, $options = null) { 
 
-
         if($options['task'] == 'change-type') {
             self::where('id', $params['id'])->update(['type' => $params['currentType']]);
             return [
@@ -189,18 +176,11 @@ class ArticleModel extends AdminModel
                 'message' => config('zvn.notify.success.update')
             ];
         }
-        
 
         if($options['task'] == 'add-item') {
-
-
-
             $params['created_by'] = "hailan";
             $params['created']    = date('Y-m-d');
-//            $params['thumb']      = $this->uploadThumb($params['thumb']);
-
-
-
+            // $params['thumb']      = $this->uploadThumb($params['thumb']);
             self::insert($this->prepareParams($params));        
         }
 

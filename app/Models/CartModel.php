@@ -12,10 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class CartModel extends AdminModel
 {
-    protected $table               = 'cart as c';
-    protected $folderUpload        = 'cart' ;
-    protected $fieldSearchAccepted = ['order_code', 'name', 'email', 'address', 'quantity', 'amount'];
-    protected $crudNotAccepted     = ['_token','name', 'thumb', 'id', 'attribute', 'total_price', 'product_code', 'slug'];
+
+    public function __construct()
+    {
+        $this->table               = 'cart as c';
+        $this->folderUpload        = 'cart';
+        $this->fieldSearchAccepted = ['order_code', 'name', 'email', 'address', 'quantity', 'amount'];
+        $this->crudNotAccepted     = ['_token','name', 'thumb', 'id', 'attribute', 'total_price', 'product_code', 'slug'];    
+    }
 
     // public function customer()
     // {

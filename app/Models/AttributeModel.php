@@ -12,7 +12,7 @@ class AttributeModel extends AdminModel
         $this->table               = 'attribute';
         $this->folderUpload        = 'attribute';
         $this->fieldSearchAccepted = ['id', 'name', 'link'];
-        $this->crudNotAccepted     = ['_token'];
+        $this->crudNotAccepted     = ['_token'];    
     }
 
     public function listItems($params = null, $options = null)
