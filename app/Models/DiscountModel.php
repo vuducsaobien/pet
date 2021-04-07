@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use DB; 
 class DiscountModel extends AdminModel
 {
@@ -118,13 +116,9 @@ class DiscountModel extends AdminModel
         }
 
         if($options['task'] == 'edit-item') {
-
-/*            if(!empty($params['thumb'])){
-                $this->deleteThumb($params['thumb_current']);
-                $params['thumb'] = $this->uploadThumb($params['thumb']);
-            }*/
             $params['modified_by'] = session('userInfo')['username'];
             $params['modified']    = date('Y-m-d');
+            // date('Y-m-d');
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
     }

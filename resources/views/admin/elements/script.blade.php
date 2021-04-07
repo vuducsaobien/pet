@@ -25,6 +25,16 @@
     <script src="{{ asset('admin/js/slug/slugify.min.js') }}"></script>
 @endif
 
+{{-- Auto Currency --}}
+<script src="{{ asset('admin/js/currency/simple.money.format.js') }}"></script>
+
+<!-- Date Picker -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+<script src="{{ asset('admin/js/jquery-dateformat.min.js') }}"></script>
+
+
 <script src="{{ asset('admin/js/custom.min.js') }}"></script>
 <script src="{{ asset('admin/js/my-js.js') }}"></script>
 <script src="{{ asset('admin/js/functions.js') }}"></script>

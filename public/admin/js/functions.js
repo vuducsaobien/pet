@@ -43,11 +43,41 @@ function checkNumber(number){
     if($.isNumeric(number)) {flag = true;}else{flag = false;}
     return flag;
 }
-function checkNumberHigher(number, higher){
+function checkNumberHigher(number, higher=0){
     let flag;
     if(number >= higher) {flag = true;}else{flag = false;}
     return flag;
 }
+
+function regex(data, type){
+	let regex;
+	let result;
+
+	switch (type) {
+		case 'iiiii': 
+			
+		break;
+	
+		default:
+			// 1,200,0ds,awd,dad, ds,ad ,dad => 12000dsawddaddsaddad
+			// 6 % => 6
+			regex = /[^A-Z0-9]/ig;
+		break;
+	}
+
+	result = data.replace(regex, "");
+	return result;
+}
+
+function clearOppersiteInput(element1, element2) {
+	element1.click(function (e) {
+		element2.val('');
+	})
+	element2.click(function (e) {
+		element1.val('');
+	})
+}
+
 
 function callAjax(element, url, type,data='') {
 
@@ -92,3 +122,5 @@ function callAjax(element, url, type,data='') {
 		},
 	});
 }
+
+

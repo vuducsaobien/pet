@@ -4,11 +4,16 @@ $(document).ready(function() {
 	let $btnClearSearch       = $("button#btn-clear-search");
 	let $selectChangeAttrAjax = $("select.select-ajax");
 	let $inputOrdering        = $("input.ordering");
-	let $inputLink        		= $("input.link");
+	let $inputLink            = $("input.link");
 	let $btnStatus            = $(".btn-status");
 	let $inputSearchField     = $("input[name  = search_field]");
 	let $inputSearchValue     = $("input[name  = search_value]");
 	let $selectChangeAttr     = $("select[name = select_change_attr]");
+	let $currency             = $('.money');
+	let $percent              = $('input[name=percent]');
+	let $accepted             = $('.accepted');
+	let $date_start           = $('input[name=date_start]');
+	let $date_end             = $('input[name=date_end]');
 
 	//format price
 	$("#price,#price_sale").val(function(index, value) {
@@ -149,12 +154,81 @@ $(document).ready(function() {
 		confirmKeys: [32],
 	});
 
+	if( controllerName == 'discount' ){
+		// Time
+		let time_start = 'DD-MM-YYYY HH:mm:ss';
+		$date_start.datetimepicker({
+			defaultDate: $.now(),
+			format     : time_start,
+		});		
+		$date_end.datetimepicker({
+			defaultDate: $.now(),
+			format     : time_start,
+		});		
+
+		// Currency
+		$currency.simpleMoneyFormat();
+		$accepted.simpleMoneyFormat();
+
+		// Percent
+		$percent.change(function() {
+			$(this).val(function(index, old) { return old.replace(/[^0-9]/g, '') + ' %'; });
+		});
+
+		// Disable Currency & Percent
+		clearOppersiteInput($currency, $percent);
+
+		// Clear Input Special Character
+		$('input[type=submit]').click(function (e) {
+			let newCurrency = parseInt( regex($currency.val()) );
+			let newPercent  = parseInt( regex($percent.val()) );
+			let newAccepted = parseInt( regex($accepted.val()) );
+
+			if ( !isNaN(newCurrency) ) {
+				$currency.val(newCurrency);
+			}
+			
+			if ( !isNaN(newPercent) ) {
+				$percent.val(newPercent);
+			}
+
+			if ( !isNaN(newAccepted) ) {
+				$accepted.val(newAccepted);
+			}
+
+			// $accepted.val(newAccepted);
+			// $accepted.val(newAccepted);
+
+			// Update New Time Format
+			var longDateFormat  = 'dd/MM/yyyy HH:mm:ss';
+			let old_start_date = $date_start.val();
+			let newdate_start  = $.format.date(old_start_date, longDateFormat);
+			$date_start.val(newdate_start);
+
+			let old_end_date = $date_end.val();
+			let newdate_end  = $.format.date(old_end_date, longDateFormat);
+			$date_end.val(newdate_end);
+
+			if ( !(
+					checkInputOrdering(newCurrency) || 
+					checkInputOrdering(newPercent) ||
+					checkInputOrdering(newAccepted))
+				){
+					e.preventDefault();
+			}
+
+		})
+
+	}
+
 	// Auto Select Input
 	$('form').find('input[type=text]').filter(':visible:first').focus().select();
 
 	// Slug
-	$.slugify("Ätschi Bätschi"); // "aetschi-baetschi"
-	$('#slug').slugify('#name'); // Type as you slug
+	if (controllerName == 'article') {
+		$.slugify("Ätschi Bätschi"); // "aetschi-baetschi"
+		$('#slug').slugify('#name'); // Type as you slug
+	}
 
 	// Modal
 	$('#myModal').on('shown.bs.modal', function () {
@@ -221,7 +295,7 @@ $(document).ready(function() {
 
 
 
-	allStorage();
+	// allStorage();
 
 	// $('.tags').tagsInput({
 	// 	'defaultText': '',
