@@ -2,6 +2,13 @@
     use App\Helpers\Template;
     use App\Helpers\HightLight;
 
+    if ( !empty($itemsContact) ) {
+                $items             = $itemsContact;
+        $params['search']          = [];
+        $params['search']['value'] = "";
+                $controllerName    = 'contact';
+    }
+
 @endphp
 
 <div class="x_content">

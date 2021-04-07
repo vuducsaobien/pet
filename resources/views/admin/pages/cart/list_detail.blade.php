@@ -1,6 +1,13 @@
 @php
     use App\Helpers\Template as Template;
     use App\Helpers\Hightlight as Hightlight;
+
+    if ( !empty($itemsCart) ) {
+                $items             = $itemsCart;
+        $params['search']          = [];
+        $params['search']['value'] = "";
+                $controllerName    = 'cart';
+    }
 @endphp
 
 @if (count($items) > 0)

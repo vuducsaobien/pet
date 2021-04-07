@@ -49,4 +49,25 @@
         {!! $xhtmlBoxDashboard !!}
     </div>
 
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                @include('admin.templates.x_title', ['title' => 'Danh sách 5 Đơn Hàng Mới Nhất !'])
+                @include('admin.pages.cart.list')
+                <a href="{{ route('cart') }}" class="btn btn-success">Tới Trang Đơn Hàng</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                @include('admin.templates.x_title', ['title' => 'Danh sách 5 Liên Hệ Mới Nhất !'])
+                @include('admin.pages.contact.list')
+                <a href="{{ route('contact') }}" class="btn btn-success">Tới Trang Liên Hệ</a>
+            </div>
+        </div>
+    </div>
+
+    
 @endsection

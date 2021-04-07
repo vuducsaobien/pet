@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Helpers\Functions;
 
 use App\Models\ArticleModel;
 use App\Models\AttributeModel;
@@ -65,7 +66,8 @@ class DashboardController extends AdminController
         $itemsTestimoniaCount       = TestimonialModel::countItemsDashboad();
         $itemsUserCount             = UserModel::countItemsDashboad();
 
-
+        $itemsCart    = $this->cart($request);
+        $itemsContact = $this->contact($request);
         
         return view($this->pathViewController .  'index', compact([
             'itemsSliderCount', 'itemsUserCount', 'itemsCategoryCount', 'itemsArticleCount',
@@ -74,9 +76,58 @@ class DashboardController extends AdminController
             'itemsMenuCount', 'itemsPageCount', 'itemsPaymentCount', 'itemsProductAttributeCount',
             'itemsProductImageCount', 'itemsProductCount', 'itemsRecruitmentCount', 'itemsRssCount',
             'itemsSettingCount', 'itemsShippingCount', 'itemsTeamCount',
-            'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount'
+            'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount', 
+            'itemsCart', 'itemsContact'
         ]));
     }
+
+    public function cart(Request $request)
+    {
+        $this->params['filter']['status']   = $request->input('filter_status', 'all' ) ;
+        $this->params['filter']['category'] = $request->input('filter_category', 'all' ) ;
+        $this->params['search']['field']    = $request->input('search_field', '' ) ;
+        $this->params['search']['value']    = $request->input('search_value', '' ) ;
+
+        // Items Customer
+        $cartModel        = new CartModel();
+        $items            = $cartModel->listItems($this->params, ['task'  => 'admin-list-items-customer']);
+
+        // Items Cart
+        $itemsCart      = $cartModel->listItems($this->params, ['task'  => 'admin-list-items']);
+        $attribute_name = $cartModel->listItems(null, ['task'  => 'admin-list-items-get-all-attribute-name']);
+        $prepareParams  = $cartModel->fixArray($itemsCart, ['task' => 'fix-array-01']);
+
+        $params['main']           = $prepareParams;
+        $params['attribute_name'] = $attribute_name;
+        $params    = $cartModel->fixArray($params, ['task' => 'fix-array-02']);
+        $attribute = $cartModel->fixArray($params, ['task' => 'fix-array-03']);
+
+        $params['main']      = $itemsCart;
+        $params['attribute'] = $attribute;
+
+        $itemsCart = $cartModel->fixArray($params, ['task'  => 'fix-array-04']);
+        $itemsCart = Functions::merge_05($itemsCart);
+
+        foreach ($items as $key => $value) $items[$key]['detail'] = $itemsCart[$key];
+        // $items = $items->toArray();
+
+        return $items;
+    }
+
+    public function contact(Request $request)
+    {
+        $this->params['filter']['status']   = $request->input('filter_status', 'all' ) ;
+        $this->params['filter']['category'] = $request->input('filter_category', 'all' ) ;
+        $this->params['search']['field']    = $request->input('search_field', '' ) ;        // all id description
+        $this->params['search']['value']    = $request->input('search_value', '' ) ;
+
+        $contactModel     = new ContactModel();
+        $items            = $contactModel->listItems($this->params, ['task'  => 'admin-list-items']);
+
+        return $items;
+    }
+
+
 
 }
 
