@@ -1,0 +1,8 @@
+- Add class "btn-status", "data-class" attribute to save current status class
+    + Template.php                          showItemStatus
+- Code for model
+    + CategoryModel.php                     saveItem / task: change-status / return [id, modified, status, link, message]
+- Code for Controller
+    + Admin/AdminController.php             status / echo json_encode($result)
+- Ajax
+    + my-js.js                              call ajax on click event btn-status

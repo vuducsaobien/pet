@@ -1,0 +1,7 @@
+- Add menu to sidebar                   resources\views\admin\elements\sidebar_menu.blade.php
+- Add route                             routes\web.php
+- Add Controller                        app\Http\Controllers\Admin\MenuController.php
+- Add Model                             app\Models\MenuModel.php
+- Add Request                           app\Http\Requests\MenuRequest.php
+- Add View                              resources\views\admin\pages\menu
+- Define config                         config\zvn.php

@@ -1,0 +1,20 @@
+*************** PREPARE **********************
+
+- install laravel-nestedset
+    + composer require kalnoy/nestedset
+- modify database: "category" table
+    + remove "ordering" column
+    + add columns can be null: parent_id, _lft, _rgt
+    + increase id of all rows by 1:
+    + create Root: id(1), name(Root), status(active), created(NULL), created_by(NULL), modified(NULL), modified_by(NULL), parent_id(NULL), _left(1), _rgt(2)
+- modified "article" table
+    + increase "category_id" of all row by 1
+    + fix listItems in CategoryModel: remove order by, remove paginate, remove ordering column in select query
+    + fix view: remove pagination
+
+*************** PREPARE **********************
+
+- action: add category
+- action: edit category
+- action: delete category
+- action: move node

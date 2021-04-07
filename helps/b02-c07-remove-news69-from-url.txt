@@ -1,0 +1,2 @@
+- Set prefix_news to ''                 config\zvn.php
+- Fix route login                       routes\web.php

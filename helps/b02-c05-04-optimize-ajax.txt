@@ -1,0 +1,1 @@
+- Write callAjax() function                     my-js.js

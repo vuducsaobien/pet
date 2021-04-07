@@ -1,0 +1,7 @@
+- set "APP_LOG=daily" in .env
+- composer require arcanedev/log-viewer:~4.7
+- php artisan log-viewer:publish
+- config middlewares: log-viewer.php
+    + 'middleware' => ['web','permission.admin']
+- add route
+- add view

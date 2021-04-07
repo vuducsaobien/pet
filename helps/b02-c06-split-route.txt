@@ -1,0 +1,2 @@
+- Create admin.php and move admin route from web.php to admin.php                   routes\admin.php
+- Update RouteServiceProvider                                                       app\Providers\RouteServiceProvider.php

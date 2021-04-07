@@ -1,0 +1,12 @@
+Get gold
+- add method get gold list                                      app\Helpers\Feed.php
+- get gold in controller                                        app\Http\Controllers\News\RssController.php
+- add view for box gold                                         resources\views\news\pages\rss\child-index\box_gold.blade.php
+- include box gold to index                                     resources\views\news\pages\rss\index.blade.php
+
+Ajax Load
+- add gif loading                                               public\news\images\loading.gif
+- change view load gif when start                               resources\views\news\pages\rss\index.blade.php
+- add route                                                     routes\web.php
+- write method to return json for client                        app\Http\Controllers\News\RssController.php
+- write ajax load to render gold table                          public\news\js\my-js.js

@@ -1,0 +1,5 @@
+- add mustache.js                                       public\news\js\mustache.min.js
+                                                        resources\views\news\elements\script.blade.php
+- write template for box coin & box gold                resources\views\news\pages\rss\child-index\template_box.blade.php
+                                                        resources\views\news\pages\rss\index.blade.php
+- write js to render                                    public\news\js\my-js.js

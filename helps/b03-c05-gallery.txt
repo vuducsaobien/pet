@@ -1,0 +1,26 @@
+Admin
+- Install Laravel File Manager
+    + composer require unisharp/laravel-filemanager:~1.8
+    + php artisan vendor:publish --tag=lfm_config
+    + php artisan vendor:publish --tag=lfm_public
+    + php artisan route:clear
+    + php artisan config:clear
+- Change APP_URL in .env
+- Config for Laravel File Manager                                           config\lfm.php
+        'middlewares' => ['web', 'permission.admin'],
+        'user_field' => App\Handler\LfmConfigHandler::class,
+        'images_folder_name' => '',
+        'files_folder_name'  => 'images',
+- Add menu item to sidebar                                                  resources\views\admin\elements\sidebar_menu.blade.php
+- Add route                                                                 routes\admin.php
+- Add controller                                                            app\Http\Controllers\Admin\GalleryController.php
+- Add view                                                                  resources\views\admin\pages\gallery\index.blade.php
+
+
+Frontend
+- Add menu for frontend             
+- define gallery path                                                       config\zvn.php
+- Add route                                                                 routes\web.php
+- Add controller                                                            app\Http\Controllers\News\GalleryController.php
+- Add view                                                                  resources\views\news\pages\gallery\index.blade.php
+- upload image to test

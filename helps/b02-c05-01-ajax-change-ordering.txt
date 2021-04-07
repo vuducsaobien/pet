@@ -1,0 +1,16 @@
+- Add notify.js plugin
+    + public/admin/js/notify.js/notify.min.js
+    + resource/views/elements/script.blade.php
+- Add Route
+    + web.php                               change-ordering
+- Change list, add input ordering
+    + resource/views/pages/category/list.blade.php
+- Add ordering template
+    + Template.php                          showItemOrdering
+- Code for Controller
+    + Admin/CategoryController.php          ordering
+- Code for model
+    + CategoryModel.php                     listItems / select ordering
+    + CategoryModel.php                     saveItem / task: change-ordering
+- Ajax
+    + my-js.js                              call ajax on change event input ordering

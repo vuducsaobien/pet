@@ -1,0 +1,2 @@
+- Get list menu                     app\Models\MenuModel.php
+- Render menu                       resources\views\news\elements\header.blade.php

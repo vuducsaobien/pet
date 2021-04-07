@@ -1,0 +1,7 @@
+- Add menu item to sidebar                                  resources\views\admin\elements\sidebar_menu.blade.php
+- Add route                                                 routes\admin.php
+- Add controller                                            app\Http\Controllers\Admin\RssController.php
+- Add model                                                 app\Models\RssModel.php
+- Add view                                                  resources\views\admin\pages\rss
+- Add form request                                          app\Http\Requests\RssRequest.php
+- config                                                    config\zvn.php

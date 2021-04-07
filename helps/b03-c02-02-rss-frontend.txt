@@ -1,0 +1,6 @@
+- add "Tin tức tổng hợp" for frontend                               menu manage in admin
+- add route                                                         routes\web.php
+- add controller                                                    app\Http\Controllers\News\RssController.php
+- write method in model to get list                                 app\Models\RssModel.php
+- write class Feed to read list items from array link               app\Helpers\Feed.php
+- add view and render                                               resources\views\news\pages\rss\index.blade.php

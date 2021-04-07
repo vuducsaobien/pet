@@ -1,0 +1,8 @@
+- Add class "select-ajax" to select template
+    + Template.php                          showItemSelect
+- Code for model
+    + CategoryModel.php                     saveItem / task: change-display / return [id, modified, message]
+- Code for Controller
+    + Admin/AdminController.php             display / echo json_encode($result)
+- Ajax
+    + my-js.js                              call ajax on change value of select box
