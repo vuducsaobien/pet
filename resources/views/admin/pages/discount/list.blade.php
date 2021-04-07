@@ -24,14 +24,16 @@
                 @if (count($items) > 0)
                     @foreach ($items as $key => $val)
                         @php
-                            $index           = $key + 1;
-                            $class           = ($index % 2 == 0) ? "even" : "odd";
-                            $id              = $val['id'];
-                            $code            = Hightlight::show($val['code'], $params['search'], 'code');
-                            $times           = Hightlight::show($val['times'], $params['search'], 'times');
-                            $price           = Template::format_price($val['price']);
-                            $percent         = $val['percent'];
-                            $accepted        = Template::format_price($val['min_price']);
+                            $index    = $key + 1;
+                            $class    = ($index % 2 == 0) ? "even" : "odd";
+                            $id       = $val['id'];
+                            $code     = Hightlight::show($val['code'], $params['search'], 'code');
+                            $times    = Hightlight::show($val['times'], $params['search'], 'times');
+                            $price    = $val['price'] ? '- ' . Template::format_price($val['price']) : '';
+                            $percent  = $val['percent'] ? "-  {$val['percent']} %" : '';
+                            $accepted = Template::format_price($val['min_price']);
+                            $accepted = $val['min_price'] ? '<i class="fa fa-long-arrow-up"></i> '.$accepted .'' : '';
+
                             $date_start      = Template::showItemHistory(null, $val['date_start'], 'only_time');
                             $date_end        = Template::showItemHistory(null, $val['date_end'], 'only_time');
                             $status          = Template::showItemStatus($controllerName, $id, $val['status']); ;
@@ -47,11 +49,11 @@
                             </td>
 
                             <td  width="5%">{!! $times !!}</td>
-                            <td  width="10%">{!! '- '.  $price !!}</td>
-                            <td>{{ '- '. $percent . '%'}}</td>
+                            <td  width="10%">{!! $price !!}</td>
+                            <td>{{ $percent }}</td>
                             
                             <td  width="10%">
-                                <i class="fa fa-long-arrow-up"></i> {!! $accepted !!}
+                                {!! $accepted !!}
                             </td>
 
                             <td>{!! $date_start !!}</td>

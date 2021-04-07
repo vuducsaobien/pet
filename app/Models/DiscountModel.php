@@ -87,7 +87,9 @@ class DiscountModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id','code','date_start','date_end', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'code', 'date_start', 'date_end', 'status'
+            , 'times', 'price', 'percent', 'min_price')
+            ->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'get-thumb') {

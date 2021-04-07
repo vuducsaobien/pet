@@ -42,20 +42,16 @@
             'element' => Form::number('times', @$item['times'],  $formInputAttr )
         ],[
             'label'   => Form::label('price', 'Số Tiền Giảm Giá (Nghìn Đồng)', $formLabelAttr),
-            // 'element' => Form::text('price', @$item['price'],  $formInputAttr )
             'element' => $inputPrice
         ],[
             'label'   => Form::label('percent', 'Số Tiền Giảm Giá ( % )', $formLabelAttr),
-            // 'element' => Form::text('percent', @$item['percent'],  $formInputAttr )
             'element' => $inputPercent
         ],[
             'label'   => Form::label('min_price', 'Số Tiền Áp Dụng (Nghìn Đồng Trở Lên)', $formLabelAttr),
-            // 'element' => Form::text('min_price', @$item['min_price'],  $formInputAttr )
             'element' => $inputAccepted
         ],[
             'label'   => Form::label('date_start', 'Ngày Bắt Đầu', $formLabelAttr),
             'element' => $inputDateStart
-            // date('Y-m-d H:i:s');
         ],[
             'label'   => Form::label('date_end', 'Ngày Kết Thúc', $formLabelAttr),
             'element' => $inputDateEnd
