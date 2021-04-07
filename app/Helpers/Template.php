@@ -42,7 +42,7 @@ class Template
         return date("Y-m-d H:i:s", $timestamp);
     }
 
-    public static function format_price($num, $type = 'dollar')
+    public static function format_price($num, $type = 'vietnamese dong')
     {
         switch ($type) {
             case 'dollar':
@@ -147,17 +147,30 @@ class Template
 
     public static function showItemHistory($by, $time, $type='both')
     {
-        if ($type == 'both') {
-            $xhtml = sprintf('
+        switch ($type) {
+            case 'single':
+                $xhtml = sprintf('
                 <p><i class="fa fa-user"></i> %s</p>
                 <p><i class="fa fa-clock-o"></i> %s</p>', 
                 $by, date(Config::get('zvn.format.long_time'), strtotime($time))
             );
-        } else {
-            $xhtml = sprintf('
-                <p><i class="fa fa-clock-o"></i> %s</p>', 
+            break;
+
+            case 'only_time':
+                $xhtml = sprintf('
+                <p> %s</p>', 
                 date(Config::get('zvn.format.long_time'), strtotime($time))
             );
+            break;
+            
+            default:
+                $xhtml = sprintf('
+                <p><i class="fa fa-user"></i> %s</p>
+                <p><i class="fa fa-clock-o"></i> %s</p>', 
+                $by, date(Config::get('zvn.format.long_time'), strtotime($time))
+            );
+
+            break;
         }
         
         return $xhtml;

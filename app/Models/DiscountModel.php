@@ -10,7 +10,7 @@ class DiscountModel extends AdminModel
 {
         protected $table               = 'discount';
         protected $folderUpload        = 'discount' ;
-        protected $fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        protected $fieldSearchAccepted = ['id', 'code', 'price', 'times', 'date_start'];
         protected $crudNotAccepted     = ['_token','thumb_current'];
 
 
@@ -19,7 +19,8 @@ class DiscountModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','code','date_start','date_end','created', 'created_by', 'modified', 'modified_by');
+            $query = $this->select('id', 'status','code','date_start', 'date_end','times', 'price', 'percent', 'min_price',
+            'created', 'created_by', 'modified', 'modified_by');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );

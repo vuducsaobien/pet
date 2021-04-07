@@ -8,7 +8,11 @@
             <thead>
                 <tr class="headings">
                     <th class="column-title">#</th>
-                    <th class="column-title">{{$controllerName}} Name</th>
+                    <th class="column-title">Tên Mã Giảm Giá</th>
+                    <th class="column-title">Số Lần Sử Dụng</th>
+                    <th class="column-title">Số tiền giảm</th>
+                    <th class="column-title">Số % Giảm</th>
+                    <th class="column-title">Số tiền Áp Dụng</th>
                     <th class="column-title">Date start</th>
                     <th class="column-title">Date end</th>
                     <th class="column-title">Trạng thái</th>
@@ -23,10 +27,13 @@
                             $index           = $key + 1;
                             $class           = ($index % 2 == 0) ? "even" : "odd";
                             $id              = $val['id'];
-                            $code            = Hightlight::show($val['code'], $params['search'], 'type');
-                            $date_start     = Hightlight::show($val['date_start'], $params['search'], 'date_start');
-                            $date_end            = Hightlight::show($val['date_end'], $params['search'], 'date_end');
-                            $star=$val['star'];
+                            $code            = Hightlight::show($val['code'], $params['search'], 'code');
+                            $times           = Hightlight::show($val['times'], $params['search'], 'times');
+                            $price           = Template::format_price($val['price']);
+                            $percent         = $val['percent'];
+                            $accepted        = Template::format_price($val['min_price']);
+                            $date_start      = Template::showItemHistory(null, $val['date_start'], 'only_time');
+                            $date_end        = Template::showItemHistory(null, $val['date_end'], 'only_time');
                             $status          = Template::showItemStatus($controllerName, $id, $val['status']); ;
                             $createdHistory  = Template::showItemHistory($val['created_by'], $val['created']);
                             $modifiedHistory = Template::showItemHistory($val['modified_by'], $val['modified']);
@@ -35,12 +42,20 @@
 
                         <tr class="{{ $class }} pointer">
                             <td >{{ $index }}</td>
-                            <td width="20%">
+                            <td width="10%">
                                  {!! $code !!}
-                                
                             </td>
-                            <td>{{$date_start}}</td>
-                            <td>{{$date_end}}</td>
+
+                            <td  width="5%">{!! $times !!}</td>
+                            <td  width="10%">{!! '- '.  $price !!}</td>
+                            <td>{{ '- '. $percent . '%'}}</td>
+                            
+                            <td  width="10%">
+                                <i class="fa fa-long-arrow-up"></i> {!! $accepted !!}
+                            </td>
+
+                            <td>{!! $date_start !!}</td>
+                            <td>{!! $date_end !!}</td>
 
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>
