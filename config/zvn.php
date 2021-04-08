@@ -6,10 +6,11 @@ return [
         'prefix_news'  => 'news69',
     ],
     'format'         => [
-        'long_time'  => 'H:i:s d/m/Y',
-        'short_time' => 'd/m/Y',
-        // 'count_down' => "+10 hours" 
-        'count_down' => "+2 day" 
+        'long_time'        => 'H:i:s d/m/Y',
+        'long_time_format' => 'd-m-Y H:i:s',
+        'short_time'       => 'd/m/Y',
+        'count_down'       => "+2 day",
+        // 20-04-2020 23:49:33
     ],
     'template'         => [
         'form_input' => [

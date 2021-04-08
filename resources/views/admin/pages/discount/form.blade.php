@@ -7,16 +7,25 @@
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
     $formCkeditor  = config('zvn.template.form_ckeditor');
+    
+    if ( !empty($item['date_start']) ) {
+        $item['date_start'] = date(config('zvn.format.long_time_format'), strtotime($item['date_start']));
+    }
+    if ( !empty($item['date_end']) ) {
+        $item['date_end'] = date(config('zvn.format.long_time_format'), strtotime($item['date_end']));
+    }
+
     $class         = 'form-control col-md-6 col-xs-12';
 
     $statusValue      = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
 
-    $inputHiddenID    = Form::hidden('id', @$item['id']);
-    $inputHiddenThumb = Form::hidden('thumb_current', @$item['thumb']);
-    $inputPrice       = '<input type="text" name="price" class="money '.$class.' " value="'.@$item['price'].'"/>';
-    $inputPercent     = '<input type="text" name="percent" class="percent '.$class.' " value="'.@$item['percent'].'"/>';
-    $inputAccepted    = '<input type="text" name="min_price" class="accepted '.$class.' " value="'.@$item['min_price'].'"/>';
-    $inputDateStart   = '
+    $inputHiddenID     = Form::hidden('id', @$item['id']);
+    $inputHiddenThumb  = Form::hidden('thumb_current', @$item['thumb']);
+    $inputPrice        = '<input type="text" name="price" class="money '.$class.' " value="'.@$item['price'].'"/>';
+    $inputPercent      = '<input type="text" name="percent" class="percent '.$class.' " value="'.@$item['percent'].'"/>';
+    $inputAccepted_min = '<input type="text" name="min_price" class="accepted_min '.$class.' " value="'.@$item['min_price'].'"/>';
+    $inputAccepted_max = '<input type="text" name="max_price" class="accepted_max '.$class.' " value="'.@$item['max_price'].'"/>';
+    $inputDateStart    = '
         <div class="input-group date" id="datetimepicker_start">
             <input type="text"  name="date_start" class="'.$class.'" value="'.@$item['date_start'].'" />
             <span class="input-group-addon">
@@ -38,22 +47,25 @@
             'label'   => Form::label('code', 'Tên Mã Giảm Giá', $formLabelAttr),
             'element' => Form::text('code', @$item['code'],  $formInputAttr )
         ],[
-            'label'   => Form::label('times', 'Số Lần Sử Dụng', $formLabelAttr),
-            'element' => Form::number('times', @$item['times'],  $formInputAttr )
-        ],[
-            'label'   => Form::label('price', 'Số Tiền Giảm Giá (Nghìn Đồng)', $formLabelAttr),
+            'label'   => Form::label('price', 'Số Tiền Giảm (Nghìn Đồng) - A1', $formLabelAttr),
             'element' => $inputPrice
         ],[
-            'label'   => Form::label('percent', 'Số Tiền Giảm Giá ( % )', $formLabelAttr),
+            'label'   => Form::label('percent', 'Hoặc Giảm Giá theo % - A2', $formLabelAttr),
             'element' => $inputPercent
         ],[
-            'label'   => Form::label('min_price', 'Số Tiền Áp Dụng (Nghìn Đồng Trở Lên)', $formLabelAttr),
-            'element' => $inputAccepted
+            'label'   => Form::label('min_price', 'Số Tiền Nhỏ Nhất Cho Phép - B1 (Nghìn Đồng Trở Lên)', $formLabelAttr),
+            'element' => $inputAccepted_min
         ],[
-            'label'   => Form::label('date_start', 'Ngày Bắt Đầu', $formLabelAttr),
+            'label'   => Form::label('max_price', 'Số Tiền Lớn Nhất Cho Phép - B2 (Nghìn Đồng Trở Xuống)', $formLabelAttr),
+            'element' => $inputAccepted_max
+        ],[
+            'label'   => Form::label('total_times', 'Số Lần Sử Dụng Cho Phép', $formLabelAttr),
+            'element' => Form::number('total_times', @$item['total_times'],  $formInputAttr )
+        ],[
+            'label'   => Form::label('date_start', 'Ngày Bắt Đầu - C1', $formLabelAttr),
             'element' => $inputDateStart
         ],[
-            'label'   => Form::label('date_end', 'Ngày Kết Thúc', $formLabelAttr),
+            'label'   => Form::label('date_end', 'Ngày Kết Thúc - C2', $formLabelAttr),
             'element' => $inputDateEnd
         ],[
             'label'   => Form::label('status', 'Status', $formLabelAttr),

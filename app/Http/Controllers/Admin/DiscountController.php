@@ -19,7 +19,8 @@ class DiscountController extends AdminController
     {
         if ($request->method() == 'POST') {
             $params = $request->all();
-            
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
             $task   = "add-item";
             $notify = "Thêm phần tử thành công!";
 

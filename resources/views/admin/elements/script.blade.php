@@ -35,6 +35,9 @@
 <!-- Format Time -->
 <script src="{{ asset('admin/js/format_time/jquery-dateformat.min.js') }}"></script>
 
+<!-- Validate -->
+<script src="{{ asset('admin/js/validate/jquery.validate.min.js') }}"></script>
+
 <script src="{{ asset('admin/js/custom.min.js') }}"></script>
 
 <!-- Duc's Js -->
@@ -48,3 +51,5 @@
 <script src="{{ asset('admin/js/my-js/plugin-currency.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/plugin-slug.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/plugin-time.js') }}"></script>
+<script src="{{ asset('admin/js/my-js/plugin-validate.js') }}"></script>
+

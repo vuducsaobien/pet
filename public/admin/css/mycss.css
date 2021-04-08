@@ -108,3 +108,6 @@ span.tag{
 .bootstrap-tagsinput{
     height: 33px;
 }
+span.errorValidate{
+    color: red;
+}
