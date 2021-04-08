@@ -38,9 +38,6 @@ class CategoryController extends AdminController
                 $params['slug']=Str::slug($params['name']);
             }
 
-
-
-
             $task   = "add-item";
             $notify = "Thêm phần tử thành công!";
 

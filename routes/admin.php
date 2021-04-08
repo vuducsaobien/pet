@@ -204,7 +204,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
 
 
     // ============================== MENU ============================== //
-    $prefix = 'menu';
+    $prefix         = 'menu';
     $controllerName = 'menu';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -220,7 +220,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
 
     // ============================== RSS ============================== //
-    $prefix = 'rss';
+    $prefix         = 'rss';
     $controllerName = 'rss';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -233,7 +233,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
 
     // ============================== GALLERY ============================== //
-    $prefix = 'gallery';
+    $prefix         = 'gallery';
     $controllerName = 'gallery';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -241,7 +241,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
 
     // ============================== SETTING ============================== //
-    $prefix = 'setting';
+    $prefix         = 'setting';
     $controllerName = 'setting';
     Route::group(['prefix' => $prefix], function () use ($controllerName){
         $controller = ucfirst($controllerName).'Controller@';
@@ -254,7 +254,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
 
     // ============================== CONTACT ============================== //
-    $prefix = 'contact';
+    $prefix         = 'contact';
     $controllerName = 'contact';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -272,7 +272,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
     /*================================= ATTRIBUTE =============================*/
 
-    $prefix = 'attribute';
+    $prefix         = 'attribute';
     $controllerName = 'attribute';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -286,7 +286,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     });
     /*================================= PRODUCT =============================*/
 
-    $prefix = 'product';
+    $prefix         = 'product';
     $controllerName = 'product';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';

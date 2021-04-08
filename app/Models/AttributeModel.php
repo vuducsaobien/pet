@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Template;
 
 class AttributeModel extends AdminModel
 {
@@ -11,7 +12,7 @@ class AttributeModel extends AdminModel
     {
         $this->table               = 'attribute';
         $this->folderUpload        = 'attribute';
-        $this->fieldSearchAccepted = ['id', 'name', 'link'];
+        $this->fieldSearchAccepted = ['name'];
         $this->crudNotAccepted     = ['_token'];    
     }
 
@@ -20,7 +21,9 @@ class AttributeModel extends AdminModel
         $result = null;
 
         if ($options['task'] == 'admin-list-items') {
-            $query = $this->select('id', 'name', 'ordering','status');
+            $query = $this->select('id', 'name', 'ordering','status', 'created', 'created_by',
+                'modified_by', 'modified'
+            );
 
             if (isset($params['filter']['status']) && $params['filter']['status'] != 'all') $query->where('status', $params['filter']['status']);
 
@@ -89,7 +92,11 @@ class AttributeModel extends AdminModel
 
     public function saveItem($params = null, $options = null)
     {
-        $result = null;
+        $result     = null;
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
 
         if ($options['task'] == 'change-link') {
             $link = $params['link'];
@@ -119,7 +126,29 @@ class AttributeModel extends AdminModel
             ];
         }
 
+        if ($options['task'] == 'change-ordering') {
+            $ordering   = $params['ordering'];
+
+            self::where( 'id', $params['id'])
+                ->update([
+                    'ordering'    => $ordering,
+                    'modified'    => $modified,
+                    'modified_by' => $modifiedBy
+                ]
+            );
+
+            $result =  [
+                'id'       => $params['id'],
+                'modified' => Template::showItemHistory($modifiedBy, $modified),
+                'message'  => config('zvn.notify.success.update')
+            ];
+
+            return $result;
+        }
+
         if ($options['task'] == 'add-item') {
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             $this->insert($this->prepareParams($params));
         }
 

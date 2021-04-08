@@ -10,7 +10,7 @@ class AttributeController extends AdminController
 {
     public function __construct()
     {
-        $this->controllerName = 'attribute';
+        $this->controllerName     = 'attribute';
         $this->pathViewController = 'admin.pages.attribute.';
         parent::__construct();
         $this->model = new MainModel();
@@ -32,6 +32,14 @@ class AttributeController extends AdminController
         }
     }
 
+    public function ordering(Request $request)
+    {
+        $params['ordering'] = $request->ordering;
+        $params['id']       = $request->id;
+
+        $result     = $this->model->saveItem($params, ['task' => 'change-ordering']);
+        echo json_encode($result);
+    }
 
 
 }

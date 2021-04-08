@@ -24,15 +24,16 @@ $(document).ready(function() {
 	// Ajax Change Ordering
 	$inputOrdering.on("change", function () {
 		let $currentElement = $(this);
-		let value = $(this).val();
-		let $url = $(this).data("url");
-		$url = $url.replace("value_new", value);
+		let value           = $(this).val();
+		let $url            = $(this).data("url");
+		    $url            = $url.replace("value_new", value);
 
 		if (checkInputOrdering(value, 1)) {
             callAjax($currentElement, $url, 'ordering');
         }
 
 	});
+
 	// Ajax Change Link
 	$inputLink.on("keyup", function () {
 

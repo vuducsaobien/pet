@@ -81,23 +81,6 @@ class RssContentModel extends AdminModel
     {
         $result = null;
 
-        if ($options['task'] == 'change-status') {
-            $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
-            self::where('id', $params['id'])->update(['status' => $status]);
-
-            $result = [
-                'id'      => $params['id'],
-                'status'  => [
-                    'name'  => config("zvn.template.status.$status.name"),
-                    'class' => config("zvn.template.status.$status.class")
-                ],
-                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
-                'message' => config('zvn.notify.success.update')
-            ];
-
-            return $result;
-        }
-
         if ($options['task'] == 'change-ordering') {
             $ordering   = $params['ordering'];
 

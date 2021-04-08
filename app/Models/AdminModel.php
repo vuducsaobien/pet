@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Helpers\Template;
 
 class AdminModel extends Model
 {
@@ -64,18 +65,30 @@ class AdminModel extends Model
 
     public function status($params,$options)
     {
-        if($options['task'] == 'change-status') {
-            $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
-            self::where('id', $params['id'])->update(['status' => $status ]);
-            $result = [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
-                'message' => config('zvn.notify.success.update')
-            ];
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
 
-            return $result;
-        }
+        $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
+        self::where('id', $params['id'])
+            ->update([
+                'status'      => $status,
+                'modified'    => $modified,
+                'modified_by' => $modifiedBy
+        ]);
+
+        $result = [
+            'id'       => $params['id'],
+            'modified' => Template::showItemHistory($modifiedBy, $modified),
+            'status'   => [
+                'name'  => config("zvn.template.status.$status.name"),
+                'class' => config("zvn.template.status.$status.class")
+            ],
+            'link'     => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+            'message'  => config('zvn.notify.success.update')
+        ];
+
+        return $result;
+        
     }
 
 }
