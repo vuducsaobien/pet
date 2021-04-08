@@ -97,7 +97,8 @@ return [
             'ip'             => ['name'=> 'Ip'],
             'code'           => ['name'=> 'Mã Giảm Giá'],
             'discount_price' => ['name'=> 'Số Tiền Giảm Giá'],
-            'times'          => ['name'=> 'Số Lần Sử Dụng'],
+            'times_used'     => ['name'=> 'Số Lần Đã Sử Dụng'],
+            'total_times'    => ['name'=> 'Số Lần Cho Phép'],
             'date_start'     => ['name'=> 'Ngày Bắt Đầu'],
         ],
         'button' => [
@@ -125,7 +126,7 @@ return [
             'product'     => ['all', 'product_code', 'name'],
             'attribute'   => ['all', 'name'],
             'comment'     => ['all', 'product_code', 'product_name','email','ip'],
-            'discount'    => ['all', 'code', 'times'],
+            'discount'    => ['all', 'code', 'total_times', 'times_used'],
         ],
         'button' => [
             'default'        => ['edit', 'delete'],

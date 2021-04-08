@@ -11,7 +11,7 @@ class DiscountModel extends AdminModel
     {
         $this->table               = 'discount';
         $this->folderUpload        = 'discount';
-        $this->fieldSearchAccepted = ['id', 'code', 'price', 'times', 'date_start'];
+        $this->fieldSearchAccepted = ['id', 'code', 'price', 'times_used', 'total_times', 'date_start'];
         $this->crudNotAccepted     = ['_token','thumb_current'];    
     }
 
@@ -20,8 +20,8 @@ class DiscountModel extends AdminModel
 
         if($options['task'] == "admin-list-items") {
             $query = $this->select(
-                'id', 'status','code','date_start', 'date_end','times', 'price', 'percent', 'min_price',
-                'created', 'created_by', 'modified', 'modified_by'
+                'id', 'status','code','date_start', 'date_end','times_used', 'total_times', 'price', 'percent', 
+                'min_price', 'created', 'created_by', 'modified', 'modified_by', 'max_price'
             );
                
             if ($params['filter']['status'] !== "all")  {
@@ -89,7 +89,7 @@ class DiscountModel extends AdminModel
         
         if($options['task'] == 'get-item') {
             $result = self::select('id', 'code', 'date_start', 'date_end', 'status'
-            , 'times', 'price', 'percent', 'min_price')
+            , 'times_used', 'total_times', 'price', 'percent', 'min_price', 'max_price')
             ->where('id', $params['id'])->first();
         }
 
