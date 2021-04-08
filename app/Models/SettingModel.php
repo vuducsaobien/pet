@@ -6,25 +6,27 @@ use App\Models\AdminModel;
 
 class SettingModel extends AdminModel
 {
+    protected $guarded = ['type'];
 
-        protected $table = 'setting';
-        protected $fieldSearchAccepted = ['key_value'];
-        protected $crudNotAccepted = ['_token'];
-        protected $guarded=['type'];
-//        protected $timestamps = false;
-
+    public function __construct()
+    {
+        $this->table               = 'setting';
+        $this->folderUpload        = 'discount';
+        $this->fieldSearchAccepted = ['key_value'];
+        $this->crudNotAccepted     = ['_token'];    
+    }
 
     public function saveItem($params = null, $options = null){
         $result = null;
 
         if ($options['task'] == 'general') {
-            $value = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
+            $value    = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
             $keyValue = 'setting-general';
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
 
         if ($options['task'] == 'email-account') {
-            $value = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
+            $value    = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
             $keyValue = 'setting-email';
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
@@ -35,12 +37,12 @@ class SettingModel extends AdminModel
         }
 
         if ($options['task'] == 'social') {
-            $value = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
+            $value    = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
             $keyValue = 'setting-social';
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
         if ($options['task'] == 'share') {
-            $value = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
+            $value    = json_encode($this->prepareParams($params), JSON_UNESCAPED_UNICODE);
             $keyValue = 'setting-share';
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
@@ -52,24 +54,25 @@ class SettingModel extends AdminModel
         $result = null;
 
         if ($params != null) {
+
             if ($params['type'] == 'general') {
-                $item = $this->select('value')->where('key_value', 'setting-general')->firstOrFail()->toArray();
+                $item   = $this->select('value')->where('key_value', 'setting-general')->firstOrFail()->toArray();
                 $result = json_decode($item['value'], true);
             }
     
             if ($params['type'] == 'email') {
-                $item = $this->select('value')->where('key_value', 'setting-email')->firstOrFail()->toArray();
-                $result = json_decode($item['value'], true);
-                $result['bcc'] = $this->select('value')->where('key_value', 'setting-bcc')->first()->value;
+                        $item   = $this->select('value')->where('key_value', 'setting-email')->firstOrFail()->toArray();
+                        $result = json_decode($item['value'], true);
+                $result['bcc']  = $this->select('value')->where('key_value', 'setting-bcc')->first()->value;
             }
     
             if ($params['type'] == 'social') {
-                $item = $this->select('value')->where('key_value', 'setting-social')->firstOrFail()->toArray();
+                $item   = $this->select('value')->where('key_value', 'setting-social')->firstOrFail()->toArray();
                 $result = json_decode($item['value'], true);
             }
+
             if ($params['type'] == 'share') {
                 $item = $this->select('value')->where('key_value', 'setting-share')->get()->toArray();
-
 
                 if(empty($item)){
                     $params['key_value']='setting-share';
@@ -83,11 +86,12 @@ class SettingModel extends AdminModel
         }
 
         if ($options != null) {
+
             if ($options['task'] == 'news-list-items-footer') {
-                $item = self::select('value')->where('key_value', 'setting-general')->firstOrFail()->toArray();
+                        $item      = self::select('value')->where('key_value', 'setting-general')->firstOrFail()->toArray();
                 $result['general'] = json_decode($item['value'], true);
     
-                $item = self::select('value')->where('key_value', 'setting-social')->firstOrFail()->toArray();
+                        $item     = self::select('value')->where('key_value', 'setting-social')->firstOrFail()->toArray();
                 $result['social'] = json_decode($item['value'], true);
             }
 
@@ -98,7 +102,6 @@ class SettingModel extends AdminModel
             }
 
         }
-
 
         return $result;
 

@@ -9,10 +9,10 @@ class MenuModel extends AdminModel
 {
     public function __construct()
     {
-        $this->table = 'menu';
-        $this->folderUpload = 'menu';
+        $this->table               = 'menu';
+        $this->folderUpload        = 'menu';
         $this->fieldSearchAccepted = ['id', 'name', 'link'];
-        $this->crudNotAccepted = ['_token'];
+        $this->crudNotAccepted     = ['_token'];
     }
 
     public function listItems($params = null, $options = null)
@@ -40,17 +40,20 @@ class MenuModel extends AdminModel
         }
 
         if ($options['task'] == 'news-list-items') {
-            $query = $this->select('id', 'name', 'link', 'type_menu', 'type_link')->where('status', 'active')->orderBy('ordering', 'asc');
+            $query = $this->select('id', 'name', 'link', 'type_menu', 'type_link')
+                ->where('status', 'active')->orderBy('ordering', 'asc')
+            ;
 
             $result = $query->get();
         }
 
         if ($options['task'] == 'news-list-items-footer') {
-            $query = $this->select('id', 'name', 'link', 'type_menu', 'type_link')->where('status', 'active')->where('name', 'Contact Us');
+            $query = $this->select('id', 'name', 'link', 'type_menu', 'type_link')
+                ->where('status', 'active')->where('name', 'Contact Us')
+            ;
 
             $result = $query->get();
         }
-
 
         return $result;
     }
@@ -60,7 +63,7 @@ class MenuModel extends AdminModel
         $result = null;
 
         if ($options == null) {
-            $query = $this->select(DB::raw('COUNT(id) AS count'));
+            $query  = $this->select(DB::raw('COUNT(id) AS count'));
             $result = $query->first()->toArray()['count'];
             return $result;
         }
@@ -82,20 +85,29 @@ class MenuModel extends AdminModel
 
             $result = $query->groupBy('status')->get()->toArray();
         }
+
         return $result;
     }
 
     public function saveItem($params = null, $options = null)
     {
-        $result = null;
+        $result     = null;
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if ($options['task'] == 'change-status') {
             $status = $params['currentStatus'] == 'active' ? 'inactive' : 'active';
             $this->where('id', $params['id'])->update(['status' => $status]);
 
             $result = [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
 
@@ -105,8 +117,9 @@ class MenuModel extends AdminModel
         if ($options['task'] == 'change-ordering') {
             $ordering = $params['ordering'];
             $this->where('id', $params['id'])->update(['ordering' => $ordering]);
+
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
@@ -114,8 +127,9 @@ class MenuModel extends AdminModel
         if ($options['task'] == 'change-type-menu') {
             $typeMenu = $params['selectedTypeMenu'];
             $this->where('id', $params['id'])->update(['type_menu' => $typeMenu]);
+
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
@@ -123,19 +137,22 @@ class MenuModel extends AdminModel
         if ($options['task'] == 'change-type-link') {
             $typeLink = $params['selectedTypeLink'];
             $this->where('id', $params['id'])->update(['type_link' => $typeLink]);
+
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
+
         if ($options['task'] == 'change-link') {
 
             $typeLink = $params['data'];
             $this->where('id', $params['id'])->update(['link' => $typeLink]);
+
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update'),
-                'link'=>$params['data']
+                'link'    => $params['data']
             ];
         }
 
@@ -159,7 +176,9 @@ class MenuModel extends AdminModel
     {
         $result = null;
         if ($options['task'] == 'get-item') {
-            $result = $this->select('id', 'name', 'link', 'ordering', 'type_menu', 'type_link', 'status')->where('id', $params['id'])->first();
+            $result = $this->select('id', 'name', 'link', 'ordering', 'type_menu', 'type_link', 'status')
+                ->where('id', $params['id'])->first()
+            ;
         }
 
         return $result;

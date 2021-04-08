@@ -17,13 +17,13 @@ class CommentModel extends AdminModel
         $this->crudNotAccepted     = ['_token','thumb_current', 'username'];    
     }
 
-
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'name', 'email', 'status', 'star','message','created', 'created_by', 'modified', 'modified_by');
+            $query = self::select(
+                'id', 'name', 'email', 'status', 'star','message','created', 'created_by', 'modified', 'modified_by'
+            );
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -54,13 +54,10 @@ class CommentModel extends AdminModel
             $result = $query->get();
         }
 
-
-
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -81,8 +78,6 @@ class CommentModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -101,57 +96,57 @@ class CommentModel extends AdminModel
 
         if($options['task'] == 'in-product-detail') {
             $result = self::select('id', 'product_id', 'customer_id', 'star', 'message', 'name', 'created')
-            ->where('product_id', $params['product_id'])
-            ->where('status', 'active')
-            // ->get();
-            ->get()->toArray();
+                ->where('product_id', $params['product_id'])
+                ->where('status', 'active')
+                // ->get();
+                ->get()->toArray()
+            ;
         }
-
 
         return $result;
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created']    = date('Y-m-d');
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'add-item-news') {
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
             $customerModel = new CustomerModel();
+
             $params['customer_id'] = $customerModel->getItem($params, ['task' => 'frontend-get-customer-id']);
             $params['created']     = date('Y-m-d H:i:s');
             $params['status']      = 'inactive';
 
             $preparam = $this->prepareParams($params);
-            echo '<pre style="color:red";>$preparam === '; print_r($preparam);echo '</pre>';
 
-            // echo '<h3>Die is Called Model Comemnrt</h3>';die;
             self::insert($preparam);
         }
 
-
         if($options['task'] == 'edit-item') {
-
-            /* if(!empty($params['thumb'])){
-                $this->deleteThumb($params['thumb_current']);
-                $params['thumb'] = $this->uploadThumb($params['thumb']);
-            }*/
-            $params['modified_by'] = session('userInfo')['username'];
-            $params['modified']    = date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
     }

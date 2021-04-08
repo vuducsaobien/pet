@@ -21,21 +21,7 @@ class CartModel extends AdminModel
         $this->crudNotAccepted     = ['_token','name', 'thumb', 'id', 'attribute', 'total_price', 'product_code', 'slug'];    
     }
 
-    // public function customer()
-    // {
-    //     return $this->belongsTo(CustomerModel::class);
-    // }
-    // public function payment()
-    // {
-    //     return $this->belongsTo(PaymentModel::class);
-    // }
-
-    // public function products()
-    // {
-    //     return $this->belongsToMany(ProductModel::class,'order_product','order_code','product_id','order_code')->withPivot(['quantity','price']);
-    // }
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items-customer") {
@@ -66,7 +52,6 @@ class CartModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
                 // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }
-
 
         if($options['task'] == "admin-list-items") {
             $query = self::select('c.id', 'c.quantity', 'c.price', 'c.order_code', 
@@ -105,7 +90,6 @@ class CartModel extends AdminModel
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -127,8 +111,6 @@ class CartModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -140,11 +122,11 @@ class CartModel extends AdminModel
         if($options['task'] == 'get-item') {
             $customerModel = new CustomerModel();
 
-            $result = $customerModel::select('id', 'status', 'name', 'phone', 'email', 'address', 'ip', 'order_code', 'quantity', 'amount',
-            'created', 'payment_id', 'ship')->where('id', $params['id'])->first()->toArray();
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
+            $result = $customerModel::select(
+                'id', 'status', 'name', 'phone', 'email', 'address', 'ip', 'order_code', 'quantity', 'amount',
+                'created', 'payment_id', 'ship')
+                ->where('id', $params['id'])->first()->toArray()
+            ;
         }
 
         if($options['task'] == 'get-thumb') {
@@ -163,8 +145,6 @@ class CartModel extends AdminModel
 
         if($options['task'] == 'news-list-items-get-product-attribute-value-in-cart') {
             $productModel = new ProductModel();
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
             $result       = $productModel->listItems($params, ['task' => 'news-list-items-get-product-attribute-value-in-cart']);
         }
 
@@ -173,36 +153,39 @@ class CartModel extends AdminModel
             $result       = $paymentModel->getItem($params, ['task' => 'get-payment-name-from-id']);
         }
 
-
         return $result;
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
+
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created']    = date('Y-m-d');
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'edit-item') {
-
-            /* if(!empty($params['thumb'])){
-                $this->deleteThumb($params['thumb_current']);
-                $params['thumb'] = $this->uploadThumb($params['thumb']);
-            }*/
-            $params['modified_by'] = session('userInfo')['username'];
-            $params['modified']    = date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
 
@@ -220,8 +203,8 @@ class CartModel extends AdminModel
         }
 
         if($options['task'] == 'news-add-item-cart-model') {
-
             $cart = $params['cart'];
+
             foreach ($cart as $value) {
                 $attributeModel = new AttributeModel();
                 $attribute_id   = $attributeModel->getItem($value['attribute'], ['task' => 'get-attribute-id-from-attribute-name']);
@@ -237,21 +220,18 @@ class CartModel extends AdminModel
             }
 
         }
-
-
     }
 
     public function deleteItem($params = null, $options = null) 
     { 
         if($options['task'] == 'delete-item') {
-            /* $item   = self::getItem($params, ['task'=>'get-thumb']); //
-            $this->deleteThumb($item['thumb']);*/
             self::where('id', $params['id'])->delete();
         }
     }
 
     public function fixArray($params = null, $options = null) 
     { 
+        
         if($options['task'] == 'fix-array-01') {
 
             foreach ($params as $key => $value) {

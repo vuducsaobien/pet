@@ -7,17 +7,19 @@ use App\Models\AdminModel;
 use App\Models\SettingModel;
 use Illuminate\Support\Facades\DB; 
 use Kalnoy\Nestedset\NodeTrait;
+
 class CategoryModel extends AdminModel
 {
     use NodeTrait;
 
-    protected $table = 'category';
+    protected $table   = 'category';
     protected $guarded = [];
 
     public function product()
     {
         return $this->hasMany(ProductModel::class,'category_id');
     }
+
     public function listItems($params = null, $options = null) {
      
         $result = null;
@@ -29,7 +31,7 @@ class CategoryModel extends AdminModel
                 ->get()
                 ->toFlatTree();
         }
-        /*================================= lay category o menu frontend =============================*/
+
         if($options['task'] == 'news-list-items') {
             $result = self::withDepth()
                 ->having('depth', '>', 0)
@@ -202,16 +204,17 @@ class CategoryModel extends AdminModel
 
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
             self::where('id', $params['id'])->update(['status' => $status, 'modified' => $modified, 'modified_by' => $modifiedBy]);
 
             $result = [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
-                'message' => config('zvn.notify.success.update')
+                'status'   => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'     => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'message'  => config('zvn.notify.success.update')
             ];
 
             return $result;
@@ -219,8 +222,10 @@ class CategoryModel extends AdminModel
 
         if($options['task'] == 'change-is-home') {
             $isHome = ($params['currentIsHome'] == "yes") ? "no" : "yes";
-            self::where('id', $params['id'])->update(['is_home' => $isHome, 
-                'modified' => $modified, 'modified_by' => $modifiedBy]);
+            self::where(
+                'id', $params['id'])->update(['is_home' => $isHome, 
+                'modified' => $modified, 'modified_by' => $modifiedBy]
+            );
 
             return [
                 'id'     => $params['id'],
@@ -235,9 +240,9 @@ class CategoryModel extends AdminModel
 
         if($options['task'] == 'change-display') {
             $display    = $params['currentDisplay'];
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
-            self::where('id', $params['id'])->update(['display' => $display, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+            self::where(
+                'id', $params['id'])->update(['display' => $display, 'modified' => $modified, 'modified_by' => $modifiedBy]
+            );
 
             return [
                 'id'       => $params['id'],
@@ -253,15 +258,13 @@ class CategoryModel extends AdminModel
                 $params['created']    = $created;
 
                 $prepare = $this->prepareParams($params);
-                // echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
-                // echo '<h3>Die is Called Model</h3>';die;
-                $parent = self::find($params['parent_id']);
+                $parent  = self::find($params['parent_id']);
                 self::create($prepare, $parent);
             }
         }
 
         if ($options['task'] == 'edit-item') {
-            $params['created_by'] = session('userInfo')['username'];
+            $params['created_by'] = $createdBy;
             $parent = self::find($params['parent_id']);
 
             $query = $current = self::find($params['id']);
@@ -271,15 +274,15 @@ class CategoryModel extends AdminModel
 
         if ($options['task'] == 'change-ordering') {
             $ordering   = $params['ordering'];
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
 
-            self::where('id', $params['id'])->update(['ordering' => $ordering, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+            self::where(
+                'id', $params['id'])->update(['ordering' => $ordering, 'modified' => $modified, 'modified_by' => $modifiedBy]
+            );
 
             $result = [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'message' => config('zvn.notify.success.update')
+                'message'  => config('zvn.notify.success.update')
             ];
 
             return $result;
@@ -297,8 +300,9 @@ class CategoryModel extends AdminModel
     public function move($params = null, $options = null)
     {
         $node = self::find($params['id']);
-        $historyBy = session('userInfo')['username'];
-        $this->where('id', $params['id'])->update(['modified_by' => $historyBy]);
+        $modifiedBy = session('userInfo')['username'];
+
+        $this->where('id', $params['id'])->update(['modified_by' => $modifiedBy]);
         if ($params['type'] == 'down') $node->down();
         if ($params['type'] == 'up') $node->up();
     }

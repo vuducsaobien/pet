@@ -3,22 +3,26 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use DB; 
+use Illuminate\Support\Facades\DB; 
+
 class DiscountModel extends AdminModel
 {
-        protected $table               = 'discount';
-        protected $folderUpload        = 'discount' ;
-        protected $fieldSearchAccepted = ['id', 'code', 'price', 'times', 'date_start'];
-        protected $crudNotAccepted     = ['_token','thumb_current'];
-
+    public function __construct()
+    {
+        $this->table               = 'discount';
+        $this->folderUpload        = 'discount';
+        $this->fieldSearchAccepted = ['id', 'code', 'price', 'times', 'date_start'];
+        $this->crudNotAccepted     = ['_token','thumb_current'];    
+    }
 
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','code','date_start', 'date_end','times', 'price', 'percent', 'min_price',
-            'created', 'created_by', 'modified', 'modified_by');
+            $query = $this->select(
+                'id', 'status','code','date_start', 'date_end','times', 'price', 'percent', 'min_price',
+                'created', 'created_by', 'modified', 'modified_by'
+            );
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -36,8 +40,10 @@ class DiscountModel extends AdminModel
                 } 
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerPage']);
+            $result =  $query
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage'])
+            ;
 
         }
 
@@ -49,13 +55,10 @@ class DiscountModel extends AdminModel
             $result = $query->get();
         }
 
-
-
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -76,8 +79,6 @@ class DiscountModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -100,27 +101,35 @@ class DiscountModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
+
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created']    = date('Y-m-d');
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'edit-item') {
-            $params['modified_by'] = session('userInfo')['username'];
-            $params['modified']    = date('Y-m-d');
-            // date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
     }
@@ -128,8 +137,6 @@ class DiscountModel extends AdminModel
     public function deleteItem($params = null, $options = null) 
     { 
         if($options['task'] == 'delete-item') {
-/*            $item   = self::getItem($params, ['task'=>'get-thumb']); //
-            $this->deleteThumb($item['thumb']);*/
             self::where('id', $params['id'])->delete();
         }
     }

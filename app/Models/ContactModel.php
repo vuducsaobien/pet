@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Template;
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +17,6 @@ class ContactModel extends AdminModel
 
     public function listItems($params = null, $options = null)
     {
-
         $result = null;
 
         if ($options['task'] == "admin-list-items") {
@@ -40,8 +38,10 @@ class ContactModel extends AdminModel
                 }
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                ->paginate($params['pagination']['totalItemsPerPage']);
+            $result =  $query
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage'])
+            ;
         }
 
         return $result;
@@ -49,7 +49,6 @@ class ContactModel extends AdminModel
 
     public function countItems($params = null, $options  = null)
     {
-
         $result = null;
 
         if ($options['task'] == 'admin-count-items-group-by-status') {
@@ -77,14 +76,22 @@ class ContactModel extends AdminModel
 
     public function saveItem($params = null, $options = null)
     {
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if ($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status]);
 
             $result = [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
 
@@ -92,10 +99,11 @@ class ContactModel extends AdminModel
         }
 
         if ($options['task'] == 'news-add-item') {
-            $params['created'] = date('Y-m-d H:i:s');
-            $params['ip'] = $_SERVER['REMOTE_ADDR'];
+            $params['created'] = $created;
+            $params['ip']      = $_SERVER['REMOTE_ADDR'];
 
             $this->insert($this->prepareParams($params));
         }
+
     }
 }

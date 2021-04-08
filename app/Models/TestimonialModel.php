@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class TestimonialModel extends AdminModel
 {
-
-    protected $table               = 'testimonial';
-    protected $folderUpload        = 'testimonial';
-    protected $fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-    protected $crudNotAccepted     = ['_token','thumb_current'];
+    public function __construct()
+    {
+        $this->table               = 'testimonial';
+        $this->folderUpload        = 'testimonial';
+        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        $this->crudNotAccepted     = ['_token','thumb_current'];    
+    }
 
     public function listItems($params = null, $options = null) {
-
         $result = null;
 
         if($options['task'] == "admin-list-items") {
@@ -51,13 +50,10 @@ class TestimonialModel extends AdminModel
             $result = $query->get();
         }
 
-
-
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -78,8 +74,6 @@ class TestimonialModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-
-
         }
 
         return $result;
@@ -100,31 +94,36 @@ class TestimonialModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) {
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
+
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
+
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created']    = date('Y-m-d');
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'edit-item') {
-
-            /*            if(!empty($params['thumb'])){
-                            $this->deleteThumb($params['thumb_current']);
-                            $params['thumb'] = $this->uploadThumb($params['thumb']);
-                        }*/
-            $params['modified_by'] = session('userInfo')['username'];
-            $params['modified']    = date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
     }

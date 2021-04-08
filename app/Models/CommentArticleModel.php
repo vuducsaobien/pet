@@ -20,7 +20,6 @@ class CommentArticleModel extends AdminModel
     }
 
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
@@ -31,24 +30,24 @@ class CommentArticleModel extends AdminModel
                 ->get()
                 ->toFlatTree();
         }
-        /*================================= lay commentArticle o menu frontend =============================*/
+
         if($options['task'] == 'news-list-items') {
             $result = self::where('article_id',$params['article_id'])
                 ->withDepth()
                 ->defaultOrder()
                 ->where('status', 'active')
                 ->get()
-                ->toFlatTree();
-
+                ->toFlatTree()
+            ;
         }
 
         if($options['task'] == 'news-list-items-is-home') {
             $query = $this->select('id', 'name', 'display')
                 ->where('status', '=', 'active' )
-                ->where('is_home', '=', 'yes' );
+                ->where('is_home', '=', 'yes' )
+            ;
 
             $result = $query->get()->toArray();
-          
         }
 
         if ($options['task'] == 'admin-list-items-in-select-box-for-article') {
@@ -87,12 +86,10 @@ class CommentArticleModel extends AdminModel
             $result = self::withDepth()->having('depth', '>', 0)->defaultOrder()->ancestorsAndSelf($params['commentArticle_id'])->toArray();
         }
 
-
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -113,8 +110,6 @@ class CommentArticleModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -126,17 +121,19 @@ class CommentArticleModel extends AdminModel
         if($options['task'] == 'get-item') {
             $result = self::select('id','message', 'name', 'parent_id', 'status')->where('id', $params['id'])->first();
         }
+
         if($options['task'] == 'get-item-by-slug') {
-            $result = self::select('id','thumb','slug', 'name', 'parent_id', 'status')->where('slug', $params['slug'])->first();
+            $result = self::select(
+                'id','thumb','slug', 'name', 'parent_id', 'status'
+            )->where('slug', $params['slug'])->first();
         }
 
         if($options['task'] == 'news-get-item') {
             $id = self::where('article_id',$params['article_id'])->where('parent_id',null)->get();
+
             foreach ($id as $item) {
-                 $result[]=self::withDepth()->descendantsAndSelf($item->id)->toFlatTree();
+                $result[]=self::withDepth()->descendantsAndSelf($item->id)->toFlatTree();
             }
-
-
         }
 
         if($options['task'] == 'get-commentArticle-id-form-slug') {
@@ -155,33 +152,39 @@ class CommentArticleModel extends AdminModel
 
         if($options['task'] == 'news-get-item-all-slug') {
             $result = self::where('id', '>', 1)
-            ->pluck('slug')
+                ->pluck('slug')
             ;
-            // if($result) $result = $result->get()->toArray();
+
             if($result) {
                 $result = $result->toArray();
                 array_push($result, 'all-food');
             }
         }
 
-
-        
         return $result;
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
-            $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
-            self::where('id', $params['id'])->update(['status' => $status, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+            $status     = ($params['currentStatus'] == "active") ? "inactive" : "active";
+            self::where('id', $params['id'])
+                ->update(['status' => $status, 'modified' => $modified, 'modified_by' => $modifiedBy])
+            ;
 
             $result = [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
-                'message' => config('zvn.notify.success.update')
+                'status'   => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'     => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'message'  => config('zvn.notify.success.update')
             ];
 
             return $result;
@@ -193,41 +196,36 @@ class CommentArticleModel extends AdminModel
         }
 
         if($options['task'] == 'change-display') {
-            $display = $params['currentDisplay'];
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
-            self::where('id', $params['id'])->update(['display' => $display, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+            $display    = $params['currentDisplay'];
+            self::where('id', $params['id'])
+                ->update(['display' => $display, 'modified' => $modified, 'modified_by' => $modifiedBy])
+            ;
 
             return [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'message' => config('zvn.notify.success.update')
+                'message'  => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            if($options['task'] == 'add-item') {
-                $params['created_by'] = session('userInfo')['username'];
-                $params['created']    = date('Y-m-d');
-                $parent=null;
-                if(isset($params['parent_id'])){
-                    $parent = self::find($params['parent_id']);
-                }
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
+            $parent=null;
 
-                self::create($this->prepareParams($params),$parent);
-
-
+            if(isset($params['parent_id'])){
+                $parent = self::find($params['parent_id']);
             }
 
+            self::create($this->prepareParams($params),$parent);
         }
 
         if ($options['task'] == 'edit-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $parent = self::find($params['parent_id']);
+            $params['created_by'] = $createdBy;
+                    $parent       = self::find($params['parent_id']);
 
             $query = $current = self::find($params['id']);
             unset($params['slug']);
-
 
             $query->update($this->prepareParams($params));
             if($current->parent_id != $params['parent_id']) $query->prependToNode($parent)->save();
@@ -235,15 +233,14 @@ class CommentArticleModel extends AdminModel
 
         if ($options['task'] == 'change-ordering') {
             $ordering   = $params['ordering'];
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
 
-            self::where('id', $params['id'])->update(['ordering' => $ordering, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+            self::where('id', $params['id'])
+                ->update(['ordering' => $ordering, 'modified' => $modified, 'modified_by' => $modifiedBy]);
 
             $result = [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'message' => config('zvn.notify.success.update')
+                'message'  => config('zvn.notify.success.update')
             ];
 
             return $result;
@@ -260,9 +257,10 @@ class CommentArticleModel extends AdminModel
 
     public function move($params = null, $options = null)
     {
-        $node = self::find($params['id']);
-        $historyBy = session('userInfo')['username'];
-        $this->where('id', $params['id'])->update(['modified_by' => $historyBy]);
+        $node      = self::find($params['id']);
+        $modifiedBy = session('userInfo')['username'];
+        
+        $this->where('id', $params['id'])->update(['modified_by' => $modifiedBy]);
         if ($params['type'] == 'down') $node->down();
         if ($params['type'] == 'up') $node->up();
     }

@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use DB;
+use Illuminate\Support\Facades\DB; 
 
 class ProductAttributeModel extends AdminModel
 {
-
-        protected $table = 'product_attribute';
-        protected $folderUpload = 'productAttribute';
-        protected $fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-        protected $crudNotAccepted = ['_token', 'thumb_current', 'id', 'attribute'];
-
+    public function __construct()
+    {
+        $this->table               = 'product_attribute';
+        $this->folderUpload        = 'productAttribute';
+        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        $this->crudNotAccepted     = ['_token', 'thumb_current', 'id', 'attribute'];    
+    }
 
     public function product()
     {
@@ -23,7 +22,6 @@ class ProductAttributeModel extends AdminModel
 
     public function listItems($params = null, $options = null)
     {
-
         $result = null;
 
         if ($options['task'] == "admin-list-items") {
@@ -46,7 +44,8 @@ class ProductAttributeModel extends AdminModel
             }
 
             $result = $query->orderBy('id', 'desc')
-                ->paginate($params['pagination']['totalItemsPerPage']);
+                ->paginate($params['pagination']['totalItemsPerPage'])
+            ;
 
         }
 
@@ -59,31 +58,11 @@ class ProductAttributeModel extends AdminModel
             $result = $query->get()->toArray();
         }
 
-        // if($options['task'] == 'news-list-items-get-product-attribute-value-in-cart') {
-
-        //     foreach ($params as $key => $value) {
-
-        //         foreach ($value as $keyChild => $valueChild) {
-        //             $result[$key][$keyChild] = self::where('value', 'LIKE', $valueChild)
-        //             ->pluck('value')->toArray()
-        //             ;
-        //         }
-
-        //     }
-
-        //     // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-        //     // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-        //     // echo '<h3>Die is Called Attribute va Model</h3>';die;
-        // }
-
-
-
         return $result;
     }
 
     public function countItems($params = null, $options = null)
     {
-
         $result = null;
 
         if ($options['task'] == 'admin-count-items-group-by-status') {
@@ -104,8 +83,6 @@ class ProductAttributeModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-
-
         }
 
         return $result;
@@ -132,7 +109,6 @@ class ProductAttributeModel extends AdminModel
                 ->get();
 
                 if (count($result[$value]) == 0 ) unset($result[$value]);
-
             }
         }
 
@@ -148,19 +124,13 @@ class ProductAttributeModel extends AdminModel
                 if (count($result[$value]) == 0 ) unset($result[$value]);
 
             }
-
-            
-
         }
-
-        
 
         return $result;
     }
 
     public function saveItem($params = null, $options = null)
     {
-
         if ($options['task'] == 'edit-item') {
             self::where('product_id', $params['id'])->delete();
         }
@@ -172,9 +142,9 @@ class ProductAttributeModel extends AdminModel
                 foreach ($value as $name) {
                     self::insert(
                         [
-                            'product_id' => $params['id'],
+                            'product_id'   => $params['id'],
                             'attribute_id' => $key,
-                            'value' => $name
+                            'value'        => $name
                         ]);
 
                 }
@@ -182,14 +152,11 @@ class ProductAttributeModel extends AdminModel
             }
         }
 
-
     }
 
     public function deleteItem($params = null, $options = null)
     {
         if ($options['task'] == 'delete-item') {
-//            $item = self::getItem($params, ['task' => 'get-thumb']); //
-//            $this->deleteThumb($item['thumb']);
             self::where('id', $params['id'])->delete();
         }
     }

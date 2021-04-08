@@ -81,14 +81,18 @@ class RssModel extends AdminModel
     public function saveItem($params = null, $options = null)
     {
         $result = null;
+
         if ($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status]);
 
             $result = [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
 
@@ -101,7 +105,7 @@ class RssModel extends AdminModel
             self::where('id', $params['id'])->update(['ordering' => $ordering]);
 
             $result = [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
 
@@ -127,9 +131,11 @@ class RssModel extends AdminModel
     public function getItem($params = null, $options = null)
     {
         $result = null;
+        
         if ($options['task'] == 'get-item') {
             $result = $this->select('id', 'name', 'link', 'source', 'status')->where('id', $params['id'])->firstOrFail();
         }
+
         return $result;
     }
 }

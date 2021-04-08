@@ -3,20 +3,25 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use DB; 
+use Illuminate\Support\Facades\DB; 
+
 class UserModel extends AdminModel
 {
 
-        protected $table               = 'user';
-        protected $folderUpload        = 'user' ;
-        protected $fieldSearchAccepted = ['id', 'username', 'email', 'fullname'];
-        protected $crudNotAccepted     = ['_token','avatar_current', 'password_confirmation', 'taskAdd', 'taskChangePassword', 'taskChangeLevel', 'taskEditInfo'];
-        public $timestamps=false;
+    public $timestamps = false;
 
+    public function __construct()
+    {
+        $this->table               = 'user';
+        $this->folderUpload        = 'user';
+        $this->fieldSearchAccepted = ['id', 'username', 'email', 'fullname'];
+        $this->crudNotAccepted     = [
+            '_token','avatar_current', 'password_confirmation', 'taskAdd', 
+            'taskChangePassword', 'taskChangeLevel', 'taskEditInfo'
+        ];    
+    }
+    
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
@@ -38,18 +43,15 @@ class UserModel extends AdminModel
                 } 
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerPage']);
-
+            $result =  $query
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage']);
         }
-
-    
 
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -70,8 +72,6 @@ class UserModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -90,9 +90,9 @@ class UserModel extends AdminModel
 
         if($options['task'] == 'auth-login') {
             $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb')
-                    ->where('status', 'active')
-                    ->where('email', $params['email'])
-                    ->where('password', md5($params['password']) )->first();
+                ->where('status', 'active')
+                ->where('email', $params['email'])
+                ->where('password', md5($params['password']) )->first();
 
             if($result) $result = $result->toArray();
         }
@@ -115,42 +115,44 @@ class UserModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) {
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         /*================================= change ajax status =============================*/
         if($options['task'] == 'change-status') {
+
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
+
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = "hailan";
-            $params['created']    = date('Y-m-d');
-//            $params['thumb']      = $this->uploadThumb($params['thumb']);
-            $params['password']    = md5($params['password']);
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
+            $params['password']   = md5($params['password']);
             self::insert($this->prepareParams($params));        
         }
 
         if($options['task'] == 'edit-item') {
-
-/*            if(!empty($params['thumb'])){
-                $this->deleteThumb($params['avatar_current']);
-                $params['thumb'] = $this->uploadThumb($params['thumb']);
-            }*/
-
-
-            $params['modified_by']   = "hailan";
-            $params['modified']      = date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
 
         if($options['task'] == 'change-level') {
             $level = $params['currentLevel'];
-            self::where('id', $params['id'])->update(['level' => $level]);
+            self:: where('id', $params['id'])->update(['level' => $level]);
         }
 
         if($options['task'] == 'change-level-post') {
@@ -165,11 +167,10 @@ class UserModel extends AdminModel
 
         if ($options['task'] == 'change-logged-password') {
             $password   = md5($params['password']);
-            $modifiedBy = session('userInfo')['username'];
-            $modified   = date('Y-m-d H:i:s');
+            
             $this->where('id', session('userInfo')['id'])->update([
-                'password' => $password,
-                'modified' => $modified,
+                'password'    => $password,
+                'modified'    => $modified,
                 'modified_by' => $modifiedBy
             ]);
         }

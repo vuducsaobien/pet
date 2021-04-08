@@ -3,23 +3,26 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; 
+
 class CustomerModel extends AdminModel
 {
-        protected $table               = 'customer';
-        protected $folderUpload        = 'customer' ;
-        protected $fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-        protected $crudNotAccepted     = ['_token','thumb_current'];
-
+    public function __construct()
+    {
+        $this->table               = 'customer';
+        $this->folderUpload        = 'customer';
+        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        $this->crudNotAccepted     = ['_token','thumb_current'];    
+    }
+    
 
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','name','phone','email','address','ip','created', 'created_by', 'modified', 'modified_by');
+            $query = $this->select(
+                'id', 'status','name','phone','email','address','ip','created', 'created_by', 'modified', 'modified_by'
+            );
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -37,32 +40,31 @@ class CustomerModel extends AdminModel
                 } 
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerCustomer']);
-
+            $result =  $query
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerCustomer'])
+            ;
         }
 
         if($options['task'] == 'news-list-items') {
             $query = $this->select('id', 'name', 'description', 'link', 'thumb')
-                        ->where('status', '=', 'active' )
-                        ->limit(5);
+                ->where('status', '=', 'active' )
+                ->limit(5)
+            ;
 
             $result = $query->get();
         }
-
-
 
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
          
             $query = $this::groupBy('status')
-                        ->select( DB::raw('status , COUNT(id) as count') );
+                ->select( DB::raw('status , COUNT(id) as count') );
 
             if ($params['search']['value'] !== "")  {
                 if($params['search']['field'] == "all") {
@@ -77,8 +79,6 @@ class CustomerModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -96,8 +96,6 @@ class CustomerModel extends AdminModel
         }
 
         if($options['task'] == 'frontend-get-customer-id') {
-            // $result = self::select('id')->where('email', $params['email'])->first()->toArray();
-            // $result = $this->where('email', $params['email'])->value('id');
             $result = self::where('email', $params['email'])->value('id');
         }
 
@@ -105,31 +103,34 @@ class CustomerModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             self::where('id', $params['id'])->update(['status' => $status ]);
             return  [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created']    = date('Y-m-d');
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'edit-item') {
-
-/*            if(!empty($params['thumb'])){
-                $this->deleteThumb($params['thumb_current']);
-                $params['thumb'] = $this->uploadThumb($params['thumb']);
-            }*/
-            $params['modified_by'] = session('userInfo')['username'];
-            $params['modified']    = date('Y-m-d');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
     }
@@ -137,8 +138,6 @@ class CustomerModel extends AdminModel
     public function deleteItem($params = null, $options = null) 
     { 
         if($options['task'] == 'delete-item') {
-/*            $item   = self::getItem($params, ['task'=>'get-thumb']); //
-            $this->deleteThumb($item['thumb']);*/
             self::where('id', $params['id'])->delete();
         }
     }

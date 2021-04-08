@@ -38,21 +38,12 @@ class AttributeModel extends AdminModel
 
             $result = $query->orderBy('id', 'asc')->paginate($params['pagination']['totalItemsPerPage']);
         }
+
         if($options['task']=='admin-list-items-for-product'){
             return $this->select('id', 'name', 'ordering','status')->orderBy('ordering','asc')->get()->toArray();
         }
 
         if($options['task'] == 'news-list-items-get-product-attribute-in-cart') {
-
-            // foreach ($params as $key => $value) {
-            //     foreach ($value as $keyChild => $valueChild) {
-            //         $result[$key][$keyChild] = self::select('id', 'name')
-            //         ->where('status', 'active')
-            //         ->where('id', $valueChild)
-            //         ->first()->toArray();
-            //     }
-            // }
-
             foreach ($params as $key => $value) {
                 foreach ($value as $keyChild => $valueChild) {
                     $result[$key][$keyChild] = self::where('status', 'active')
@@ -61,11 +52,6 @@ class AttributeModel extends AdminModel
                     ;
                 }
             }
-
-
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Attribute Model</h3>';die;
         }
 
         return $result;
@@ -110,7 +96,7 @@ class AttributeModel extends AdminModel
             $this->where('id', $params['id'])->update(['link' => $link]);
 
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
@@ -119,7 +105,7 @@ class AttributeModel extends AdminModel
             $typeAttribute = $params['selectedTypeAttribute'];
             $this->where('id', $params['id'])->update(['type_attribute' => $typeAttribute]);
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
@@ -128,7 +114,7 @@ class AttributeModel extends AdminModel
             $typeLink = $params['selectedTypeLink'];
             $this->where('id', $params['id'])->update(['type_link' => $typeLink]);
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
@@ -152,12 +138,12 @@ class AttributeModel extends AdminModel
     public function getItem($params = null, $options = null)
     {
         $result = null;
+
         if ($options['task'] == 'get-item') {
             $result = $this->select('id', 'name', 'ordering', 'status')->where('id', $params['id'])->first();
         }
 
         if ($options['task'] == 'get-list-thumb-product-id-modal') {
-            // $result = self::select('id', 'name')->where('status', 'active')->orderBy('ordering')->limit(2)->get();
             $result = self::select('id', 'name')->where('status', 'active')->orderBy('ordering')->limit(2)->get()->toArray();
         }
 
@@ -168,7 +154,6 @@ class AttributeModel extends AdminModel
         if ($options['task'] == 'admin-list-items-get-all-attribute-name') {
             $result = self::where('status', 'active')->pluck('name', 'id')->toArray();
         }
-        
 
         return $result;
     }

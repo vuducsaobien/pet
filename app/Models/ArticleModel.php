@@ -21,7 +21,6 @@ class ArticleModel extends AdminModel
     }
     
     public function listItems($params = null, $options = null) {
-     
         $result = null;
 
         if($options['task'] == "admin-list-items") {
@@ -53,35 +52,37 @@ class ArticleModel extends AdminModel
             }
 
 
-            $result =  $query->orderBy('article.id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerPage']);
-
-
+            $result =  $query
+                ->orderBy('article.id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage'])
+            ;
         }
 
         if($options['task'] == 'news-list-items') {
-            $query = $this->select('id','slug', 'name', 'thumb','created','created_by')
-                        ->where('status', '=', 'active' )
-                        ->limit(3);
+            $query = self::select('id','slug', 'name', 'thumb','created','created_by')
+                ->where('status', '=', 'active' )
+                ->limit(3)
+            ;
 
             $result = $query->get();
         }
 
         if($options['task'] == 'news-list-items-featured') {
 	
-            $query = $this->select('a.id', 'a.name', 'a.content', 'a.category_id', 'c.name as category_name', 'a.thumb')
+            $query = self::select('a.id', 'a.name', 'a.content', 'a.category_id', 'c.name as category_name', 'a.thumb')
                 ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
                 ->where('a.status', '=', 'active')
                 ->where('a.type', 'featured')
                 ->orderBy('a.id', 'desc')
-                ->take(3);
+                ->take(3)
+            ;
 
             $result = $query->get()->toArray();
         }
         
         if($options['task'] == 'news-list-items-latest') {
             
-            $query = $this->select('a.id', 'a.name', 'a.created', 'a.category_id', 'c.name as category_name', 'a.thumb')
+            $query = self::select('a.id', 'a.name', 'a.created', 'a.category_id', 'c.name as category_name', 'a.thumb')
                 ->leftJoin('category as c', 'a.category_id', '=', 'c.id')
                 ->where('a.status', '=', 'active')
                 ->orderBy('id', 'desc') 
@@ -91,7 +92,7 @@ class ArticleModel extends AdminModel
         }
 
         if($options['task'] == 'news-list-items-in-category') {
-            $query = $this->select('id', 'name', 'content', 'thumb', 'created')
+            $query = self::select('id', 'name', 'content', 'thumb', 'created')
                 ->where('status', '=', 'active')
                 ->where('category_id', '=', $params['category_id'])
                 ->take(4)
@@ -100,7 +101,7 @@ class ArticleModel extends AdminModel
         }
         
         if($options['task'] == 'news-list-items-related-in-category') {
-            $query = $this->select('id', 'name', 'content', 'thumb', 'created')
+            $query = self::select('id', 'name', 'content', 'thumb', 'created')
                 ->where('status', '=', 'active')
                 ->where('a.id', '!=', $params['article_id'])
                 ->where('category_id', '=', $params['category_id'])
@@ -113,7 +114,6 @@ class ArticleModel extends AdminModel
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -134,8 +134,6 @@ class ArticleModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -145,7 +143,9 @@ class ArticleModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'slug','name', 'content', 'status', 'thumb', 'category_id')->where('id', $params['id'])->first();
+            $result = self::select(
+                'id', 'slug','name', 'content', 'status', 'thumb', 'category_id'
+                )->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'get-thumb') {
@@ -153,11 +153,13 @@ class ArticleModel extends AdminModel
         }
 
         if($options['task']=='news-get-item'){
-            $result=self::select('id','name','slug','content','created_by','created','thumb')->paginate(6);
+            $result = self::select('id','name','slug','content','created_by','created','thumb')->paginate(6);
         }
 
         if($options['task']=='news-get-item-recent'){
-            $result=self::select('id','name','slug','content','created_by','created','thumb')->take(3)->orderBy('id','desc')->get();
+            $result=self::select(
+                'id','name','slug','content','created_by','created','thumb'
+            )->take(3)->orderBy('id','desc')->get();
         }
 
         if($options['task']=='news-get-item-by-slug'){
@@ -168,46 +170,41 @@ class ArticleModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
 
         if($options['task'] == 'change-type') {
             self::where('id', $params['id'])->update(['type' => $params['currentType']]);
             return [
-                'id' => $params['id'],
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
-            $params['created_by'] = "hailan";
-            $params['created']    = date('Y-m-d');
-            // $params['thumb']      = $this->uploadThumb($params['thumb']);
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
             self::insert($this->prepareParams($params));        
         }
 
         if($options['task'] == 'edit-item') {
-            /*if(!empty($params['thumb'])){
-                // Xóa hình cũ
-                $this->deleteThumb($params['thumb_current']);
 
-                // Up hình mới
-                $params['thumb']      = $this->uploadThumb($params['thumb']);
-            }*/
-
-            $params['modified_by']   = "hailan";
-            $params['modified']      = date('Y-m-d');
-
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             self::where(['id' => $params['id'] ] )->update($this->prepareParams($params));
         }
 
         if ($options['task'] == 'change-category') {
-            $params['modified_by']  = session('userInfo')['username'];
-            $params['modified']     = date('Y-m-d H:i:s');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             $this->where('id', $params['id'])->update($this->prepareParams($params));
 
             $result = [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($params['modified_by'], $params['modified']),
-                'message' => config('zvn.notify.success.update')
+                'message'  => config('zvn.notify.success.update')
             ];
 
             return $result;

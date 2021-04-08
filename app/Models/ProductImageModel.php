@@ -20,7 +20,6 @@ class ProductImageModel extends AdminModel
 
     public function listItems($params = null, $options = null)
     {
-
         $result = null;
 
         if ($options['task'] == "admin-list-items") {
@@ -56,13 +55,11 @@ class ProductImageModel extends AdminModel
             $result = $query->get()->toArray();
         }
 
-
         return $result;
     }
 
     public function countItems($params = null, $options = null)
     {
-
         $result = null;
 
         if ($options['task'] == 'admin-count-items-group-by-status') {
@@ -83,8 +80,6 @@ class ProductImageModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-
-
         }
 
         return $result;
@@ -110,7 +105,6 @@ class ProductImageModel extends AdminModel
             $result = self::select('id', 'name')->where('product_id', $params['product_id'])->get()->toArray();
         }
 
-
         return $result;
     }
 
@@ -129,8 +123,8 @@ class ProductImageModel extends AdminModel
                     self::insert(
                         [
                             'product_id' => $params['id'],
-                            'image_id' => $key,
-                            'value' => $name
+                            'image_id'   => $key,
+                            'value'      => $name
                         ]);
 
                 }
@@ -138,14 +132,11 @@ class ProductImageModel extends AdminModel
             }
         }
 
-
     }
 
     public function deleteItem($params = null, $options = null)
     {
         if ($options['task'] == 'delete-item') {
-            // $item = self::getItem($params, ['task' => 'get-thumb']); //
-            // $this->deleteThumb($item['thumb']);
             self::where('id', $params['id'])->delete();
         }
     }

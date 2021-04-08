@@ -6,16 +6,20 @@ use App\Models\ProductImageModel;
 use App\Models\AttributeModel;
 use App\Models\ProductAttributeModel;
 use App\Models\CommentModel;
-use App\Models\CategoryModel;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class ProductModel extends AdminModel
-{
-    protected $table               = 'product';
-    protected $folderUpload        = 'product' ;
-    protected $fieldSearchAccepted = ['id', 'name', 'product_code'];
-    protected $crudNotAccepted     = ['changeInfo','changeSeo','changeCategory','changePrice','changeAttribute','changeSpecial','changeDropzone','dropzone','_token','thumb_current','id','attribute','nameImage','alt','res'];
+{    
+    public function __construct()
+    {
+        $this->table               = 'product';
+        $this->folderUpload        = 'product';
+        $this->fieldSearchAccepted = ['id', 'name', 'product_code'];
+        $this->crudNotAccepted     = [
+            'changeInfo','changeSeo','changeCategory','changePrice','changeAttribute','changeSpecial',
+            'changeDropzone','dropzone','_token','thumb_current','id','attribute','nameImage','alt','res'
+        ];    
+    }
 
     public function attribute()
     {
@@ -49,9 +53,10 @@ class ProductModel extends AdminModel
                 } 
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerPage']);
-
+            $result =  $query
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage'])
+            ;
         }
 
         // Home - Recent Products
@@ -87,7 +92,6 @@ class ProductModel extends AdminModel
             ;
             // $result = $query->get()->toArray();
             $result = $query->first()->toArray();
-
         }
 
         if($options['task'] == 'news-list-items-get-product-info-in-cart') {
@@ -98,23 +102,14 @@ class ProductModel extends AdminModel
                 ->where('id', $value)
                 ->first()->toArray();
             }
-
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Product Model</h3>';die;
         }
 
         if($options['task'] == 'news-list-items-get-product-attribute-in-cart') {
-
             foreach ($params["attribute_id"] as $value) {
                 $newModel = new AttributeModel();
                 $result = $newModel->listItems($params["attribute_id"], 
                 ['task' => 'news-list-items-get-product-attribute-in-cart']);
             }
-
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Product Model</h3>';die;
         }
 
         if($options['task'] == 'news-get-item-search-all-food') {
@@ -139,12 +134,10 @@ class ProductModel extends AdminModel
             // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }
 
-
         return $result;
     }
 
     public function countItems($params = null, $options  = null) {
-     
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
@@ -165,8 +158,6 @@ class ProductModel extends AdminModel
             }
 
             $result = $query->get()->toArray();
-           
-
         }
 
         return $result;
@@ -257,37 +248,41 @@ class ProductModel extends AdminModel
         }
 
         return $result;
-
-
     }
 
     public function saveItem($params = null, $options = null) {
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if(isset($params['price'])){
-            $params['price']=str_replace(".", "", $params['price']);
+            $params['price'] = str_replace(".", "", $params['price']);
         }
+
         if(isset($params['price_sale'])){
-            $params['price_sale']=str_replace(".", "", $params['price_sale']);
+            $params['price_sale'] = str_replace(".", "", $params['price_sale']);
         }
-
-
 
         if($options['task'] == 'add-item') {
 
-            $params['thumb']='/images/product/'.array_column($params['dropzone'],'name')[0];
-            $params['product_code']="PET".rand(100,999);
+            $params['thumb']        = '/images/product/'.array_column($params['dropzone'],'name')[0];
+            $params['product_code'] = "PET".rand(100,999);
 
             self::insert($this->prepareParams($params));
             /*================================= dropzone =============================*/
-            $product=$this->find($lastId=DB::getPdo()->lastInsertId());
+            $product = $this->find($lastId=DB::getPdo()->lastInsertId());
             $product->image()->createMany($params['dropzone']);
 
         }
+
         /*================================= EDIT =============================*/
         if($options['task']=='change-info-product'){
             // $params['special']=isset($params['special'])?1:0;
 
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
+
         /*================================= change dropzone =============================*/
         if($options['task'] == 'edit-item') {
 
@@ -295,54 +290,57 @@ class ProductModel extends AdminModel
 
             /*================================= dropzone =============================*/
             ProductImageModel::where('product_id',$params['id'])->delete();
-            $product=$this->find($params['id']);
+            $product = $this->find($params['id']);
             $product->image()->createMany($params['dropzone']);
             
         }
+
         /*================================= attribute =============================*/
         if($options['task'] == 'change-attribute-product') {
             if(isset($params['attribute'])){
-                $productAttr=new ProductAttributeModel();
+                $productAttr = new ProductAttributeModel();
                 $productAttr->saveItem(['attr'=>$params['attribute'],'id'=>$params['id']],['task'=>'edit-item']);
             }
         }
+
         /*================================= status index =============================*/
         if ($options['task'] == 'change-status') {
             $status = $params['currentStatus'] == 'active' ? 'inactive' : 'active';
             $this->where('id', $params['id'])->update(['status' => $status]);
 
             $result = [
-                'id' => $params['id'],
-                'status' => ['name' => config("zvn.template.status.$status.name"), 'class' => config("zvn.template.status.$status.class")],
-                'link' => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'id'      => $params['id'],
+                'status'  => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
 
             return $result;
         }
+
         /*================================= change category =============================*/
         if ($options['task'] == 'change-category') {
-            // $params['modified_by']  = session('userInfo')['username'];
-            // $params['modified']     = date('Y-m-d H:i:s');
+            $params['modified_by'] = $modifiedBy;
+            $params['modified']    = $modified;
             $this->where('id', $params['id'])->update($this->prepareParams($params));
 
             $result = [
-                'id' => $params['id'],
-                // 'modified' => Template::showItemHistory($params['modified_by'], $params['modified']),
+                'id'      => $params['id'],
                 'message' => config('zvn.notify.success.update')
             ];
 
             return $result;
         }
-
 
     }
 
     public function deleteItem($params = null, $options = null) 
     { 
-        if($options['task'] == 'delete-item') {
 
-            
+        if($options['task'] == 'delete-item') {
             
             /*================================= xoa image va xoa row =============================*/
             $image=$this->where('id',$params['id'])->first()->image->toArray();
@@ -350,7 +348,6 @@ class ProductModel extends AdminModel
                 $this->deleteThumb($item['name']);
             }
             ProductImageModel::where('product_id',$params['id'])->delete();
-
 
             // $item   = self::getItem($params, ['task'=>'get-thumb']);
             // $this->deleteThumb($item['thumb']);
