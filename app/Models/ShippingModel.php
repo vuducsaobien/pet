@@ -11,7 +11,7 @@ class ShippingModel extends AdminModel
     {
         $this->table               = 'shipping';
         $this->folderUpload        = 'shipping';
-        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
+        $this->fieldSearchAccepted = ['name'];
         $this->crudNotAccepted     = ['_token','thumb_current'];    
     }
     
@@ -19,7 +19,7 @@ class ShippingModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','name','zip_postal_code','fee','created', 'created_by', 'modified', 'modified_by');
+            $query = $this->select('id', 'status','name','fee','created', 'created_by', 'modified', 'modified_by');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -43,7 +43,7 @@ class ShippingModel extends AdminModel
         }
 
         if($options['task'] == 'news-list-items') {
-            $query = self::select('name', 'zip_postal_code', 'fee')
+            $query = self::select('name',  'fee')
                 ->where('status', 'active' )
                 ->limit(10);
             $result = $query->get();
@@ -82,7 +82,7 @@ class ShippingModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id','name','zip_postal_code','fee', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id','name','fee', 'status')->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'get-thumb') {

@@ -22,14 +22,13 @@
                 @if(count($items) > 0)
                     @foreach($items as $key => $item)
                         @php
-                            $index         = $key + 1;
-                            $name          = HightLight::show($item['name'], $params['search'], 'name');
-                            $ordering      = Template::showItemOrdering($controllerName,$item['ordering'],$item->id);
-                            $status        = Template::showItemStatus($controllerName,$item->id,$item->status);
-                            
+                            $index           = $key + 1;
+                            $name            = HightLight::show($item['name'], $params['search'], 'name');
+                            $ordering        = Template::showItemOrdering($controllerName,$item['ordering'],$item->id);
+                            $status          = Template::showItemStatus($controllerName,$item->id,$item->status);
                             $createdHistory  = Template::showItemHistory($item['created_by'], $item['created']);
                             $modifiedHistory = Template::showItemHistory($item['modified_by'], $item['modified']);
-                            $actionButtons = Template::showButtonAction($controllerName, $item['id']);
+                            $actionButtons   = Template::showButtonAction($controllerName, $item['id']);
                         @endphp
 
                         <tr>

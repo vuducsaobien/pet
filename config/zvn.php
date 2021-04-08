@@ -115,6 +115,7 @@ return [
             'default'     => ['all', 'id'],
             'slider'      => ['all', 'name', 'link'],
             'category'    => ['all', 'name'],
+            'shipping'    => ['all', 'name'],
             'article'     => ['all', 'name'],
             'user'        => ['all', 'username', 'email'],
             'menu'        => ['all', 'name', 'link'],
