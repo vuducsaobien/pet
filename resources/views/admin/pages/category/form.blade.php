@@ -6,36 +6,46 @@
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
 
-    $statusValue      = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $statusValue      = [
+        'active'   => config('zvn.template.status.active.name'),
+        'inactive' => config('zvn.template.status.inactive.name')
+    ];
+    $is_homeValue      = [
+        'yes' => config('zvn.template.is_home.yes.name'),
+        'no'  => config('zvn.template.is_home.no.name')
+    ];
+    $displayValue      = [
+        'list' => config('zvn.template.display.list.name'),
+        'grid' => config('zvn.template.display.grid.name')
+    ];
 
     $inputHiddenID    = Form::hidden('id', @$item['id']);
 
-    $elements = [
-        [
+    $elements = [[
             'label'   => Form::label('name', 'Name', $formLabelAttr),
             'element' => Form::text('name', @$item['name'], $formInputAttr )
-        ],
-          [
+        ],[
             'label'   => Form::label('slug', 'Slug', $formLabelAttr),
             'element' => Form::text('slug', @$item['slug'],  $formInputAttr )
-        ],
-        [
+        ],[
             'label'   => Form::label('parent_id', 'Parent', $formLabelAttr),
             'element' => Form::select('parent_id', $nodes, @$item['parent_id'], $formInputAttr)
-        ],
-        [
+        ],[
             'label'   => Form::label('status', 'Status', $formLabelAttr),
             'element' => Form::select('status', $statusValue, @$item['status'], $formInputAttr)
-        ],
-        [
-            'label'   => Form::label('thumb', 'thumb', $formLabelAttr),
-            'element'   => Template::showFileManager($item['thumb'] ?? '')
-        ],
-        [
+        ],[
+            'label'   => Form::label('is_home', 'Hiển thị Ngoài Trang Chủ', $formLabelAttr),
+            'element' => Form::select('is_home', $is_homeValue, @$item['is_home'], $formInputAttr)
+        ],[
+            'label'   => Form::label('display', 'Hiển Thị Kiểu', $formLabelAttr),
+            'element' => Form::select('display', $displayValue, @$item['display'], $formInputAttr)
+        ],[
+            'label'   => Form::label('thumb', 'Hình Ảnh', $formLabelAttr),
+            'element' => Template::showFileManager($item['thumb'] ?? '')
+        ],[
             'element' => $inputHiddenID . Form::submit('Save', ['class'=>'btn btn-success']),
             'type'    => "btn-submit"
-        ]
-    ];
+    ]];
 @endphp
 
 @section('content')

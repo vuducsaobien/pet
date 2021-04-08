@@ -247,11 +247,16 @@ class CategoryModel extends AdminModel
         }
 
         if($options['task'] == 'add-item') {
+
             if ($options['task'] == 'add-item') {
-            $params['created_by'] = session('userInfo')['username'];
-            $params['created'] = date('Y-m-d H:i:s');
+                $params['created_by'] = $createdBy;
+                $params['created']    = $created;
+
+                $prepare = $this->prepareParams($params);
+                // echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
+                // echo '<h3>Die is Called Model</h3>';die;
                 $parent = self::find($params['parent_id']);
-                self::create($this->prepareParams($params), $parent);
+                self::create($prepare, $parent);
             }
         }
 
