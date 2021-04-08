@@ -84,12 +84,12 @@ function callAjax(element, url, type,data='') {
 	data={'data':data}
 
 	$.ajax({
-		url: url,
-		type: "GET",
-        data:data,
+		url     : url,
+		type    : "GET",
+		data    : data,
 		dataType: "json",
-		success: function (result) {
-			console.log(result);
+		success : function (result) {
+			// console.log(result);
 			
 			if (result) {
 				switch (type) {
@@ -99,7 +99,7 @@ function callAjax(element, url, type,data='') {
 						break;
 						
 					case 'status':
-						console.log(result);
+						// console.log(result);
 						
 						$(".modified-" + result.id).html(result.modified);
 						element.text(result.status.name);
@@ -110,6 +110,17 @@ function callAjax(element, url, type,data='') {
 						showNotify(element, result.message);
 						break;
 
+					case 'ishome':
+						// console.log(result);
+						
+						element.text(result.ishome.name);
+						element.removeClass(element.data('class'));
+						element.addClass(result.ishome.class);
+						element.data('class', result.ishome.class);
+						element.attr("href", result.link);
+						showNotify(element, result.message);
+						break;
+	
 					case 'select':
 						$(".modified-" + result.id).html(result.modified);
 						showNotify(element, result.message);

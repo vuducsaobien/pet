@@ -195,6 +195,11 @@ class CategoryModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
+
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
             $modifiedBy = session('userInfo')['username'];
@@ -214,26 +219,37 @@ class CategoryModel extends AdminModel
 
         if($options['task'] == 'change-is-home') {
             $isHome = ($params['currentIsHome'] == "yes") ? "no" : "yes";
-            self::where('id', $params['id'])->update(['is_home' => $isHome ]);
+            self::where('id', $params['id'])->update(['is_home' => $isHome, 
+                'modified' => $modified, 'modified_by' => $modifiedBy]);
+
+            return [
+                'id'     => $params['id'],
+                'ishome' => [
+                    'name'  => config("zvn.template.is_home.$isHome.name"),
+                    'class' => config("zvn.template.is_home.$isHome.class"),
+                ],
+                'link'    => route($params['controllerName'] . '/isHome', ['isHome' => $isHome, 'id' => $params['id']]),
+                'message' => config('zvn.notify.success.update')
+            ];
         }
 
         if($options['task'] == 'change-display') {
-            $display = $params['currentDisplay'];
+            $display    = $params['currentDisplay'];
             $modifiedBy = session('userInfo')['username'];
             $modified   = date('Y-m-d H:i:s');
             self::where('id', $params['id'])->update(['display' => $display, 'modified' => $modified, 'modified_by' => $modifiedBy]);
 
             return [
-                'id' => $params['id'],
+                'id'       => $params['id'],
                 'modified' => Template::showItemHistory($modifiedBy, $modified),
-                'message' => config('zvn.notify.success.update')
+                'message'  => config('zvn.notify.success.update')
             ];
         }
 
         if($options['task'] == 'add-item') {
             if ($options['task'] == 'add-item') {
-            // $params['created_by'] = session('userInfo')['username'];
-            // $params['created'] = date('Y-m-d H:i:s');
+            $params['created_by'] = session('userInfo')['username'];
+            $params['created'] = date('Y-m-d H:i:s');
                 $parent = self::find($params['parent_id']);
                 self::create($this->prepareParams($params), $parent);
             }

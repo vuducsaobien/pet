@@ -183,8 +183,9 @@ class Template
         $currentTemplateStatus = $tmplStatus[$statusValue];
         $link = route($controllerName . '/status', ['status' => $statusValue, 'id' => $id]);
 
-        $xhtml = sprintf(
-            '<a href="%s" type="button" class="btn-status btn btn-round %s" data-class="%s">%s</a>', $link, $currentTemplateStatus['class'], $currentTemplateStatus['class'], $currentTemplateStatus['name']);
+        $xhtml = sprintf('
+            <a href="%s" type="button" class="btn-status btn btn-round %s" data-class="%s">%s</a>
+            ', $link, $currentTemplateStatus['class'], $currentTemplateStatus['class'], $currentTemplateStatus['name']);
         return $xhtml;
     }
 
@@ -195,8 +196,9 @@ class Template
         $currentTemplateIsHome = $tmplIsHome[$isHomeValue];
         $link = route($controllerName . '/isHome', ['is_home' => $isHomeValue, 'id' => $id]);
 
-        $xhtml = sprintf(
-            '<a href="%s" type="button" class="btn btn-round %s">%s</a>', $link, $currentTemplateIsHome['class'], $currentTemplateIsHome['name']);
+        $xhtml = sprintf('
+            <a href="%s" type="button" class="btn-ishome btn btn-round %s" data-class="%s">%s</a>
+            ', $link, $currentTemplateIsHome['class'], $currentTemplateIsHome['class'], $currentTemplateIsHome['name']);
         return $xhtml;
     }
 

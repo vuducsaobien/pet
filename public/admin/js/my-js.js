@@ -6,6 +6,7 @@ $(document).ready(function() {
 	let $inputOrdering        = $("input.ordering");
 	let $inputLink            = $("input.link");
 	let $btnStatus            = $(".btn-status");
+	let $btnIsHome            = $(".btn-ishome");
 	let $inputSearchField     = $("input[name  = search_field]");
 	let $inputSearchValue     = $("input[name  = search_value]");
 	let $selectChangeAttr     = $("select[name = select_change_attr]");
@@ -53,12 +54,20 @@ $(document).ready(function() {
 	$btnStatus.click(function (e) {
 		e.preventDefault();
 		let $currentElement = $(this);
-		let $url = $currentElement.attr("href");
+		let $url            = $currentElement.attr("href");
 
 		callAjax($currentElement, $url, 'status');
-
-		
 	});
+
+	// Ajax Change Is Home
+	$btnIsHome.click(function (e) {
+		e.preventDefault();
+		let $currentElement = $(this);
+		let $url            = $currentElement.attr("href");
+
+		callAjax($currentElement, $url, 'ishome');
+	});
+	
 
 	// Ajax Change SelectBox Value
 	$selectChangeAttrAjax.on("change", function () {
@@ -225,9 +234,13 @@ $(document).ready(function() {
 	$('form').find('input[type=text]').filter(':visible:first').focus().select();
 
 	// Slug
-	if (controllerName == 'article') {
-		$.slugify("Ätschi Bätschi"); // "aetschi-baetschi"
-		$('#slug').slugify('#name'); // Type as you slug
+	switch (controllerName) {
+		case 'article' : 
+		case 'category': 
+			$.slugify("Ätschi Bätschi"); // "aetschi-baetschi"
+			$('#slug').slugify('#name'); // Type as you slug
+		break;
+	
 	}
 
 	// Modal

@@ -30,14 +30,13 @@
             <li>
                 <a><i class="fa fa-product-hunt"></i> Quản lý sản phẩm <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li id="product"><a href="{{ route('product') }}"> Sản phẩm</a></li>
                     <li id="category"><a href="{{ route('category') }}"> Danh mục</a></li>
-                    <li id="discount"><a href="{{ route('discount') }}"> Coupon</a></li>
                     <li id="attribute"><a href="{{ route('attribute') }}"> Thuộc tính</a></li>
+                    <li id="discount"><a href="{{ route('discount') }}"> Coupon</a></li>
                     <li id="shipping"><a href="{{ route('shipping') }}"> Phí ship</a></li>
-                    <li id="cart"><a href="{{ route('cart') }}">Đơn Hàng</a></li>
                     <li id="comment"><a href="{{ route('comment') }}"> Comment</a></li>
-
+                    <li id="product"><a href="{{ route('product') }}"> Sản phẩm</a></li>
+                    <li id="cart"><a href="{{ route('cart') }}">Đơn Hàng</a></li>
                 </ul>
             </li>
 

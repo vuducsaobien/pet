@@ -57,8 +57,10 @@ class CategoryController extends AdminController
     {
         $params["currentIsHome"]  = $request->isHome;
         $params["id"]             = $request->id;
-        $this->model->saveItem($params, ['task' => 'change-is-home']);
-        return redirect()->route($this->controllerName)->with('zvn_notify', 'Cập nhật trạng thái hiển thị trang chủ thành công!');
+        $params['controllerName'] = $this->controllerName;
+
+        $result = $this->model->saveItem($params, ['task' => 'change-is-home']);
+        echo json_encode($result);
     }
 
     public function display(Request $request) {
