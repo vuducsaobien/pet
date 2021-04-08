@@ -9,11 +9,11 @@
                 <tr class="headings">
                     <th class="column-title">#</th>
                     <th class="column-title">Name</th>
+                    <th class="column-title">Hình Ảnh</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Sắp xếp</th>
                     <th class="column-title">Hiện thị Home</th>
                     <th class="column-title">Kiểu hiện thị</th>
-                    <th class="column-title">Tạo mới</th>
                     <th class="column-title">Hành động</th>
                 </tr>
             </thead>
@@ -29,19 +29,18 @@
                             $move            = Template::showNestedSetUpDown($controllerName, $id);
                             $isHome          = Template::showItemIsHome($controllerName, $id, $val['is_home']);
                             $display         = Template::showItemSelect($controllerName, $id, $val['display'], 'display');
-                            $createdHistory  = Template::showItemHistory($val['created_by'], $val['created']);
-                            $modifiedHistory = Template::showItemHistory($val['modified_by'], $val['modified']);
+                            $thumb           = Template::showItemThumb($controllerName, $val['thumb'], $val['name']);
                             $listBtnAction   = Template::showButtonAction($controllerName, $id);
                         @endphp
 
                         <tr class="{{ $class }} pointer">
                             <td >{{ $index }}</td>
                             <td width="25%">{!! $name !!}</td>
+                            <td>{!! $thumb !!}</td>
                             <td>{!! $status !!}</td>
                             <td>{!! $move !!}</td>
                             <td>{!! $isHome  !!}</td>
                             <td>{!! $display !!}</td>
-                            <td>{!! $createdHistory !!}</td>
                             <td class="last">{!! $listBtnAction !!}</td>
                         </tr>
                     @endforeach
