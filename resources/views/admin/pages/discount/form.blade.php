@@ -7,7 +7,7 @@
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
     $formCkeditor  = config('zvn.template.form_ckeditor');
-    $class = 'form-control col-md-6 col-xs-12';
+    $class         = 'form-control col-md-6 col-xs-12';
 
     $statusValue      = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
 

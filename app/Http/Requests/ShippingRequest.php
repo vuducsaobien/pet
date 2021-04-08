@@ -26,18 +26,15 @@ class ShippingRequest extends FormRequest
     {
         $id = $this->id;
 
-        $condThumb = 'bail|required|max:500';
         $condName  = "bail|required|between:5,100|unique:$this->table,name";
 
         if(!empty($id)){ // edit
-            $condThumb = 'required';
             $condName  .= ",$id";
         }
         return [
-            'name' => $condName,
-            'zip_postal_code'=>'required',
-            'fee'=>'required',
-            'status'      => 'bail|in:active,inactive',
+            'name'   => $condName,
+            'price'  => 'bail|required|numeric',
+            'status' => 'bail|in:active,inactive',
         ];
     }
 

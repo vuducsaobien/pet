@@ -25,7 +25,7 @@
                             $id    = $val['id'];
 
                             $name            = Hightlight::show($val['name'], $params['search'], 'type');
-                            $fee             = $val['fee'] ? Template::format_price($val['fee']) : '';
+                            $price           = $val['price'] ? Template::format_price($val['price']) : '';
                             $status          = Template::showItemStatus($controllerName, $id, $val['status']); ;
                             $createdHistory  = Template::showItemHistory($val['created_by'], $val['created']);
                             $modifiedHistory = Template::showItemHistory($val['modified_by'], $val['modified']);
@@ -37,7 +37,7 @@
                             <td width="20%">
                                  {!! $name !!}
                             </td>
-                            <td>{!! $fee !!}</td>
+                            <td>{!! $price !!}</td>
 
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>

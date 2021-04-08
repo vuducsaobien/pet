@@ -7,19 +7,20 @@
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
     $formCkeditor  = config('zvn.template.form_ckeditor');
-
+    $class         = 'form-control col-md-6 col-xs-12';
 
     $statusValue      = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
 
     $inputHiddenID    = Form::hidden('id', @$item['id']);
     $inputHiddenThumb = Form::hidden('thumb_current', @$item['thumb']);
+    $inputPrice       = '<input type="text" name="price" class="money '.$class.' " value="'.@$item['price'].'"/>';
 
     $elements = [[
-            'label'   => Form::label('name', 'Name', $formLabelAttr),
+            'label'   => Form::label('name', 'Tên Tỉnh / Thành Phố', $formLabelAttr),
             'element' => Form::text('name', @$item['name'],  $formInputAttr )
         ],[
-            'label'   => Form::label('fee', 'Fee', $formLabelAttr),
-            'element' => Form::text('fee', @$item['fee'],  $formInputAttr )
+            'label'   => Form::label('price', 'Giá (Nghìn Đồng)', $formLabelAttr),
+            'element' => $inputPrice
         ],[
             'label'   => Form::label('status', 'Status', $formLabelAttr),
             'element' => Form::select('status', $statusValue, @$item['status'], $formInputAttr)

@@ -164,47 +164,47 @@ $(document).ready(function() {
 		confirmKeys: [32],
 	});
 
-	if( controllerName == 'discount' ){
+	if( controllerName == 'discount' || controllerName == 'shipping' ){
 		// Time
-		let time_start = 'DD-MM-YYYY HH:mm:ss';
-		$date_start.datetimepicker({
-			defaultDate: $.now(),
-			format     : time_start,
-		});		
-		$date_end.datetimepicker({
-			defaultDate: $.now(),
-			format     : time_start,
-		});		
+		// let time_start = 'DD-MM-YYYY HH:mm:ss';
+		// $date_start.datetimepicker({
+		// 	defaultDate: $.now(),
+		// 	format     : time_start,
+		// });		
+		// $date_end.datetimepicker({
+		// 	defaultDate: $.now(),
+		// 	format     : time_start,
+		// });		
 
 		// Currency
 		$currency.simpleMoneyFormat();
-		$accepted.simpleMoneyFormat();
+		// $accepted.simpleMoneyFormat();
 
 		// Percent
-		$percent.change(function() {
-			$(this).val(function(index, old) { return old.replace(/[^0-9]/g, '') + ' %'; });
-		});
+		// $percent.change(function() {
+		// 	$(this).val(function(index, old) { return old.replace(/[^0-9]/g, '') + ' %'; });
+		// });
 
 		// Disable Currency & Percent
-		clearOppersiteInput($currency, $percent);
+		// clearOppersiteInput($currency, $percent);
 
 		// Clear Input Special Character
 		$('input[type=submit]').click(function (e) {
 			let newCurrency = parseInt( regex($currency.val()) );
-			let newPercent  = parseInt( regex($percent.val()) );
-			let newAccepted = parseInt( regex($accepted.val()) );
+			// let newPercent  = parseInt( regex($percent.val()) );
+			// let newAccepted = parseInt( regex($accepted.val()) );
 
 			if ( !isNaN(newCurrency) ) {
 				$currency.val(newCurrency);
 			}
 			
-			if ( !isNaN(newPercent) ) {
-				$percent.val(newPercent);
-			}
+			// if ( !isNaN(newPercent) ) {
+			// 	$percent.val(newPercent);
+			// }
 
-			if ( !isNaN(newAccepted) ) {
-				$accepted.val(newAccepted);
-			}
+			// if ( !isNaN(newAccepted) ) {
+			// 	$accepted.val(newAccepted);
+			// }
 
 			// $accepted.val(newAccepted);
 			// $accepted.val(newAccepted);
