@@ -135,6 +135,63 @@ $(document).ready(function() {
 		}, "Hãy Nhập Giảm Giá Theo Số Tiền || %");
 	}
 
+	if( controllerName == 'comment' )
+	{
+		$("form").validate({
+			debug       : false,
+			errorClass  : "errorValidate",
+			errorElement: "span",
+
+			rules: {
+
+				name: {
+					required  : true,
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				email: {
+					required  : true,
+					isEmail   : ["email"],
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				product_code: {
+					required  : true,
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				message: {
+					required  : true,
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				created: {
+					required: true,
+				},
+
+			},
+
+			highlight: function(element, errorClass) {
+				$(element).removeClass(errorClass);
+			}
+		});
+
+		$.validator.addMethod('isEmail', function(email) {
+			var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			return regex.test(email);
+
+		}, "Hãy Nhập Đúng Giá trị Email");
+	}
+
+
 	// allStorage();
 });
 

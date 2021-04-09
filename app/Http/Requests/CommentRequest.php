@@ -6,7 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CommentRequest extends FormRequest
 {
-    private $table            = 'comment';
+    private $table       = 'comment';
+    private $tableParent = 'product';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,18 +26,20 @@ class CommentRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->id;
-
-        $condThumb = 'bail|required|max:500';
-        $condName  = "bail|required|between:5,100|unique:$this->table,name";
+        $id  = $this->id;
+        
+        $condName  = "bail|required";
 
         if(!empty($id)){ // edit
-            $condThumb = 'required';
-            $condName  .= ",$id";
+            $condName  .= "|unique:$this->table,$id";
         }
         return [
-            'message' => 'bail|required',
-            'status'      => 'bail|in:active,inactive',
+            'name'         => $condName,
+            'email'        => 'bail|required|email',
+            'product_code' => "bail|required|exists:$this->tableParent,product_code",
+            'star'         => 'bail|required|in:5,4,3,2,1',
+            'message'      => 'bail|required',
+            'status'       => 'bail|in:active,inactive',
         ];
     }
 

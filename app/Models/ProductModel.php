@@ -247,6 +247,10 @@ class ProductModel extends AdminModel
             $result        = self::where('id', $params['product_id'])->value('category_id');
         }
 
+        if($options['task'] == 'get-product-id-from-product-code') {
+            $result = self::where('product_code', $params)->value('id');
+        }
+
         return $result;
     }
 

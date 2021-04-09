@@ -16,7 +16,7 @@ class CommentModel extends AdminModel
         $this->table               = 'comment as c';
         $this->folderUpload        = 'comment';
         $this->fieldSearchAccepted = ['customer_name', 'message', 'email', 'star', 'product_name'];
-        $this->crudNotAccepted     = ['_token','thumb_current'];    
+        $this->crudNotAccepted     = ['_token','thumb_current', 'product_code'];    
     }
 
     public function listItems($params = null, $options = null) {
@@ -105,7 +105,17 @@ class CommentModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'message', 'status')->where('id', $params['id'])->first();
+
+            $result = self::select(
+                'c.id', 'c.name', 'c.email', 'c.status', 'c.product_id', 'c.star', 'c.message', 'c.created', 
+                'c.ip', 'p.product_code'
+            )->leftJoin('product as p', 'c.product_id', '=', 'p.id')
+            ->where('c.id', $params['id'])->first()->toArray()
+            ;
+
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
         }
 
         if($options['task'] == 'get-thumb') {
@@ -130,6 +140,15 @@ class CommentModel extends AdminModel
         $createdBy   = session('userInfo')['username'];
         $created     = date('Y-m-d H:i:s');
         $this->table = 'comment';
+
+        if($options['task'] == 'add-item') {
+            $params['created_by'] = $createdBy;
+
+                    $productModel = new ProductModel();
+            $params['product_id'] = $productModel->getItem($params['product_code'], ['task' => 'get-product-id-from-product-code']);
+                    $prepare      = $this->prepareParams($params);
+            self::insert($prepare);
+        }
 
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";

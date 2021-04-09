@@ -7,27 +7,52 @@
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
     $formCkeditor  = config('zvn.template.form_ckeditor');
+    $class         = 'form-control col-md-6 col-xs-12';
+    
+    // Format Time When Edit
+    if ( !empty($item['created']) ) {
+        $item['created'] = date(config('zvn.format.long_time_format'), strtotime($item['created']));
+    }
 
-
-    $statusValue      = ['default' => 'Select status', 'active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $statusValue = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $starValue   = [5 => '5 sao', 4 => '4 sao', 3 => '3 sao', 2 => '2 sao', 1 => '1 sao'];
 
     $inputHiddenID    = Form::hidden('id', @$item['id']);
     $inputHiddenThumb = Form::hidden('thumb_current', @$item['thumb']);
+    $inputCreated    = '
+        <div class="input-group date" id="datetimepicker_start">
+            <input type="text" name="created" class="'.$class.'" value="'.@$item['created'].'" />
+            <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    ';
 
-    $elements = [
-        [
+    $elements = [[
+            'label'   => Form::label('name', 'Tên KH', $formLabelAttr),
+            'element' => Form::text('name', @$item['name'],  $formInputAttr )
+        ],[
+            'label'   => Form::label('email', 'Email', $formLabelAttr),
+            'element' => Form::email('email', @$item['email'],  $formInputAttr )
+        ],[
+            'label'   => Form::label('product_code', 'Mã SP', $formLabelAttr),
+            'element' => Form::text('product_code', @$item['product_code'],  $formInputAttr )
+        ],[
             'label'   => Form::label('message', 'Message', $formLabelAttr),
             'element' => Form::textArea('message', @$item['message'],  $formCkeditor )
-        ],
-        [
+        ],[
+            'label'   => Form::label('star', 'Số Sao', $formLabelAttr),
+            'element' => Form::select('star', $starValue, @$item['star'], $formInputAttr)
+        ],[
             'label'   => Form::label('status', 'Status', $formLabelAttr),
             'element' => Form::select('status', $statusValue, @$item['status'], $formInputAttr)
-        ],
-        [
+        ],[
+            'label'   => Form::label('created', 'Ngày Tạo', $formLabelAttr),
+            'element' => $inputCreated
+        ],[
             'element' => $inputHiddenID . $inputHiddenThumb . Form::submit('Save', ['class'=>'btn btn-success']),
             'type'    => "btn-submit"
-        ]
-    ];
+    ]];
 @endphp
 
 @section('content')

@@ -24,19 +24,10 @@ class CommentController extends AdminController
 
         $items     = $this->model->listItems($this->params, ['task'  => 'admin-list-items']);
         $itemsData = $items->toArray()['data'];
-        // echo '<pre style="color:red";>$itemsData === '; print_r($itemsData);echo '</pre>';
-        // echo '<h3>Die is Called cc</h3>';die;
 
         foreach ($itemsData as $value) $paramsId[] = $value['id'];
-
-        // $this->params['paramsId'] = $paramsId;
-        // $itemsStatusCount   = $this->model->countItems($this->params, ['task' => 'admin-count-items-group-by-status']);
         $itemsStatusCount   = $this->model->countItems($paramsId, ['task' => 'admin-count-items-group-by-status']);
 
-        // echo '<pre style="color:red";>$itemsStatusCount === '; print_r($itemsStatusCount);echo '</pre>';
-        // echo '<pre style="color:red";>$itemsData === '; print_r($itemsData);echo '</pre>';
-
-        // echo '<h3>Die is Called </h3>';die;
         return view($this->pathViewController .  'index', [
             'params'           => $this->params,
             'items'            => $items,
@@ -48,10 +39,6 @@ class CommentController extends AdminController
     {
         if ($request->method() == 'POST') {
             $params = $request->all();
-            if(empty($params['slug'])){
-                $params['slug']=Str::slug($params['name']);
-            }
-
             $task   = "add-item";
             $notify = "Thêm phần tử thành công!";
 

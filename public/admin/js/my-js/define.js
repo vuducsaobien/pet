@@ -15,6 +15,7 @@ let $accepted_min         = $('.accepted_min');
 let $accepted_max         = $('.accepted_max');
 let $date_start           = $('input[name=date_start]');
 let $date_end             = $('input[name=date_end]');
+let $created              = $('input[name=created]');
 let $submit               = $('input[type=submit]');
 
 $(document).ready(function() {

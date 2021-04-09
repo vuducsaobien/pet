@@ -8,6 +8,7 @@
     $formLabelAttr = config('zvn.template.form_label');
     $formCkeditor  = config('zvn.template.form_ckeditor');
     
+    // Format Time When Edit
     if ( !empty($item['date_start']) ) {
         $item['date_start'] = date(config('zvn.format.long_time_format'), strtotime($item['date_start']));
     }
