@@ -1,8 +1,15 @@
 @php
-    $pageTitle = 'Quản lý ' . ucfirst($controllerName); 
-    $pageButton= sprintf('<a href="%s" class="btn btn-success"><i class="fa fa-arrow-left"></i> Quay về</a>', route($controllerName));
+    $pageTitle  = 'Quản lý ' . ucfirst($controllerName);
+    $pageButton = sprintf('
+        <a href="%s" class="btn btn-success">
+            <i class="fa fa-arrow-left"></i> Quay về</a>', route($controllerName));
+            
     if($pageIndex == true) {
-        $pageButton= sprintf('<a href="%s" class="btn btn-success"><i class="fa fa-plus-circle"></i> Thêm mới '.Str::ucfirst($controllerName).'</a>', route($controllerName . '/form'));
+        $pageButton= sprintf('
+            <a href="%s" class="btn btn-success">
+                <i class="fa fa-plus-circle"></i>
+                 Thêm mới '.Str::ucfirst($controllerName).
+            '</a>', route($controllerName . '/form'));
     }
 @endphp
 

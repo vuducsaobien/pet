@@ -83,27 +83,38 @@ class Template
         $tmplStatus = Config::get('zvn.template.status');
 
         if (count($itemsStatusCount) > 0) {
-            /* array_unshift($itemsStatusCount, [
-                    'count' => array_sum(array_column($itemsStatusCount, 'count')),
-                    'status' => 'all'
-                ]);*/
 
-            foreach ($itemsStatusCount as $item) {  // $item = [count,status]
-                $statusValue = $item['status'];  // active inactive block
+            $countAll = 0;
+            foreach ($itemsStatusCount as $item) $countAll += $item['count'];
+            
+            $linkAll = route($controllerName) . "?filter_status=all";
+            $xhtml .= '
+                <a href="'.$linkAll.'" type="button" class="btn btn-info">Tất Cả 
+                    <span class="badge bg-white">'.$countAll.'</span>
+                </a>
+            ';
+
+            foreach ($itemsStatusCount as $item) {
+                $statusValue = $item['status'];
                 $statusValue = array_key_exists($statusValue, $tmplStatus) ? $statusValue : 'default';
 
-                $currentTemplateStatus = $tmplStatus[$statusValue]; // $value['status'] inactive block active
-                $link = route($controllerName) . "?filter_status=" . $statusValue;
+                $currentTemplateStatus = $tmplStatus[$statusValue];
+
+                $link    = route($controllerName) . "?filter_status=" . $statusValue;
 
                 if ($paramsSearch['value'] !== '') {
                     $link .= "&search_field=" . $paramsSearch['field'] . "&search_value=" . $paramsSearch['value'];
                 }
-                $class = $currentTemplateStatus['class'];
-
+                
+                $class  = $currentTemplateStatus['class'];
                 $active = ($currentFilterStatus == $statusValue) ? ' active' : '';
-                $xhtml .= sprintf('<a href="%s" type="button" class="btn %s">
-                                    %s <span class="badge bg-white">%s</span>
-                                </a>', $link, $class . $active, $currentTemplateStatus['name'], $item['count']);
+
+                $xhtml .= sprintf('
+                    <a href="%s" type="button" class="btn %s">
+                        %s <span class="badge bg-white">%s</span>
+                    </a>
+                    ', $link, $class . $active, $currentTemplateStatus['name'], $item['count']
+                );
             }
         }
 

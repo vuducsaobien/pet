@@ -101,6 +101,7 @@ return [
             'times_used'     => ['name'=> 'Số Lần Đã Sử Dụng'],
             'total_times'    => ['name'=> 'Số Lần Cho Phép'],
             'date_start'     => ['name'=> 'Ngày Bắt Đầu'],
+            'star'           => ['name'=> 'Số Sao'],
         ],
         'button' => [
             'edit'      => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
@@ -126,7 +127,7 @@ return [
             'contact'     => ['all', 'email'],
             'product'     => ['all', 'product_code', 'name'],
             'attribute'   => ['all', 'name'],
-            'comment'     => ['all', 'product_code', 'product_name','email','ip'],
+            'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],
         ],
         'button' => [

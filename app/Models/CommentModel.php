@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use App\Models\CustomerModel;
+use App\Models\ProductModel;
+
 use Illuminate\Support\Facades\DB; 
 
 class CommentModel extends AdminModel
@@ -11,39 +13,65 @@ class CommentModel extends AdminModel
 
     public function __construct()
     {
-        $this->table               = 'comment';
+        $this->table               = 'comment as c';
         $this->folderUpload        = 'comment';
-        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-        $this->crudNotAccepted     = ['_token','thumb_current', 'username'];    
+        $this->fieldSearchAccepted = ['customer_name', 'message', 'email', 'star', 'product_name'];
+        $this->crudNotAccepted     = ['_token','thumb_current'];    
     }
 
     public function listItems($params = null, $options = null) {
         $result = null;
 
-        if($options['task'] == "admin-list-items") {
+        if($options['task'] == "admin-list-items") 
+        {
             $query = self::select(
-                'id', 'name', 'email', 'status', 'star','message','created', 'created_by', 'modified', 'modified_by'
-            );
+                'c.id', 'c.name', 'c.email', 'c.status', 'c.product_id', 'c.star', 'c.message', 'c.created', 
+                'c.created_by', 'c.modified', 'c.modified_by', 'p.name AS product_name'
+            )->leftJoin('product as p', 'c.product_id', '=', 'p.id');
+            ;
                
             if ($params['filter']['status'] !== "all")  {
-                $query->where('status', '=', $params['filter']['status'] );
+                $query->where('c.status', '=', $params['filter']['status'] );
             }
 
             if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
+                $searchField = $params['search']['field'];
+                $searchValue = $params['search']['value'];
+
+                if($searchField == "all") {
+
                     $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
+
+                    $searchAccepted = $this->fieldSearchAccepted;
+                    unset( $searchAccepted[ array_search('customer_name', $searchAccepted) ] );
+                    unset( $searchAccepted[ array_search('product_name', $searchAccepted) ] );
+                    $searchAccepted[] = 'c.name';
+                    $searchAccepted[] = 'p.name';
+
+                    foreach($searchAccepted as $column){
                             $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
                         }
                     });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
+
+                } else if(in_array($searchField, $this->fieldSearchAccepted)) { 
+
+                    if ( $searchField == 'product_name' ) {
+                        $query->where('p.name', 'LIKE',  "%{$searchValue}%" );
+
+                    }else if( $searchField == 'customer_name' ){
+                        $query->where('c.name', 'LIKE',  "%{$searchValue}%" );
+
+                    }else{
+                        $query->where($searchField, 'LIKE',  "%{$searchValue}%" );
+                    }
                 } 
+
             }
 
-            $result =  $query->orderBy('id', 'desc')
-                            ->paginate($params['pagination']['totalItemsPerPage']);
-
+            $result =  $query
+                ->orderBy('id', 'desc')            
+                ->paginate($params['pagination']['totalItemsPerPage']);
+                // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }
 
         if($options['task'] == 'news-list-items') {
@@ -61,21 +89,11 @@ class CommentModel extends AdminModel
         $result = null;
 
         if($options['task'] == 'admin-count-items-group-by-status') {
-         
+            
             $query = $this::groupBy('status')
-                        ->select( DB::raw('status , COUNT(id) as count') );
-
-            if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
-                    $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
-                        }
-                    });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
-                } 
-            }
+                ->select( DB::raw('status , COUNT(id) as count') )
+                ->whereIn('id', $params)
+            ;
 
             $result = $query->get()->toArray();
         }
@@ -107,10 +125,11 @@ class CommentModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
-        $modifiedBy = session('userInfo')['username'];
-        $modified   = date('Y-m-d H:i:s');
-        $createdBy  = session('userInfo')['username'];
-        $created    = date('Y-m-d H:i:s');
+        $modifiedBy  = session('userInfo')['username'];
+        $modified    = date('Y-m-d H:i:s');
+        $createdBy   = session('userInfo')['username'];
+        $created     = date('Y-m-d H:i:s');
+        $this->table = 'comment';
 
         if($options['task'] == 'change-status') {
             $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
@@ -124,12 +143,6 @@ class CommentModel extends AdminModel
                 'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
                 'message' => config('zvn.notify.success.update')
             ];
-        }
-
-        if($options['task'] == 'add-item') {
-            $params['created_by'] = $createdBy;
-            $params['created']    = $created;
-            self::insert($this->prepareParams($params));
         }
 
         if($options['task'] == 'add-item-news') {

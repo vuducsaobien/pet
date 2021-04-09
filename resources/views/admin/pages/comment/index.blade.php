@@ -8,6 +8,7 @@
 @section('content')
     
     @include ('admin.templates.zvn_notify')
+    @include ('admin.templates.page_header', ['pageIndex' => true])
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -15,8 +16,8 @@
                 @include('admin.templates.x_title', ['title' => 'Bộ lọc'])
                 <div class="x_content">
                     <div class="row">
-                        <div class="col-md-7">{!! $xhtmlButtonFilter !!}</div>
-                        <div class="col-md-5">{!! $xhtmlAreaSeach !!}</div>
+                        <div class="col-md-6">{!! $xhtmlButtonFilter !!}</div>
+                        <div class="col-md-6">{!! $xhtmlAreaSeach !!}</div>
                     </div>
                 </div>
             </div>
