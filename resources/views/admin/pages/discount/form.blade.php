@@ -15,12 +15,12 @@
         $item['date_end'] = date(config('zvn.format.long_time_format'), strtotime($item['date_end']));
     }
 
-    $class         = 'form-control col-md-6 col-xs-12';
-
-    $statusValue      = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $class       = 'form-control col-md-6 col-xs-12';
+    $statusValue = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
 
     $inputHiddenID     = Form::hidden('id', @$item['id']);
     $inputHiddenThumb  = Form::hidden('thumb_current', @$item['thumb']);
+    $inputCode         = '<input class="'.$class.'" id="code" name="code" type="text" value="">';
     $inputPrice        = '<input type="text" name="price" class="money '.$class.' " value="'.@$item['price'].'"/>';
     $inputPercent      = '<input type="text" name="percent" class="percent '.$class.' " value="'.@$item['percent'].'"/>';
     $inputAccepted_min = '<input type="text" name="min_price" class="accepted_min '.$class.' " value="'.@$item['min_price'].'"/>';
@@ -42,10 +42,10 @@
         </div>
     ';
 
-    
     $elements = [[
             'label'   => Form::label('code', 'Tên Mã Giảm Giá', $formLabelAttr),
-            'element' => Form::text('code', @$item['code'],  $formInputAttr )
+            'element' => $inputCode,
+            'type'    => 'random'
         ],[
             'label'   => Form::label('price', 'Số Tiền Giảm (Nghìn Đồng) - A1', $formLabelAttr),
             'element' => $inputPrice

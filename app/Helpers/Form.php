@@ -26,6 +26,21 @@ class Form {
                     </div>', $element['label'], $element['element']
                 );
                 break;
+            case 'random':
+                $xhtml .= sprintf(
+                    '<div class="form-group">
+                        %s
+                        <div class="col-md-5 col-sm-5 col-xs-11">
+                            %s
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1">
+                            <button type="button" class="btn btn-primary" id="random-code" title="Tạo mới">
+                                <span class="fa fa-rotate-left"></span>
+                            </button>
+                        </div>
+                    </div>', $element['label'], $element['element']
+                );
+                break;
             case 'full':
                 $xhtml .= sprintf(
                     '<div class="form-group">
