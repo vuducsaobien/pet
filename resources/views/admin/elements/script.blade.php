@@ -38,17 +38,24 @@
 <!-- Validate -->
 <script src="{{ asset('admin/js/validate/jquery.validate.min.js') }}"></script>
 
+<!-- Jquery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
 <script src="{{ asset('admin/js/custom.min.js') }}"></script>
 
 <!-- Duc's Js -->
 <script src="{{ asset('admin/js/my-js/define.js') }}"></script>
+
 <script src="{{ asset('admin/js/my-js/ajax.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/button.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/functions_sweetalert2.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/functions.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/modal.js') }}"></script>
+
 <script src="{{ asset('admin/js/my-js/my-js.js') }}"></script>
+
 <script src="{{ asset('admin/js/my-js/plugin-currency.js') }}"></script>
+<script src="{{ asset('admin/js/my-js/plugin-dropzone.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/plugin-slug.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/plugin-time.js') }}"></script>
 <script src="{{ asset('admin/js/my-js/plugin-validate.js') }}"></script>

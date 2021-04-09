@@ -24,47 +24,34 @@
     <img id="holder" src="%s" style="margin-top:15px;max-height:100px;">
     ', $thumb, asset($thumb));
 
-    $elements = [
-        [
-            'label'     => Form::label('name', 'Name', $formLabelAttr),
-            'element'   => Form::text('name', $item['name'] ?? '', $formInputAttr)
-        ],
-        [
+    $elements = [[
+            'label'   => Form::label('name', 'Name', $formLabelAttr),
+            'element' => Form::text('name', $item['name'] ?? '', $formInputAttr)
+        ],[
             'label'   => Form::label('slug', 'Slug', $formLabelAttr),
             'element' => Form::text('slug', $item['slug']??"",  $formInputAttr ),
-
-
-        ],
-       [
+        ],[
             'label'   => Form::label('category_id', 'Category', $formLabelAttr),
             'element' => Form::select('category_id', $itemsCategory, @$item['category_id'],  $formInputAttr)
-        ],
-/*        [
-            'label'   => Form::label('thumb', 'thumb', $formLabelAttr),
-            'element'   => Template::showFileManager($item['thumb'] ?? '')
-        ],
-
-*/        [
-            'label'     => Form::label('price', 'Price (VND)', $formLabelAttr),
-            'element'   => Form::text('price', $item['price'] ?? '', $formInputAttr)
-        ],
-        [
-            'label'     => Form::label('', 'Thư viện hình ảnh', $formLabelAttributes),
-            'element'   => '<div class="needsclick dropzone" id="document-dropzone"></div>',
-        ],
-         [
-            'element'   => $inputHiddenID.Form::submit('Lưu', ['class' => 'btn btn-success']),
-            'type'      => 'btn-submit'
-        ]
-
-
-    ];
+        // ],[
+        //     'label'   => Form::label('thumb', 'thumb', $formLabelAttr),
+        //     'element'   => Template::showFileManager($item['thumb'] ?? '')
+        ],[
+            'label'   => Form::label('price', 'Price (VND)', $formLabelAttr),
+            'element' => Form::text('price', $item['price'] ?? '', $formInputAttr)
+        ],[
+            'label'   => Form::label('', 'Thư viện hình ảnh', $formLabelAttributes),
+            'element' => '<div class="needsclick dropzone" id="document-dropzone"></div>',
+        ],[
+            'element' => $inputHiddenID.Form::submit('Lưu', ['class' => 'btn btn-success']),
+            'type'    => 'btn-submit'
+    ]];
 @endphp
-{{--@dd($elements)--}}
+
 @section('content')
     @include('admin.templates.page_header', ['pageIndex' => false])
     @include('admin.templates.error')
-    <div class="row">
+
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 @include('admin.templates.x_title', ['title' => 'Add New Product'])
@@ -81,11 +68,11 @@
 
 
                 </div>
-
             </div>
         </div>
-    </div>
+
 @endsection
+
 @section('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script>

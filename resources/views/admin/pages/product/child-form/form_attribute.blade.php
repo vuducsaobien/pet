@@ -5,38 +5,37 @@
 
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = [
-            'class' => 'control-label col-md-1 col-sm-3 col-xs-12'
-        ];
+        'class' => 'control-label col-md-1 col-sm-3 col-xs-12'
+    ];
     $form_tag=config('zvn.template.form_tag');
 
-
-
     $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
-    $arr=[];
+    $arr           = [];
 
     foreach ($attribute as $attr) {
 
-        $name=$attr['name'];
-        $id=$attr['id'];
-        $value=isset($newArr[$id])?$newArr[$id]:'';
-
-         $arr[]=[
-            'label'   => Form::label($name, ucfirst($name), $formLabelAttributes),
-            'element'   => Form::text("attribute[$id]",$value , $form_tag),
+        $name  = $attr['name'];
+        $id    = $attr['id'];
+        $value = isset( $newArr[$id] ) ? $newArr[$id] : '';
+         
+        $arr[] = [
+            'label'   => Form::label( $name, ucfirst($name), $formLabelAttributes ),
+            'element' => Form::text( "attribute[$id]", $value, $form_tag ),
         ];
     }
 
-
-
     $elements = [];
-    $elements=array_merge($elements,$arr);
-    array_push($elements,[
-            'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-danger', 'name' => 'changeAttribute']),
-            'type'      => 'btn-submit'
-        ]);
+    $elements = array_merge($elements,$arr);
+
+    array_push($elements, [
+        'element'   => $inputHiddenID . Form::submit('Save', [
+            'class' => 'btn btn-danger',
+            'name'  => 'changeAttribute'
+        ]),
+        'type'      => 'btn-submit'
+    ]);
 @endphp
 
-<div class="row">
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         @include('admin.templates.x_title', ['title' => 'Thay đổi thuộc tính'])
@@ -53,7 +52,7 @@
         </div>
     </div>
 </div>
-</div>
+
 @section('script')
     <script>
         document.getElementById("main-form2").onkeypress = function(e) {

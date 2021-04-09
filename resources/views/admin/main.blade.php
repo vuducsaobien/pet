@@ -25,6 +25,13 @@
         @include('admin.elements.footer')
     </div>
 </div>
+@php
+    // echo '<pre style="color:red";>$item === '; print_r($item->toArray());echo '</pre>';
+    // echo '<pre style="color:red";>$item->ID === '; print_r($item->id);echo '</pre>';
+    $product_id = $item->id ?? '';
+    // echo '<h3>Die is Called </h3>';die;
+@endphp
+
 @include('admin.elements.script_define')
 @include('admin.elements.script')
 @yield('script')
