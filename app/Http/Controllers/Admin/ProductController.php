@@ -23,9 +23,8 @@ class ProductController extends AdminController
     public function getImage($id)
     {
         $params['id'] = $id;
-        $itemProduct = $this->model->getItem($params, ['task' => 'get-item']);
-        $productImage = $itemProduct->image->toArray();
-        return json_encode($productImage);
+        $itemProduct  = $this->model->getItem($params, ['task' => 'get-list-images-from-product-id']);
+        return json_encode($itemProduct);
     }
 
     public function form(Request $request)

@@ -172,6 +172,12 @@ class ProductModel extends AdminModel
                 ->first();
         }
 
+        if($options['task'] == 'get-list-images-from-product-id') {
+            $imageModel = new ProductImageModel();
+            $result     = $imageModel->getItem($params, ['task' => 'get-list-images-from-product-id']);
+        }
+
+
         if($options['task'] == 'news-get-item-product-detail') {
             $result = self::select('id', 'category_id', 'product_code', 'name', 'quantity',
                 'thumb', 'price', 'price_sale', 'sale', 'slug', 'short_description', 'description')

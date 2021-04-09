@@ -93,6 +93,10 @@ class ProductImageModel extends AdminModel
             $result = self::select('id', 'name')->where('id', $params['id'])->first();
         }
 
+        if ($options['task'] == 'get-list-images-from-product-id') {
+            $result = self::select('id', 'name', 'alt')->where('product_id', $params['id'])->get()->toArray();
+        }
+
         if ($options['task'] == 'get-thumb') {
             $result = self::select('id', 'thumb')->where('id', $params['id'])->first();
         }

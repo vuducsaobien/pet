@@ -49,8 +49,11 @@ $(document).ready(function() {
                         {
                             var name = mockFile.name;
                             var val = mockFile.alt ? mockFile.alt : "";
-                            var url = link_product + '/' + name
-                            console.log('name = ' + name);
+                            var url = link_product + '/' + name;
+                            console.log(mockFile);
+                            // console.log('name = ' + name);
+                            // console.log('url = ' + url);
+
                             myDropzone.options.addedfile.call(myDropzone, mockFile);
                             myDropzone.options.thumbnail.call(myDropzone, mockFile, url);
                             mockFile.previewElement.classList.add('dz-success');
