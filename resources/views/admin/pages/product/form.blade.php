@@ -20,20 +20,20 @@
                     <div role="tabpanel" class="tab-pane fade active in">
                         @switch($type)
                             @case('general')
-                                @include('admin.pages.product.form_info')
-                                @include('admin.pages.product.form_category')
-                                @include('admin.pages.product.form_price')
-                                @include('admin.pages.product.form_special')
-                                @include('admin.pages.product.form_dropzone')
+                                @include('admin.pages.product.child-form.form_info')
+                                @include('admin.pages.product.child-form.form_category')
+                                @include('admin.pages.product.child-form.form_price')
+                                @include('admin.pages.product.child-form.form_special')
+                                @include('admin.pages.product.child-form.form_dropzone')
                             @break
                             @case('attribute')
-                                @include('admin.pages.product.form_attribute')
+                                @include('admin.pages.product.child-form.form_attribute')
                             @break
                             @case('seo')
-                                @include('admin.pages.product.form_seo')
+                                @include('admin.pages.product.child-form.form_seo')
                             @break
                             @default
-                                @include('admin.pages.product.form_seo')
+                                @include('admin.pages.product.child-form.form_seo')
                             @break
                         @endswitch
                     </div>
@@ -43,7 +43,7 @@
 
         </div>
     @else
-        @include('admin.pages.product.form_add')
+        @include('admin.pages.product.child-form.form_add')
     @endif
 @endsection
 

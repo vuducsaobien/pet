@@ -3,39 +3,6 @@ $(document).ready(function() {
 	
 	if( controllerName == 'discount' )
 	{
-		// Ajax check Exist Name
-		// $.validator.addMethod("checkExists", function(value, element)
-		// {
-		// 	var inputElem = $('input[name="code"]'),
-		// 	    data      = { "code_name" : inputElem.val() },
-		// 	    eReport   = ''; //error report
-
-		// 	$.ajax(
-		// 	{
-		// 		type    : "POST",
-		// 		url     : validateEmail.php,
-		// 		dataType: "json",
-		// 		data    : data,
-		// 		success : function(returnData)
-		// 		{
-		// 			if (returnData!== 'true')
-		// 			{
-		// 			return '<p>This email address is already registered.</p>';
-		// 			}
-		// 			else
-		// 			{
-		// 			return true;
-		// 			}
-		// 		},
-		// 		error: function(xhr, textStatus, errorThrown)
-		// 		{
-		// 			alert('ajax loading error... ... '+url + query);
-		// 			return false;
-		// 		}
-		// 	});
-
-		// }, '');
-
 		$("form").validate({
 
 			debug       : false,
