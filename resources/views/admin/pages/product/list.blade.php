@@ -11,8 +11,10 @@
                 <tr class="headings">
                     <th class="column-title">STT</th>
                     <th class="column-title">Tên</th>
+                    <th class="column-title">Thứ tự</th>
                     <th class="column-title">Hình ảnh</th>
                     <th class="column-title">Price</th>
+                    <th class="column-title">Giá Còn Lại</th>
                     <th class="column-title">Category</th>
                     <th class="column-title">Status</th>
                     <th class="column-title">Hành động</th>
@@ -20,42 +22,57 @@
             </thead>
             <tbody>
                 @if(count($items) > 0)
+                    @php
+                        $iconMinus = '<i class="fa fa-minus" style="color:red;"></i> ';
+                    @endphp
+
                     @foreach($items as $key => $item)
-
-
                         @php
+                            $index      = $key + 1;
+                            $code       = HightLight::show($item['product_code'], $params['search'], 'product_code');
+                            $name       = HightLight::show($item['name'], $params['search'], 'name');
+                            $slug       = HightLight::show($item['slug'], $params['search'], 'slug');
+                            $ordering   = Template::showItemOrdering($controllerName, $item['ordering'], $item['id']);
+                            $category   = Form::select('category_id', $itemsCategory, $item['category_id'], [
+                                'class'    => 'form-control select-ajax',
+                                'data-url' => route("$controllerName/change-category", [
+                                    'id'          => $item->id,
+                                    'category_id' => 'value_new'
+                                ])
+                            ]);
+                            $status        = Template::showItemStatus($controllerName, $item->id, $item['status']);
+                            $actionButtons = Template::showButtonAction($controllerName, $item['id']);
 
-                            $index          = $key + 1;
-                            $code           = HightLight::show($item['product_code'], $params['search'], 'product_code');
-                            $name           = HightLight::show($item['name'], $params['search'], 'name');
-                            $price           = HightLight::show($item['price'], $params['search'], 'price');
-                            $price_sale           = HightLight::show($item['price_sale'], $params['search'], 'price_sale');
-                            $category        = Form::select('category_id', $itemsCategory, $item['category_id'], ['class' => 'form-control select-ajax', 'data-url' => route("$controllerName/change-category", ['id' => $item->id, 'category_id' => 'value_new'])]);
+                            $price       = $item['price'] ?? '';
+                            $sale        = $item['sale'];
+                            $price_sale  = $item['price_sale'];
 
-                            $status          = Template::showItemStatus($controllerName, $item->id, $item['status']);
+                            $price_until = Template::format_price($price - $price_sale);
+                            $price       = Template::format_price($price);
 
-
-
-                            $actionButtons  = Template::showButtonAction($controllerName, $item['id']);
+                            if ( $sale > 0 ) {
+                                $priceMinus = $iconMinus . "$sale %";
+                            }else{
+                                $priceMinus = $iconMinus . Template::format_price($price_sale);
+                            }
                         @endphp
                         <tr>
                             <td>{{$index}}</td>
-                            <td>
-                                <p>{!! $name !!}</p>
-                                <p><i>Mã Code:</i> {!! $code !!}</p>
+                            <td width="15%">
+                                <p>Tên Sp: {!! $name !!}</p>
+                                <p><i>Mã Sản Phẩm: </i> {!! $code !!}</p>
+                                <p><i>Đường Dẫn: </i> {!! $slug !!}</p>
                             </td>
+                            <td>{!! $ordering !!}</td>
                             <td>
+                                <img width="120" height="" src="{{$item->thumb}}" alt="">
+                            </td>
 
-                                    <img width="120" height="" src="{{$item->thumb}}" alt="">
+                            <td width="15%">
+                                {!! $price !!}
+                                <p>{!! $priceMinus !!}</p>
                             </td>
-                            <td>
-                                @if($price_sale!=0)
-                                {!! Template::format_price($price_sale,'vietnamese dong') !!}<br>
-                                <s>{!! Template::format_price($price,'vietnamese dong') !!}</s>
-                                @else
-                                    {!! Template::format_price($price,'vietnamese dong') !!}
-                                @endif
-                            </td>
+                            <td width="10%"><span style="color:green;">{!! $price_until !!}</span></td>
                             <td>{!! $category !!}</td>
                             <td>{!! $status !!}</td>
                             <td class="last">{!! $actionButtons !!}</td>

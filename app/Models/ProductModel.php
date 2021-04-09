@@ -35,7 +35,8 @@ class ProductModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id','price_sale','product_code', 'name','price','category_id','thumb','status')->with('image');
+            $query = $this->select('id', 'price_sale', 'product_code', 'name', 'slug', 'price', 'sale', 'ordering', 'category_id', 
+            'thumb', 'status')->with('image');
 
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -113,7 +114,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-item-search-all-food') {
-            $result = self::select('id', 'product_code', 'name', 'thumb', 'price', 'quantity',
+            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
             'price_sale', 'sale', 'slug', 'short_description')
             ->where('status','active')
             ->where('name', 'LIKE', "%{$params['search']}%")
@@ -124,7 +125,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-item-search-price-all-food') {
-            $result = self::select('id', 'product_code', 'name', 'thumb', 'price', 'quantity',
+            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
             'price_sale', 'sale', 'slug', 'short_description')
             ->where('status','active')
             ->whereBetween('price', [ $params['min'] * 1000, $params['max'] * 1000  ])
@@ -179,7 +180,7 @@ class ProductModel extends AdminModel
 
 
         if($options['task'] == 'news-get-item-product-detail') {
-            $result = self::select('id', 'category_id', 'product_code', 'name', 'quantity',
+            $result = self::select('id', 'category_id', 'product_code', 'name',
                 'thumb', 'price', 'price_sale', 'sale', 'slug', 'short_description', 'description')
             ->where('status','active')
             ->where('id', $params["product_id"])
@@ -204,7 +205,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-item-all-food') {
-            $result = self::select('id', 'product_code', 'name', 'thumb', 'price', 'quantity',
+            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
                 'price_sale', 'sale', 'slug', 'short_description')
             ->where('status','active')
             ->orderBy('ordering', 'asc')
@@ -284,6 +285,16 @@ class ProductModel extends AdminModel
             $product = $this->find($lastId=DB::getPdo()->lastInsertId());
             $product->image()->createMany($params['dropzone']);
 
+        }
+
+        if ($options['task'] == 'change-ordering') {
+            $ordering = $params['ordering'];
+            $this->where('id', $params['id'])->update(['ordering' => $ordering]);
+
+            return [
+                'id'      => $params['id'],
+                'message' => config('zvn.notify.success.update')
+            ];
         }
 
         /*================================= EDIT =============================*/

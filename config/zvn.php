@@ -102,6 +102,7 @@ return [
             'total_times'    => ['name'=> 'Số Lần Cho Phép'],
             'date_start'     => ['name'=> 'Ngày Bắt Đầu'],
             'star'           => ['name'=> 'Số Sao'],
+            'slug'           => ['name'=> 'Đường Dẫn'],
         ],
         'button' => [
             'edit'      => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
@@ -125,7 +126,7 @@ return [
             'cart'        => ['all', 'order_code', 'customer_name', 'email', 'address', 'product_name', 'quantity', 'price'],
             'testimonial' => ['all', 'name'],
             'contact'     => ['all', 'email'],
-            'product'     => ['all', 'product_code', 'name'],
+            'product'     => ['all', 'product_code', 'name', 'slug'],
             'attribute'   => ['all', 'name'],
             'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],

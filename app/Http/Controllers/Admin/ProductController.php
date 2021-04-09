@@ -108,6 +108,7 @@ class ProductController extends AdminController
 
         }
     }
+    
     public function changeInfo(MainRequest $request)
     {
         if ($request->method() == 'POST') {
@@ -127,10 +128,20 @@ class ProductController extends AdminController
             return redirect()->back()->with("zvn_notify", "Cập nhật thông tin sản phẩm thành công!");
         }
     }
+
     public function changeCategory(Request $request) {
         $params['category_id'] = $request->category_id;
         $params['id'] = $request->id;
         $result = $this->model->saveItem($params, ['task' => 'change-category']);
         return response()->json($result);
     }
+
+    public function ordering(Request $request)
+    {
+        $this->params['ordering'] = $request->ordering;
+        $this->params['id'] = $request->id;
+        $result = $this->model->saveItem($this->params, ['task' => 'change-ordering']);
+        echo json_encode($result);
+    }
+
 }
