@@ -36,8 +36,9 @@ class ProductModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'price_sale', 'product_code', 'name', 'slug', 'price', 'sale', 'ordering', 'category_id', 
-            'thumb', 'status')->with('image');
+            $query = $this->select('id', 'price_sale', 'product_code', 'name', 'slug', 
+            'price', 'sale', 'price_until', 'ordering', 'category_id', 'thumb', 'status')
+            ->with('image');
 
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );

@@ -46,8 +46,9 @@
                             $price       = $item['price'] ?? '';
                             $sale        = $item['sale'];
                             $price_sale  = $item['price_sale'];
+                            $price_until = $item['price_until'];
 
-                            $price_until = Template::format_price($price - $price_sale);
+                            $price_until = Template::format_price($price_until);
                             $price       = Template::format_price($price);
 
                             if ( $sale > 0 ) {
