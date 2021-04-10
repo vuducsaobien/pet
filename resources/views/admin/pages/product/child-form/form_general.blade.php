@@ -32,6 +32,10 @@
             'element' => Form::select('category_id', $itemsCategory, @$item['category_id'],  $formInputAttr),
             'type'    => 'full'
         ],[
+            'label'   => Form::label('status', 'Status', $formLabelAttr),
+            'element' => Form::select('status', $statusValue, @$item['status'],  $formInputAttr),
+            'type'    => 'full'
+        ],[
             'label'   => Form::label('price', 'Giá Gốc (VND) - A1', $formLabelAttr),
             'element' => Form::text('price', @$item['price'], $formInputAttrMoney ),
             'type'    => 'full'

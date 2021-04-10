@@ -306,7 +306,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::post('change-category', [ 'as' => $controllerName . '/change-category-edit', 'uses' => $controller . 'changeInfo']);
         Route::post('change-price', [ 'as' => $controllerName . '/change-price', 'uses' => $controller . 'changeInfo']);
         Route::post('change-attribute', [ 'as' => $controllerName . '/change-attribute', 'uses' => $controller . 'changeAttribute']);
-        Route::post('change-special', [ 'as' => $controllerName . '/change-special', 'uses' => $controller . 'changeInfo']);
         Route::post('change-dropzone', [ 'as' => $controllerName . '/change-dropzone', 'uses' => $controller . 'changeInfo']);
 
 

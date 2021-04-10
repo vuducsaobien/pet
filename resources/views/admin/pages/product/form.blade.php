@@ -18,9 +18,6 @@
                     <li @if ($type == 'general') class="active" @endif>
                         <a href="{{ $linkGeneral }}" role="tab">Cấu hình chung</a>
                     </li>
-                    <li @if ($type == 'images') class="active" @endif>
-                        <a href="{{ $linkForm }}" role="tab">Cấu Hình SP</a>
-                    </li>
                     <li @if ($type == 'attribute') class="active" @endif>
                         <a href="{{ $linkForm }}" role="tab">Thuộc tính SP</a>
                     </li>
@@ -36,10 +33,6 @@
                             @case('general')
                                 @include('admin.pages.product.child-form.form_general')
                                 @include('admin.pages.product.child-form.form_images')
-                            @break
-
-                            @case('setting')
-                                @include('admin.pages.product.child-form.form_setting')
                             @break
 
                             @case('attribute')
