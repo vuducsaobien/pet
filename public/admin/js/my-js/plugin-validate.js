@@ -158,6 +158,56 @@ $(document).ready(function() {
 		}, "Hãy Nhập Đúng Giá trị Email");
 	}
 
+	if( controllerName == 'product' )
+	{
+		$("form").validate({
+			debug       : false,
+			errorClass  : "errorValidate",
+			errorElement: "span",
+			rules       : {
+
+				name: {
+					required  : true,
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				price_sale: {
+					required  : false,
+					onlyOne   : ["sale"],
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+				sale: {
+					required  : false,
+					onlyOne   : ["price_sale"],
+					normalizer: function(value) {
+						return $.trim(value);
+					},
+				},
+
+			},
+			highlight: function(element, errorClass) {
+				$(element).removeClass(errorClass);
+			}
+		});
+
+		$.validator.addMethod("check_higher", function( value, element, param ) {
+
+			var val_max = $("input[name=max_price]").val();
+	
+			return this.optional(element)
+				|| (value <= val_max);
+		},"Min Price must < Max Price");
+
+		$.validator.addMethod('onlyOne', function(value, element, param) {
+			return ($(element).is(':filled') && $('[name="' + param[0] + '"]').is(':blank')) ||
+			(($('[name="' + param[0] + '"]').is(':filled')) && $(element).is(':blank'));
+		}, "Hãy Nhập Giảm Giá Theo Số Tiền || %");
+	}
 
 	// allStorage();
 });
