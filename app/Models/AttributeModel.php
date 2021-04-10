@@ -43,7 +43,8 @@ class AttributeModel extends AdminModel
         }
 
         if($options['task']=='admin-list-items-for-product'){
-            return $this->select('id', 'name', 'ordering','status')->orderBy('ordering','asc')->get()->toArray();
+            return self::select('id', 'name', 'ordering','status')->where('status', 'active')
+            ->orderBy('ordering','asc')->get()->toArray();
         }
 
         if($options['task'] == 'news-list-items-get-product-attribute-in-cart') {

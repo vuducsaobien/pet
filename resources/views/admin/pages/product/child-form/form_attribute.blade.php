@@ -9,7 +9,9 @@
     ];
     $form_tag=config('zvn.template.form_tag');
 
-    $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenID   = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenTask = Form::hidden('task_change', 'change-attribtue');
+
     $arr           = [];
 
     foreach ($attribute as $attr) {
@@ -28,7 +30,7 @@
     $elements = array_merge($elements,$arr);
 
     array_push($elements, [
-        'element'   => $inputHiddenID . Form::submit('Save', [
+        'element'   => $inputHiddenID . $inputHiddenTask . Form::submit('Save', [
             'class' => 'btn btn-danger',
             'name'  => 'changeAttribute'
         ]),
