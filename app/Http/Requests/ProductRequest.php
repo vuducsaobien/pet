@@ -49,7 +49,7 @@ class ProductRequest extends FormRequest
                 $condStatus = "bail|in:active,inactive";
                 break;
 
-            case 'change-dropzone':
+            case 'change-images':
                 break;
 
             case 'change-price':

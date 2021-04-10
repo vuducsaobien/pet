@@ -5,7 +5,8 @@
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = config('zvn.template.form_label');
 
-    $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenID   = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenTask = Form::hidden('task_change', 'change-images');
 
     $arr      = [];
     $elements = [[
@@ -16,7 +17,7 @@
 
     $elements = array_merge($elements,$arr);
     array_push($elements, [
-        'element' => $inputHiddenID . Form::submit('Save', [
+        'element' => $inputHiddenID . $inputHiddenTask . Form::submit('Save', [
             'class' => 'btn btn-danger',
             'id'    => 'submit',
             'name'  => 'changeDropzone'

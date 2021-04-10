@@ -101,7 +101,8 @@ class ProductController extends AdminController
 
             $this->model->saveItem($params, ['task' => $task]);
             if ($params['id'] !== null) {
-                return redirect()->back()->with("zvn_notify", $notify);
+                return redirect()->route($this->controllerName)->with("zvn_notify", $notify);
+
             }else{
                 return redirect()->route($this->controllerName)->with("zvn_notify", $notify);
             }
