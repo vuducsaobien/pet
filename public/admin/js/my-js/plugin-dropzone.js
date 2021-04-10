@@ -2,10 +2,10 @@ $(document).ready(function() {
 	
 	if( controllerName == 'product' )
 	{
-        console.log('controllerName = ' + controllerName);
-        console.log('product_id = ' + product_id);
-        console.log('link_product_image = ' + link_product_image);
-        console.log('link_product_get_image = ' + link_product_get_image);
+    //     console.log('controllerName = ' + controllerName);
+    //     console.log('product_id = ' + product_id);
+    //     console.log('link_product_image = ' + link_product_image);
+    //     console.log('link_product_get_image = ' + link_product_get_image);
 
         var uploadedDocumentMap = {};
         Dropzone.options.documentDropzone = {
@@ -50,7 +50,7 @@ $(document).ready(function() {
                             var name = mockFile.name;
                             var val = mockFile.alt ? mockFile.alt : "";
                             var url = link_product + '/' + name;
-                            console.log(mockFile);
+                            // console.log(mockFile);
                             // console.log('name = ' + name);
                             // console.log('url = ' + url);
 

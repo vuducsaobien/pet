@@ -18,6 +18,7 @@ class ProductModel extends AdminModel
         $this->crudNotAccepted     = [
             'changeInfo','changeSeo','changeCategory','changePrice','changeAttribute','changeSpecial',
             'changeDropzone','dropzone','_token','thumb_current','id','attribute','nameImage','alt','res'
+            , 'task_change'
         ];    
     }
 
@@ -298,10 +299,11 @@ class ProductModel extends AdminModel
         }
 
         /*================================= EDIT =============================*/
-        if($options['task']=='change-info-product'){
-            // $params['special']=isset($params['special'])?1:0;
-
-            self::where('id', $params['id'])->update($this->prepareParams($params));
+        if($options['task'] == 'change-product-general'){
+            $prepare = $this->prepareParams($params);
+            // echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+            self::where('id', $params['id'])->update($prepare);
         }
 
         /*================================= change dropzone =============================*/

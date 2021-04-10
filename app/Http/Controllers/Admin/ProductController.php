@@ -114,8 +114,10 @@ class ProductController extends AdminController
         if ($request->method() == 'POST') {
             $params = $request->all();
 
-            $this->model->saveItem($params, ['task' => 'change-info-product']);
-            return redirect()->back()->with("zvn_notify", "Cập nhật thông tin sản phẩm thành công!");
+            $this->model->saveItem($params, ['task' => 'change-product-general']);
+            $notify = "Cập nhật thông tin sản phẩm thành công!";
+            return redirect()->route($this->controllerName)->with("zvn_notify", $notify);
+
         }
     }
 

@@ -35,7 +35,7 @@
 <!-- Format Time -->
 <script src="{{ asset('admin/js/format_time/jquery-dateformat.min.js') }}"></script>
 
-<!-- Validate -->
+<!-- Validate Form -->
 <script src="{{ asset('admin/js/validate/jquery.validate.min.js') }}"></script>
 
 <!-- Jquery UI -->

@@ -24,58 +24,57 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->id;
+        $id   = $this->id;
+        $all  = $this->all();
         $task = "add";
 
-        $condName = $condThumb=$condCategory=$condPrice=$condStatus=$condPriceSale='';
+        $condName = $condThumb = $condCategory = $condPrice = $condStatus = $condPriceSale = '';
 
-        if(isset($this->changeAttribute))  $task = 'change-attribute';
-        if(isset($this->changeDropzone))  $task = 'change-dropzone';
-        if(isset($this->changeSpecial))  $task = 'change-special';
-        if(isset($this->changeInfo))  $task = 'change-info';
-        if(isset($this->changePrice))  $task = 'change-price';
-        if(isset($this->changeCategory))  $task = 'change-category';
-        if(isset($this->changeSeo))  $task = 'change-seo';
+        if( !empty( $this->task_change ) ){
+            $task = $this->task_change;
+        }
 
         switch ($task) {
             case 'add':
-                $condName   = "bail|required|between:3,100|unique:$this->table,name";
-                $condPrice ="bail|required";
-                $condCategory ="bail|required";
-//                $condThumb="bail|required";
+                $condName     = "bail|required|unique:$this->table,name";
+                $condPrice    = "bail|required";
+                $condCategory = "bail|required";
                 break;
-            case 'change-info':
-                $condName   = "bail|required|between:5,100|unique:$this->table,name,$id";
+
+            case 'change-general':
+                $condName = "bail|required";
                 break;
+
             case 'change-special':
-                $condStatus="bail|in:active,inactive";
+                $condStatus = "bail|in:active,inactive";
                 break;
+
             case 'change-dropzone':
-
                 break;
+
             case 'change-price':
-                $condPrice="bail|required";
-                $condPriceSale="bail|required";
+                $condPrice     = "bail|required";
+                $condPriceSale = "bail|required";
                 break;
+
             case 'change-category':
-
                 break;
+
             case 'change-seo':
-
-                break;
-
-            default:
                 break;
         }
 
+        // echo '<pre style="color:red";>$task === '; print_r($task);echo '</pre>';
+        // echo '<pre style="color:red";>$all === '; print_r($all);echo '</pre>';
+        // echo '<h3>Die is 11 Called </h3>';die;
 
         return [
-            'name' => $condName,
-            'status'=>$condStatus,
-            'thumb'=>$condThumb,
-            'price'=>$condPrice,
-            'category_id'=>$condCategory,
-            'price_sale'=>$condPriceSale
+            'name'        => $condName,
+            'status'      => $condStatus,
+            'thumb'       => $condThumb,
+            'price'       => $condPrice,
+            'category_id' => $condCategory,
+            'price_sale'  => $condPriceSale
 
         ];
     }

@@ -25,15 +25,11 @@ class DiscountRequest extends FormRequest
     public function rules()
     {
         $id          = $this->id;
-        $all         = $this->all();
         $price       = $this->price;
         $percent     = $this->percent;
         $min_price   = $this->min_price;
         $max_price   = $this->max_price;
         $max_price   = $this->max_price;
-        // $total_times = $this->total_times;
-        // $date_start  = $this->date_start;
-        // $date_end    = $this->date_end;
 
         $condName     = "bail|required|between:1,100|unique:$this->table,code";
         $condPrice    = 'bail|required_without:percent';

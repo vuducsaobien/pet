@@ -19,6 +19,12 @@ return [
         'form_input_no_padding' => [
             'class' => 'form-control col-md-10 col-xs-12'
         ],
+        'form_input_no_padding_money' => [
+            'class' => 'money form-control col-md-10 col-xs-12'
+        ],
+        'form_input_no_padding_percent' => [
+            'class' => 'percent form-control col-md-10 col-xs-12'
+        ],
         'form_tag' => [
             'class' => 'form-control col-md-6 col-xs-12',
             'data-role' => 'tagsinput'

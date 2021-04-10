@@ -9,14 +9,19 @@ let $btnIsHome            = $(".btn-ishome");
 let $inputSearchField     = $("input[name  = search_field]");
 let $inputSearchValue     = $("input[name  = search_value]");
 let $selectChangeAttr     = $("select[name = select_change_attr]");
-let $currency             = $('.money');
-let $percent              = $('input[name=percent]');
-let $accepted_min         = $('.accepted_min');
-let $accepted_max         = $('.accepted_max');
-let $date_start           = $('input[name=date_start]');
-let $date_end             = $('input[name=date_end]');
-let $created              = $('input[name=created]');
-let $submit               = $('input[type=submit]');
+
+let $currency     = $('input.money');
+let $price_sale   = $('input[name=price_sale]');
+let $price_until  = $('input[name=price_until]');
+let $price        = $('input[name=price]');
+let $percent      = $('input.percent');
+let $accepted_min = $('.accepted_min');
+let $accepted_max = $('.accepted_max');
+
+let $date_start = $('input[name=date_start]');
+let $date_end   = $('input[name=date_end]');
+let $created    = $('input[name=created]');
+let $submit     = $('input[type=submit]');
 
 $(document).ready(function() {
 	/* ---------- Setting ---------- */
@@ -49,6 +54,13 @@ $(document).ready(function() {
 			choose.parent().parent().addClass('active');
 		}
 	});
+
+	// Disable Button Submit When submit Form
+	$("form").submit(function () {
+        $submit.attr("disabled", true);
+        return true;
+    });
+
 
 	// allStorage();
 });
