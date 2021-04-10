@@ -34,9 +34,9 @@
                 <a class="btn-style addtocart-btn" href="{{ $linkCart }}">Thêm vào Giỏ Hàng</a>
                 {{-- <a class="btn-style addtocart-btn" href="">Thêm vào Giỏ Hàng</a> --}}
             </div>
-            <div class="quickview-btn-wishlist">
+            {{-- <div class="quickview-btn-wishlist">
                 <a class="btn-hover" href="#"><i class="ti-heart"></i></a>
-            </div>
+            </div> --}}
         </div>
         
     </div>

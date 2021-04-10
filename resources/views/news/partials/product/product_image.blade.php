@@ -12,15 +12,15 @@
         <a class="modal_quick_view" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="{{ $linkModal }}">
             <i class="ti-plus"></i>
         </a>
-        <a title="Add To Cart" href="#">
+        {{-- <a title="Add To Cart" href="#">
             <i class="ti-shopping-cart"></i>
-        </a>
+        </a> --}}
     </div>
 
-    <div class="product-action-wishlist">
+    {{-- <div class="product-action-wishlist">
         <a title="Wishlist" href="#">
             <i class="ti-heart"></i>
         </a>
-    </div>
+    </div> --}}
 
 </div>

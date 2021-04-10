@@ -98,7 +98,6 @@ function callAjax(element, url, type) {
 						let images_small     = $("div.quick-view-list");
 						let xhtmlImage_big   = '';
 						let xhtmlImage_small = '';
-						console.log('asset = ' + asset);
 
 						$.each(result.list_images, function( key, val ) {
 							// console.log(`key = ${key} - param = ${val.name}`);
