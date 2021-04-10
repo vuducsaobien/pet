@@ -239,6 +239,14 @@ class ProductModel extends AdminModel
 
         }
 
+        if($options['task'] == 'news-get-items-modal-rating-from-product-id') {
+            $commentModel = new CommentModel();
+            $result       = $commentModel->getItem($params, ['task' => 'news-get-items-modal-rating-from-product-id']);
+        }
+
+
+        
+
         if($options['task'] == 'get-list-thumb-product-detail') {
             $productImage = new ProductImageModel();
             $result       = $productImage->getItem($params, ['task' => 'get-list-thumb-product-detail']);

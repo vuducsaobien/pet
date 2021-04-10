@@ -112,10 +112,6 @@ class CommentModel extends AdminModel
             )->leftJoin('product as p', 'c.product_id', '=', 'p.id')
             ->where('c.id', $params['id'])->first()->toArray()
             ;
-
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
         }
 
         if($options['task'] == 'get-thumb') {
@@ -129,6 +125,10 @@ class CommentModel extends AdminModel
                 // ->get();
                 ->get()->toArray()
             ;
+        }
+
+        if($options['task'] == 'news-get-items-modal-rating-from-product-id') {
+            $result = self::where('product_id', $params['product_id'])->avg('star');
         }
 
         return $result;

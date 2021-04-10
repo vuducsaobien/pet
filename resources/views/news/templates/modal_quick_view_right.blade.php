@@ -12,12 +12,8 @@
         <h3></h3>
         <div class="product-price" data-price="" id="product_price">
         </div>
+
         <div class="product-rating">
-            <i class="icon-star theme-color"></i>
-            <i class="icon-star theme-color"></i>
-            <i class="icon-star theme-color"></i>
-            <i class="icon-star"></i>
-            <i class="icon-star"></i>
         </div>
 
         {{-- <p>Lorem ipmagna aation .</p> --}}

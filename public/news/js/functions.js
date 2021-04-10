@@ -62,10 +62,17 @@ function callAjax(element, url, type) {
 				switch (type) {
 
 					case 'modal':
-						// console.log(result);
+						console.log(result);
 
 						// Add Name
 						$(".qwick-view-content h3").html(result.name);
+
+						// Add Rating
+						let htmlRating = $("div.product-rating");
+						if (htmlRating.children().length > 0 ) htmlRating.children().remove();
+
+						htmlRating.append( showRating(result.comment) );
+						
 
 						// Add Price
 						let xhtml = format_html_price(result.price, result.price_until);
@@ -255,3 +262,23 @@ function getUrlParam(key) {
     let searchParams = new URLSearchParams(window.location.search);
     return searchParams.get(key);
 }
+
+function showRating($rating)
+{
+	$rating = parseInt($rating);
+	if ( checkNumber($rating) && checkInteger($rating) ) {
+		$tru = 5 - $rating;
+		$xhtml = '';
+		for ($i = 0; $i < $rating; $i++) {
+			$xhtml += '<i class="ti-star theme-color"></i>';
+		}
+
+		for ($i = 0; $i < $tru; $i++) {
+			$xhtml += '<i class="ti-star"></i>';
+		}
+	}
+
+	return $xhtml;
+
+}
+

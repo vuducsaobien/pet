@@ -91,8 +91,10 @@ class ProductController extends FrontendController
 
     public function get_image_modal(Request $request)
     {
-        $params["product_id"]  = $request->product_id;
-        $result  = $this->model->getItem($params, ['task' => 'news-get-items-modal']);
+        $params["product_id"] = $request->product_id;
+
+                $result    = $this->model->getItem($params, ['task' => 'news-get-items-modal']);
+        $result['comment'] = $this->model->getItem($params, ['task' => 'news-get-items-modal-rating-from-product-id']);
 
         return response()->json($result);
 
