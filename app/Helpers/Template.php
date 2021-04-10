@@ -9,6 +9,11 @@ class Template
 {
     public static function share($items, $url,$page,$position)
     {
+        echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+        echo '<pre style="color:red";>$url === '; print_r($url);echo '</pre>';
+        echo '<pre style="color:red";>$page === '; print_r($page);echo '</pre>';
+        echo '<pre style="color:red";>$position === '; print_r($position);echo '</pre>';
+        echo '<h3>Die is Called </h3>';die;
         $html = '';
         if(in_array($page,$items['page']) && $position==$items['placement']) {
             foreach ($items['app'] as $name) {

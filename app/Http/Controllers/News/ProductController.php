@@ -48,7 +48,8 @@ class ProductController extends FrontendController
         // $request->session()->pull('cart');
         $setting=new SettingModel();
         $share_setting=$setting->getItem(['type'=>'share']);
-
+        // echo '<pre style="color:red";>$share_setting === '; print_r($share_setting);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
         return view($this->pathViewController . 'index', compact('items','share_setting'));
     }
 

@@ -123,7 +123,7 @@ class CommentModel extends AdminModel
         }
 
         if($options['task'] == 'in-product-detail') {
-            $result = self::select('id', 'product_id', 'customer_id', 'star', 'message', 'name', 'created')
+            $result = self::select('id', 'product_id', 'star', 'message', 'name', 'created')
                 ->where('product_id', $params['product_id'])
                 ->where('status', 'active')
                 // ->get();

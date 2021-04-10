@@ -32,9 +32,9 @@ use App\Helpers\Template;
 
                 <li>
 
-                    @isset($share_setting)
+                    {{-- @isset($share_setting)
                     {!! Template::share($share_setting,URL::current(),'article','before') !!}
-                    @endisset
+                    @endisset --}}
 
                 </li>
             </ul>
@@ -50,11 +50,11 @@ use App\Helpers\Template;
             </ul>
         </div>
 
-                <div class="blog-dec-social">
+                {{-- <div class="blog-dec-social">
                 @isset($share_setting)
                     {!! Template::share($share_setting,URL::current(),'article','after') !!}
                 @endisset
-                </div>
+                </div> --}}
 
     </div>
 </div>

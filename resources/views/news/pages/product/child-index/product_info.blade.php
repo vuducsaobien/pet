@@ -19,16 +19,16 @@
     <div class="product-details-content">
 
         <h2>{{ $name }}</h2>
-        <p>
+        {{-- <p>
             @isset($share_setting)
                 {!! Template::share($share_setting,URL::current(),'product','before') !!}
             @endisset
-        </p>
+        </p> --}}
         @include('news.partials.product.product_rating')
 
         <div data-price="{{ $price_sale }}" id="product_price" class="product-price">{!! $htmlPrice !!}</div>
 
-        @include('news.partials.product.product_stock', ['quantity' => $items['quantity']])
+        @include('news.partials.product.product_stock')
 
         <div class="sku"><span>SKU#: {{$sku}}</span></div>
 
@@ -42,13 +42,13 @@
             </div>
         </div>
 
-        @include('news.partials.product.product_list_action', ['quantity' => $items['quantity'], 'quickview' => false])
+        @include('news.partials.product.product_list_action', ['quickview' => false])
 
-        <div class="social-icon mt-30">
+        {{-- <div class="social-icon mt-30">
             @isset($share_setting)
                 {!! Template::share($share_setting,URL::current(),'product','after') !!}
             @endisset
-        </div>
+        </div> --}}
 
     </div>
 </div>
