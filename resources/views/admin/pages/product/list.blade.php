@@ -10,11 +10,9 @@
             <thead>
                 <tr class="headings">
                     <th class="column-title">STT</th>
-                    <th class="column-title">Tên</th>
+                    <th class="column-title">Chi tiết SP</th>
                     <th class="column-title">Thứ tự</th>
-                    <th class="column-title">Hình ảnh</th>
                     <th class="column-title">Price</th>
-                    <th class="column-title">Giá Còn Lại</th>
                     <th class="column-title">Category</th>
                     <th class="column-title">Status</th>
                     <th class="column-title">Hành động</th>
@@ -59,21 +57,19 @@
                         @endphp
                         <tr>
                             <td>{{$index}}</td>
-                            <td width="15%">
+                            <td width="25%">
                                 <p>Tên Sp: {!! $name !!}</p>
                                 <p><i>Mã Sản Phẩm: </i> {!! $code !!}</p>
                                 <p><i>Đường Dẫn: </i> {!! $slug !!}</p>
-                            </td>
-                            <td>{!! $ordering !!}</td>
-                            <td>
                                 <img width="120" height="" src="{{$item->thumb}}" alt="">
                             </td>
+                            <td>{!! $ordering !!}</td>
 
                             <td width="15%">
                                 {!! $price !!}
                                 <p>{!! $priceMinus !!}</p>
+                                <span style="color:green;">= {!! $price_until !!}</span>
                             </td>
-                            <td width="10%"><span style="color:green;">{!! $price_until !!}</span></td>
                             <td>{!! $category !!}</td>
                             <td>{!! $status !!}</td>
                             <td class="last">{!! $actionButtons !!}</td>
