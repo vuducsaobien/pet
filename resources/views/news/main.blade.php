@@ -45,6 +45,8 @@
             var controllerName = "{{ $controllerName }}";
             var login          = "{{ $login }}";
             var cartCheck      = "{{ $cartCheck }}";
+            var asset          = "{{ URL::asset('images/product') }}/";
+
             if (login) {
                 var userInfo       = JSON.parse(`<?= json_encode($userInfo) ?>`);
             }

@@ -66,11 +66,13 @@ class ProductModel extends AdminModel
         if($options['task'] == 'news-list-items') {
             $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_sale', 'sale', 'slug')
                 ->where('status', '=', 'active' )
-                ->orderBy('id', 'desc')
+                ->orderBy('price_sale', 'desc')
                 ->orderBy('ordering', 'asc')
                 ->limit(8);
             $result = $query->get()->toArray();
-            // $result = $query->get();
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
         }
 
         // Product Detail - Related Product
@@ -217,7 +219,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-items-modal') {
-            $result = self::select('id', 'name', 'price', 'price_sale', 'sale', 'slug', 'short_description')
+            $result = self::select('id', 'name', 'price', 'price_sale', 'sale', 'price_until', 'slug', 'short_description')
                 ->where('id', $params['product_id'])
                 ->where('status', 'active')
                 // ->get()->toArray();

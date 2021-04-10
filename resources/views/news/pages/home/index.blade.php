@@ -17,7 +17,7 @@
         <div class="container">
             <div class="section-title text-center mb-55">
                 <h4>Most Populer</h4>
-                <h2>Recent Products</h2>
+                <h2>Top Sản Phẩm Giảm Giá Nhiều Nhất</h2>
             </div>
             <div class="row">
                 @include('news.pages.home.child-index.product')

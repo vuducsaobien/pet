@@ -94,36 +94,54 @@ function callAjax(element, url, type) {
 
 						// Add Image
 						// console.log(result.list_images);
-						let bigImage = $(".quick-view-tab-content");
-						let smallImage = $(".quick-view-list nav");
-						let xhtmlImage = '';
+						let images_big       = $("div.quick-view-tab-content");
+						let images_small     = $("div.quick-view-list");
+						let xhtmlImage_big   = '';
+						let xhtmlImage_small = '';
+						console.log('asset = ' + asset);
+
 						$.each(result.list_images, function( key, val ) {
-							// console.log(`key = ${indexChild} - param = ${resultChild}`);
-							xhtmlImage += `
-								<a class="active" href="#modal1" data-toggle="tab">
-									<img src="{{ URL::asset('news/images/quick-view/s1.jpg') }}" alt="" style="width: 100%; height: 100%"/>
-								</a>
-							`;
-							// '{{ URL::asset('/images/flags/') }}'
+							// console.log(`key = ${key} - param = ${val.name}`);
+							// console.log(`key = ${key} - param = ${val.alt}`);
+
+							// Remove Modals Before
+							if (images_big.children().length > 0 ) images_big.children().remove();
+							if (images_small.children().length > 0 ) images_small.children().remove();
+	
+							if ( key == 0 ) {
+
+								xhtmlImage_big += `
+									<div class="tab-pane active show fade" id="modal1" role="tabpanel">
+										<img src="${asset + val.name}" alt="${val.alt}" style="width: 80%; height: 15%"/>
+									</div>
+								`;
+
+								xhtmlImage_small += `<a class="active" href="#modal1" data-toggle="tab" style="width: 100px; height: 112px">
+										<img src="${asset + val.name}" alt="${val.alt}" style="width: 100%; height: 90%"/>
+									</a>
+								`;
+
+							} else {
+
+								xhtmlImage_big += `
+									<div class="tab-pane fade" id="modal${key + 1}" role="tabpanel">
+										<img src="${asset + val.name}" alt="${val.alt}" style="width: 80%; height: 15%"/>
+									</div>
+								`;
+
+								xhtmlImage_small += `
+									<a href="#modal${key + 1}" data-toggle="tab" role="tab" style="width: 100px; height: 112px">
+										<img src="${asset + val.name}" alt="${val.alt}" style="width: 100%; height: 90%"/>
+									</a>
+								`;
+
+							}
+
 						});
-						// smallImage.append(xhtmlImage);
-		
 
-						//<div class="tab-pane active show fade" id="modal1" role="tabpanel">
-						//	<img src="{{ asset('/images/quick-view/l1.jpg') }}" alt="">
-						//</div>
+						images_big.append(xhtmlImage_big);
+						images_small.append(xhtmlImage_small);
 
-						//<div class="tab-pane fade" id="modal2" role="tabpanel">
-						//	<img src="{{ asset('/images/quick-view/l2.jpg') }}" alt="">
-						//</div>
-
-						//<a class="active" href="#modal1" data-toggle="tab">
-						//	<img src="{{ asset('/images/quick-view/s1.jpg') }}" alt="" style="width: 100%; height: 100%"/>
-						//</a>
-
-						//<a href="#modal2" data-toggle="tab" role="tab">
-						//	<img src="{{ asset('/images/quick-view/s2.jpg') }}" alt="" style="width: 100%; height: 100%"/>
-						//</a>
 					break;
 
 					case 'cart':
@@ -142,8 +160,6 @@ function callAjax(element, url, type) {
 						showNotify(cartIcon, `Đã thêm ${result} SP vào Giỏ hàng`);
 			
 					break;
-	
-
 	
 				}
 			} else {

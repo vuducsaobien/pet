@@ -68,9 +68,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.addtocart-btn-modal').click(function (e) {
-	})
-
 	$('select.shipping_change').on("change", function(e) {
 		e.preventDefault();
 		let fee = parseInt($(this).val());
