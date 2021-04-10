@@ -68,7 +68,7 @@ function callAjax(element, url, type) {
 						$(".qwick-view-content h3").html(result.name);
 
 						// Add Price
-						let xhtml = format_html_price(result.price, result.price_sale, result.sale);
+						let xhtml = format_html_price(result.price, result.price_until);
 						$("div#product_price").html(xhtml);
 						$("div#product_price").data('price', result.price_sale);
 
@@ -169,14 +169,17 @@ function callAjax(element, url, type) {
 	});
 }
 
-function format_html_price(price, price_sale, sale=0){
-	price_sale = format_price(price_sale);
-	xhtml = `<span class="new">${price_sale}</span>`;
+function format_html_price(price, price_until){
+	price_until = format_price(price_until);
+	price       = format_price(price);
 
-	if (sale > 0) {
-		price = format_price(price);
-		xhtml += `<span class="old">${price}</span>`;
-
+	if (price_until < price) {
+		xhtml = `
+			<span class="new">${price_until}</span>
+			<span class="old">${price}</span>
+		`;
+	}else{
+		xhtml = `<span class="new">${price_until}</span>`;
 	}
 
 	return xhtml;

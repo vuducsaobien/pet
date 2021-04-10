@@ -219,7 +219,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-items-modal') {
-            $result = self::select('id', 'name', 'price', 'price_sale', 'sale', 'price_until', 'slug', 'short_description')
+            $result = self::select('id', 'name', 'price', 'price_until', 'slug', 'short_description')
                 ->where('id', $params['product_id'])
                 ->where('status', 'active')
                 // ->get()->toArray();
