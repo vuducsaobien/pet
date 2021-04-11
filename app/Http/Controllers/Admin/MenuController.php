@@ -59,10 +59,29 @@ class MenuController extends AdminController
     public function link(Request $request)
     {
         $this->params['data']=$request->data;
-//        $this->params['selectedLink'] = $request->link;
+        // $this->params['selectedLink'] = $request->link;
         $this->params['id'] = $request->id;
         $result = $this->model->saveItem($this->params, ['task' => 'change-link']);
         echo json_encode($result);
     }
+
+    public function form(Request $request)
+    {
+        $item  = null;
+        $title = ' - Add';
+
+        if ($request->id != null) {
+            $this->params['id'] = $request->id;
+
+            $item  = $this->model->getItem($this->params, ['task' => 'get-item']);
+            $title = ' - Edit';
+        }
+
+        $nodes = $this->model->listItems($this->params, ['task' => 'admin-list-items-in-select-box']);
+        // echo '<pre style="color:red";>$nodes === '; print_r($nodes);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
+        return view($this->pathViewController . 'form', compact('item', 'nodes'));
+    }
+
 
 }

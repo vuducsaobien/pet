@@ -251,16 +251,13 @@ class CategoryModel extends AdminModel
             ];
         }
 
-        if($options['task'] == 'add-item') {
+        if ($options['task'] == 'add-item') {
+            $params['created_by'] = $createdBy;
+            $params['created']    = $created;
 
-            if ($options['task'] == 'add-item') {
-                $params['created_by'] = $createdBy;
-                $params['created']    = $created;
-
-                $prepare = $this->prepareParams($params);
-                $parent  = self::find($params['parent_id']);
-                self::create($prepare, $parent);
-            }
+            $prepare = $this->prepareParams($params);
+            $parent  = self::find($params['parent_id']);
+            self::create($prepare, $parent);
         }
 
         if ($options['task'] == 'edit-item') {
@@ -299,7 +296,7 @@ class CategoryModel extends AdminModel
 
     public function move($params = null, $options = null)
     {
-        $node = self::find($params['id']);
+        $node       = self::find($params['id']);
         $modifiedBy = session('userInfo')['username'];
 
         $this->where('id', $params['id'])->update(['modified_by' => $modifiedBy]);
