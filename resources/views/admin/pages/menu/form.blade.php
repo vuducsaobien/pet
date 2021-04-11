@@ -6,43 +6,38 @@
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = config('zvn.template.form_label');
     
-    $statusValues   = [
-        'active' => config('zvn.template.status.active.name'), 
-        'inactive' => config('zvn.template.status.inactive.name')
-    ];
-    $typeMenuValues = array_combine(
-        array_keys( config('zvn.template.type_menu')), 
-        array_column( config('zvn.template.type_menu'), 'name')
-    );
-    $typeLinkValues = array_combine(
-        array_keys( config('zvn.template.type_link')), 
-        array_column( config('zvn.template.type_link'), 'name')
-    );
+    $statusValues   = ['default' => 'Select status', 'active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $typeMenuValues = ['default' => 'Select menu type'] + array_combine(array_keys(config('zvn.template.type_menu')), array_column(config('zvn.template.type_menu'), 'name'));
+    $typeLinkValues = ['default' => 'Select link type'] + array_combine(array_keys(config('zvn.template.type_link')), array_column(config('zvn.template.type_link'), 'name'));
 
     $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
 
-    $elements = [[
+    $elements = [
+        [
             'label'     => Form::label('name', 'Name', $formLabelAttributes),
             'element'   => Form::text('name', $item['name'] ?? '', $formInputAttributes)
-        ],[
-            'label'     => Form::label('type_link', 'Link type', $formLabelAttributes),
-            'element'   => Form::select('type_link', $typeLinkValues, $item['type_link'] ?? 'default', $formInputAttributes)
-        ],[
-            'label'     => Form::label('type_menu', 'Menu type', $formLabelAttributes),
-            'element'   => Form::select('type_menu', $typeMenuValues, $item['type_menu'] ?? 'default', $formInputAttributes)
-        ],[
-            'label'    => Form::label('parent_id', 'Parent', $formLabelAttributes),
-            'element'  => Form::select('parent_id', $nodes, @$item['parent_id'], $formInputAttributes)
-        ],[
-            'label'     => Form::label('link', 'Link', $formLabelAttributes),
-            'element'   => Form::text('link', $item['link'] ?? '#', $formInputAttributes)
-        ],[
+        ],
+        [
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, $item['status'] ?? 'default', $formInputAttributes)
-        ],[
+        ],
+        [
+            'label'     => Form::label('type_menu', 'Menu type', $formLabelAttributes),
+            'element'   => Form::select('type_menu', $typeMenuValues, $item['type_menu'] ?? 'default', $formInputAttributes)
+        ],
+        [
+            'label'     => Form::label('type_link', 'Link type', $formLabelAttributes),
+            'element'   => Form::select('type_link', $typeLinkValues, $item['type_link'] ?? 'default', $formInputAttributes)
+        ],
+        [
+            'label'     => Form::label('link', 'Link', $formLabelAttributes),
+            'element'   => Form::text('link', $item['link'] ?? '#', $formInputAttributes)
+        ],
+        [
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'
-    ]];
+        ]
+    ]
 @endphp
 @section('content')
     @include('admin.templates.page_header', ['pageIndex' => false])

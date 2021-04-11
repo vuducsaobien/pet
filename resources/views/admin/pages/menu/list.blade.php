@@ -23,26 +23,26 @@
                 @if(count($items) > 0)
                     @foreach($items as $key => $item)
                         @php
-                            $index = $key + 1;
-                            // $name  = HightLight::show($item['name'], $params['search'], 'name');
-                            $name  = Template::showNestedSetName($item['name'], $item['depth']);
 
-                            $link          = HightLight::show($item['link'], $params['search'], 'link');
-                            // $link          = Template::showItemLink($controllerName, $item['link'], $item['id']);
-                            $status        = Template::showItemStatus($controllerName, $item['id'], $item['status']);
-                            $ordering      = Template::showItemOrdering($controllerName, $item['ordering'], $item['id']);
-                            $menuType      = Template::showItemSelect($controllerName, $item['id'], $item['type_menu'], 'type_menu');
-                            $linkType      = Template::showItemSelect($controllerName, $item['id'], $item['type_link'], 'type_link');
-                            $actionButtons = Template::showButtonAction($controllerName, $item['id']);
+
+                            $index          = $key + 1;
+                            $name           = HightLight::show($item['name'], $params['search'], 'name');
+                            $link           = HightLight::show($item['link'], $params['search'], 'link');
+                            $link           =Template::showItemLink($controllerName, $item['link'], $item['id']);
+                            $status         = Template::showItemStatus($controllerName, $item['id'], $item['status']);
+                            $ordering       = Template::showItemOrdering($controllerName, $item['ordering'], $item['id']);
+                            $menuType       = Template::showItemSelect($controllerName, $item['id'], $item['type_menu'], 'type_menu');
+                            $linkType       = Template::showItemSelect($controllerName, $item['id'], $item['type_link'], 'type_link');
+                            $actionButtons  = Template::showButtonAction($controllerName, $item['id']);
                         @endphp
                         <tr>
                             <td>{{ $index }}</td>
                             <td>{!! $name !!}</td>
-                            <td width="5%">{!! $link !!}</td>
+                            <td>{!! $link !!}</td>
                             <td class="status-{{$item['id']}}">{!! $status !!}</td>
                             <td>{!! $ordering !!}</td>
                             <td>{!! $menuType !!}</td>
-                            <td width="15%">{!! $linkType !!}</td>
+                            <td>{!! $linkType !!}</td>
                             <td class="last">{!! $actionButtons !!}</td>
                         </tr>
                     @endforeach

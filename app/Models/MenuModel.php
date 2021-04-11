@@ -4,44 +4,47 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB;
-use Kalnoy\Nestedset\NodeTrait;
 
 class MenuModel extends AdminModel
 {
-    use NodeTrait;
-
-    protected $table   = 'menu';
-    protected $guarded = [];
-
-    // public function __construct()
-    // {
-    //     $this->table               = 'menu';
-    //     $this->folderUpload        = 'menu';
-    //     $this->fieldSearchAccepted = ['id', 'name', 'link'];
-    //     $this->crudNotAccepted     = ['_token'];
-    // }
+    public function __construct()
+    {
+        $this->table               = 'menu';
+        $this->folderUpload        = 'menu';
+        $this->fieldSearchAccepted = ['id', 'name', 'link'];
+        $this->crudNotAccepted     = ['_token'];
+    }
 
     public function listItems($params = null, $options = null)
     {
         $result = null;
 
-        if($options['task'] == "admin-list-items") {
-            $result = self::withDepth()
-                ->having('depth', '>', 0)
-                ->defaultOrder('asc')
-                ->get()
-                ->toFlatTree()
-                ;
+        if ($options['task'] == 'admin-list-items') {
+            $query = $this->select('id', 'name', 'link', 'status', 'ordering', 'type_menu', 'type_link');
+
+            if (isset($params['filter']['status']) && $params['filter']['status'] != 'all') $query->where('status', $params['filter']['status']);
+
+            if ($params['search']['value'] != '') {
+                if ($params['search']['field'] == 'all') {
+                    $query->where(function ($query) use ($params) {
+                        foreach ($this->fieldSearchAccepted as $field) {
+                            $query->orWhere($field, 'LIKE', "%{$params['search']['value']}%");
+                        }
+                    });
+                } else if (in_array($params['search']['field'], $this->fieldSearchAccepted)) {
+                    $query->where($params['search']['field'], 'LIKE', "%{$params['search']['value']}%");
+                }
+            }
+
+            $result = $query->orderBy('ordering', 'asc')->paginate($params['pagination']['totalItemsPerPage']);
         }
 
-        if($options['task'] == 'news-list-items') {
-            $result = self::withDepth()
-                ->having('depth', '>', 0)
-                ->defaultOrder()
-                ->where('status', 'active')
-                ->get()
-                ->toTree()
+        if ($options['task'] == 'news-list-items') {
+            $query = $this->select('id', 'name', 'link', 'type_menu', 'type_link')
+                ->where('status', 'active')->orderBy('ordering', 'asc')
             ;
+
+            $result = $query->get();
         }
 
         if ($options['task'] == 'news-list-items-footer') {
@@ -52,56 +55,39 @@ class MenuModel extends AdminModel
             $result = $query->get();
         }
 
-        if($options['task'] == "admin-list-items-in-select-box") {
-            $query = self::select('id', 'name')->withDepth()->defaultOrder();
-       
-           
-            /*================================= truong hop edit =============================*/
-            if (isset($params['id'])) {
-                $node = self::find($params['id']);
-                $query->where('_lft', '<', $node->_lft)->orWhere('_lft', '>', $node->_rgt);
-            }
-            
-            $nodes = $query->get();
-
-            foreach ($nodes as $value) {
-                $result[$value['id']] = str_repeat('|---- ', $value['depth']) . $value['name'];
-            }
-        }
-
-
         return $result;
     }
 
-    public function countItems($params = null, $options  = null) {
-     
+    public function countItems($params = null, $options = null)
+    {
         $result = null;
 
-        if($options['task'] == 'admin-count-items-group-by-status') {
-         
-            $query = $this::groupBy('status')
-                        ->select( DB::raw('status , COUNT(id) as count') );
+        if ($options == null) {
+            $query  = $this->select(DB::raw('COUNT(id) AS count'));
+            $result = $query->first()->toArray()['count'];
+            return $result;
+        }
 
-            if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
-                    $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
+        if ($options['task'] == 'admin-count-items-group-by-status') {
+            $query = $this->select(DB::raw('status, COUNT(id) AS count'));
+
+            if ($params['search']['value'] != '') {
+                if ($params['search']['field'] == 'all') {
+                    $query->where(function ($query) use ($params) {
+                        foreach ($this->fieldSearchAccepted as $field) {
+                            $query->orWhere($field, 'LIKE', "%{$params['search']['value']}%");
                         }
                     });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
-                } 
+                } else if (in_array($params['search']['field'], $this->fieldSearchAccepted)) {
+                    $query->where($params['search']['field'], 'LIKE', "%{$params['search']['value']}%");
+                }
             }
 
-            $result = $query->get()->toArray();
-           
-
+            $result = $query->groupBy('status')->get()->toArray();
         }
 
         return $result;
     }
-
 
     public function saveItem($params = null, $options = null)
     {
@@ -154,30 +140,18 @@ class MenuModel extends AdminModel
         }
 
         if ($options['task'] == 'add-item') {
-            $params['created_by'] = $createdBy;
-            $params['created']    = $created;
-
-            $prepare = $this->prepareParams($params);
-            $parent  = self::find($params['parent_id']);
-            self::create($prepare, $parent);
+            $this->insert($this->prepareParams($params));
         }
 
         if ($options['task'] == 'edit-item') {
-            $params['created_by'] = $createdBy;
-            $parent = self::find($params['parent_id']);
-
-            $query = $current = self::find($params['id']);
-            $query->update($this->prepareParams($params));
-            if($current->parent_id != $params['parent_id']) $query->prependToNode($parent)->save();
+            $this->where('id', $params['id'])->update($this->prepareParams($params));
         }
-
     }
 
     public function deleteItem($params = null, $options = null)
     {
         if ($options['task'] == 'delete-item') {
-            $node = self::find($params['id']);
-            $node->delete();
+            $this->where('id', $params['id'])->delete();
         }
     }
 
@@ -192,16 +166,4 @@ class MenuModel extends AdminModel
 
         return $result;
     }
-
-    public function move($params = null, $options = null)
-    {
-        $node       = self::find($params['id']);
-        $modifiedBy = session('userInfo')['username'];
-
-        $this->where('id', $params['id'])->update(['modified_by' => $modifiedBy]);
-        if ($params['type'] == 'down') $node->down();
-        if ($params['type'] == 'up') $node->up();
-    }
-
-
 }
