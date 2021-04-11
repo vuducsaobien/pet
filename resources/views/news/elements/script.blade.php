@@ -1,6 +1,7 @@
 <script src="{{asset('news/js/vendor/jquery-1.12.0.min.js')}}"></script>
 <script src="{{asset('news/js/popper.js')}}"></script>
 <script src="{{asset('news/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('news/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('news/js/jquery.counterup.min.js')}}"></script>
 <script src="{{asset('news/js/waypoints.min.js')}}"></script>
 <script src="{{asset('news/js/elevetezoom.js')}}"></script>
@@ -14,6 +15,9 @@
 @yield('script2')
 
 <script src="{{asset('news/js/main.js')}}"></script>
-<script src="{{ asset('news/js/my-js.js') }}"></script>
-<script src="{{ asset('news/js/functions.js') }}"></script>
+
+{{-- My JS --}}
+<script src="{{ asset('news/js/my-js/my-js.js') }}"></script>
+<script src="{{ asset('news/js/my-js/dropdown_menu.js') }}"></script>
+<script src="{{ asset('news/js/my-js/functions.js') }}"></script>
 

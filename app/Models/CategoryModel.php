@@ -38,7 +38,9 @@ class CategoryModel extends AdminModel
                 ->defaultOrder()
                 ->where('status', 'active')
                 ->get()
-                ->toTree();
+                ->toTree()
+                ->toArray()
+                ;
         }
 
         if($options['task'] == 'news-list-items-category') {

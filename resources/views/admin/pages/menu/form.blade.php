@@ -6,7 +6,7 @@
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = config('zvn.template.form_label');
     
-    $statusValues   = ['default' => 'Select status', 'active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $statusValues   = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
     $typeMenuValues = ['default' => 'Select menu type'] + array_combine(array_keys(config('zvn.template.type_menu')), array_column(config('zvn.template.type_menu'), 'name'));
     $typeLinkValues = ['default' => 'Select link type'] + array_combine(array_keys(config('zvn.template.type_link')), array_column(config('zvn.template.type_link'), 'name'));
 

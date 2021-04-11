@@ -10,6 +10,7 @@
 
 <!-- all css here -->
 <link rel="stylesheet" href="{{asset('news/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('news/css/boostrap_menu.css')}}">
 <link rel="stylesheet" href="{{asset('news/css/animate.css')}}">
 <link rel="stylesheet" href="{{asset('news/css/simple-line-icons.css')}}">
 <link rel="stylesheet" href="{{asset('news/css/themify-icons.css')}}">

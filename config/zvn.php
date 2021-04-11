@@ -66,7 +66,8 @@ return [
         ],
         'type_menu' => [
             'link'             => ['name' => 'Link'],
-            'category_article' => ['name' => 'Danh mục bài viết'],
+            'category_news'    => ['name' => 'Danh mục Tin Tức'],
+            'category_library' => ['name' => 'Thư Viện'],
             'category_product' => ['name'=>'Danh mục sản phẩm']
         ],
         'type_link' => [

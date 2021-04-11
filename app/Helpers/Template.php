@@ -343,16 +343,21 @@ class Template
     public static function showNestedMenu($items, &$xhtml)
     {
         foreach ($items as $item) {
-            $link = URL::linkCategory($item['id'], $item['name']);
+            $link = URL::linkCategoryArray($item['slug']);
             if (count($item['children'])) {
-                $xhtml .= '<li class="nav-item">';
-                $xhtml .= sprintf('<a href="%s" class="nav-link dropdown-item">%s <span class="fa fa-caret-right"></span></a><ul class="submenu dropdown-menu">', $link, $item['name']);
+                $xhtml .= '<li>';
+                $xhtml .= sprintf('
+                    <a href="%s" class="dropdown-item">%s 
+                        <span class="fa fa-caret-right"></span>
+                    </a>
+                    <ul class="submenu dropdown-menu">
+                    ', $link, $item['name']);
 
                 Template::showNestedMenu($item['children'], $xhtml);
 
                 $xhtml .= '</ul></li>';
             } else {
-                $xhtml .= sprintf('<li class="nav-item"><a class="nav-link dropdown-item" href="%s">%s</a></li>', $link, $item['name']);
+                $xhtml .= sprintf('<li><a class="dropdown-item" href="%s">%s</a></li>', $link, $item['name']);
             }
         }
     }
