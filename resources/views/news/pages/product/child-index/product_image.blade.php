@@ -3,14 +3,14 @@
 
     $thumb = $items['list_images'];
     $count = count($thumb);
-    $path = "images/product_image/";
+    $path  = "images/product/";
 
     if ($count > 0) {
-        $pathFirst = $path . $thumb[0]['name'];
-
+        $pathFirst  = $path . $thumb[0]['name'];
         $xhtmlImage = '';
     }
 
+    // echo '<pre style="color:red";>$items=== '; print_r($items);echo '</pre>';
     // echo '<pre style="color:red";>$thumb=== '; print_r($thumb);echo '</pre>';
     // echo '<h3>Die is Called </h3>';die;
 
@@ -26,41 +26,40 @@
                 data-zoom-image="   {{ asset(''.$pathFirst.'') }} " alt="zoom"/>
             
             @if ( $count > 1 )
-                {{-- @php
-                    unset($thumb[0]);
-                    // echo '<pre style="color:red";>$thumb === '; print_r($thumb);echo '</pre>';
-                    $xhtmlImage .= '<div id="gallery" class="mt-12 product-dec-slider owl-carousel">';
-                    foreach ($thumb as $key => $value) {
-                        $pathSecond = $path . $value['name'];
-                        $xhtmlImage .= '
-                            <a data-image=" {{ asset('.$pathSecond.') }} " data-zoom-image=" {{ asset('.$pathSecond.') }} ">
-                                <img src=" {{ asset('.$pathSecond.') }} " alt="">
-                            </a>
-                        ';
-                    }
-                    $xhtmlImage .= '</div>';
-                    
-                @endphp --}}
 
                 @php
-                    unset($thumb[0]);
+                    // unset($thumb[0]);
                 @endphp
 
                 <div id="gallery" class="mt-12 product-dec-slider owl-carousel">
-                    @foreach($thumb as $item)
-                        <a       data-image=" {{ asset(''.$path.$item['name'].'') }} " 
-                            data-zoom-image=" {{ asset(''.$path.$item['name'].'') }} ">
-                            <img        src=" {{ asset(''.$path.$item['name'].'') }} " alt="">
-                        </a>
-                    @endforeach
+                    <div class="owl-stage" style="transform: translate3d(-581px, 0px, 0px); transition: all 0s ease 0s; width: 1889px;">
+
+                        @foreach($thumb as $item)
+                            @php
+                                // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+                            @endphp
+
+                            <div class="owl-item cloned" style="width: 133.25px; margin-right: 12px;">
+                                <a       data-image=" {{ asset(''.$path.$item['name'].'') }} " 
+                                    data-zoom-image=" {{ asset(''.$path.$item['name'].'') }} ">
+                                    <img        src=" {{ asset(''.$path.$item['name'].'') }} " alt="">
+                                </a>
+                            </div>
+
+                            {{-- <div class="owl-item active" style="width: 133.25px; margin-right: 12px;">
+                                <a       data-image=" {{ asset(''.$path.$item['name'].'') }} " 
+                                    data-zoom-image=" {{ asset(''.$path.$item['name'].'') }} ">
+                                    <img        src=" {{ asset(''.$path.$item['name'].'') }} " alt="">
+                                </a>
+                            </div>         --}}
+
+                        @endforeach
+
+                    </div>
                 </div>
 
 
             @endif
-
-            {{-- {!! $xhtmlImage !!} --}}
-
-
 
         @endif
 
