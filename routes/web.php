@@ -51,6 +51,17 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
 
     });
 
+    // ============================== 06. RSS ==============================
+    $prefix         = 'tin-tuc-online';
+    $controllerName = 'rss';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+        Route::get('/',       ['as' => $controllerName.'/index',     'uses' => $controller . 'index']);
+        Route::get('/get-gold', ['as' => $controllerName.'/get-gold',     'uses' => $controller . 'getGold']);
+        Route::get('/get-coin', ['as' => $controllerName.'/get-coin',     'uses' => $controller . 'getCoin']);
+    });
+    
+
     // ====================== Category page ========================
     $prefix         = '';
     $controllerName = 'category';
@@ -106,7 +117,7 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
     });
 
     // // ============================== CONTACT ============================== //
-    $prefix = 'lien-he';
+    $prefix         = 'lien-he';
     $controllerName = 'contact';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';

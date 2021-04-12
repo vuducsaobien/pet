@@ -268,10 +268,15 @@ class Template
         return $xhtml;
     }
 
-    public static function showDatetimeFrontend($dateTime, $style = "short_time")
+    public static function showDatetimeFrontend($dateTime, $style = "short_time", $convert = 'yes')
     {
         $time = Config::get('zvn.format.' . $style);
-        return date_format(date_create($dateTime), $time);
+        if ( $convert == 'yes' ) {
+            return date_format(date_create($dateTime), $time);
+        } else {
+            return date( config("zvn.format.$style"), strtotime($dateTime) );
+        }
+        
     }
 
     public static function showContent($content, $length, $prefix = '...')

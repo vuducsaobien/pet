@@ -41,7 +41,8 @@ class RssModel extends AdminModel
         }
 
         if ($options['task'] == 'news-list-items') {
-            $query = $this->select('id', 'name', 'source', 'link')->where('status', 'active')->orderBy('ordering', 'asc'); 
+            $query = self::select('id', 'name', 'source', 'link', 'article_per_page')
+            ->where('status', 'active')->orderBy('ordering', 'asc'); 
             $result = $query->get()->toArray();
         }
 

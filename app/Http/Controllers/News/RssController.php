@@ -3,33 +3,31 @@
 namespace App\Http\Controllers\News;
 
 use App\Helpers\Feed;
-use App\Http\Controllers\Controller;
-use App\Models\RssModel;
-use Illuminate\Http\Request;
+use App\Models\RssModel as MainModel;
 use Illuminate\Support\Facades\View;
 
-class RssController extends Controller
+class RssController extends FrontendController
 {
-    private $pathViewController = 'news.pages.rss.';
-    private $controllerName = 'rss';
-    private $params = [];
 
     public function __construct()
     {
-        View::share('controllerName', $this->controllerName);
+        $this->pathViewController = 'news.pages.rss.';
+        $this->controllerName     = 'rss';
+        $this->model              = new MainModel();
+        parent::__construct();
     }
 
     public function index()
     {
         View::share('title', 'Tin tức tổng hợp');
 
-        $rssModel = new RssModel();
-        $data = $rssModel->listItems(null, ['task' => 'news-list-items']);
-        $items = Feed::read($data);
+        $data     = $this->model->listItems(null, ['task' => 'news-list-items']);
+        $items    = Feed::read($data);
 
-        // return view($this->pathViewController . 'index', compact('items'));
-        return view($this->pathViewController . 'index');
+        // echo '<pre style="color:red";>$data === '; print_r($data);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
 
+        return view($this->pathViewController . 'index', compact('items'));
     }
 
     public function getGold()
@@ -41,4 +39,5 @@ class RssController extends Controller
     {
         echo json_encode(Feed::getCoin());
     }
+
 }

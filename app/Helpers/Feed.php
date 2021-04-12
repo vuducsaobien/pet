@@ -4,21 +4,23 @@ namespace App\Helpers;
 
 class Feed
 {
-    public static function read($data = [], $page = 1)
+    public static function read($data = [])
     {
         $items = [];
+        // echo '<pre style="color:red";>$data === '; print_r($data);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
 
         foreach ($data as $item) {
             if (self::checkSourceLink($item['source'], $item['link'])) {
                 switch ($item['source']) {
                     case 'vnexpress':
-                        $items = array_merge_recursive($items, self::readVNExpress($item['link']));
+                        $items = array_merge_recursive($items, self::readVNExpress( $item['link'], $item['article_per_page'] ));
                         break;
                     case 'cafebiz':
-                        $items = array_merge_recursive($items, self::readCafeBiz($item['link']));
+                        $items = array_merge_recursive($items, self::readCafeBiz( $item['link'], $item['article_per_page'] ));
                         break;
                     case 'tuoitre':
-                        $items = array_merge_recursive($items, self::readTuoiTre($item['link']));
+                        $items = array_merge_recursive($items, self::readTuoiTre ($item['link'], $item['article_per_page'] ));
                         break;
                 }
             }
@@ -27,17 +29,22 @@ class Feed
         return $items;
     }
 
-    public static function readVNExpress($link)
+    public static function readVNExpress($link, $perPage)
     {
         try {
             $xml = simplexml_load_file($link, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-            $xmlJson    = json_encode($xml);
-            $xmlArr     = json_decode($xmlJson, 1);
-            $items = $xmlArr['channel']['item'];
-            $result = [];
+            $xmlJson = json_encode($xml);
+            $xmlArr  = json_decode($xmlJson, 1);
+            $items   = $xmlArr['channel']['item'];
+            $result  = [];
 
+            // echo '<pre style="color:red";>$xmlArr === '; print_r($xmlArr);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+            $i = 0;
             foreach ($items as $item) {
+                if ( $i == $perPage ) break;
+
                 $tmp1 = [];
                 $tmp2 = [];
 
@@ -45,16 +52,19 @@ class Feed
                 $pattern = '.*br>(.*)';
                 preg_match('/' . $pattern . '/', $item['description'], $tmp2);
 
-                $image = $tmp1[1] ?? '';
+                $image       = $tmp1[1] ?? '';
                 $description = $tmp2[1] ?? $item['description'];
 
                 $result[] = [
-                    'name' => $item['title'],
+                    'title'       => $xmlArr['channel']['title'],
+                    'name'        => $item['title'],
                     'description' => $description,
-                    'pubDate' => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
-                    'link' => $item['link'],
-                    'thumb' => $image
+                    'pubDate'     => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
+                    'link'        => $item['link'],
+                    'thumb'       => $image
                 ];
+
+                $i++;
             }
 
             return $result;
@@ -63,17 +73,20 @@ class Feed
         }
     }
 
-    public static function readTuoiTre($link)
+    public static function readTuoiTre($link, $perPage)
     {
         try {
             $xml = simplexml_load_file($link, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-            $xmlJson    = json_encode($xml);
-            $xmlArr     = json_decode($xmlJson, 1);
-            $items = $xmlArr['channel']['item'];
-            $result = [];
+            $xmlJson = json_encode($xml);
+            $xmlArr  = json_decode($xmlJson, 1);
+            $items   = $xmlArr['channel']['item'];
+            $result  = [];
 
+            $i = 0;
             foreach ($items as $item) {
+                if ( $i == $perPage ) break;
+
                 $tmp1 = [];
                 $tmp2 = [];
 
@@ -84,12 +97,15 @@ class Feed
                 $description = $tmp2[1] ?? $item['description'];
 
                 $result[] = [
-                    'name' => $item['title'],
+                    'title'       => $xmlArr['channel']['title'],
+                    'name'        => $item['title'],
                     'description' => $description,
-                    'pubDate' => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
-                    'link' => $item['link'],
-                    'thumb' => $image
+                    'pubDate'     => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
+                    'link'        => $item['link'],
+                    'thumb'       => $image
                 ];
+
+                $i++;
             }
 
             return $result;
@@ -98,16 +114,18 @@ class Feed
         }
     }
 
-    public static function readCafeBiz($link)
+    public static function readCafeBiz($link, $perPage)
     {
         try {
-            $xml = simplexml_load_file($link, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $xmlJson    = json_encode($xml);
-            $xmlArr     = json_decode($xmlJson, 1);
-            $items = $xmlArr['channel']['item'];
-            $result = [];
+            $xml     = simplexml_load_file($link, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $xmlJson = json_encode($xml);
+            $xmlArr  = json_decode($xmlJson, 1);
+            $items   = $xmlArr['channel']['item'];
+            $result  = [];
 
+            $i = 0;
             foreach ($items as $item) {
+                if ( $i == $perPage ) break;
                 $tmp1 = [];
                 $tmp2 = [];
 
@@ -118,12 +136,15 @@ class Feed
                 $description = $tmp2[1] ?? $item['description'];
 
                 $result[] = [
-                    'name' => $item['title'],
+                    'title'       => $xmlArr['channel']['title'],
+                    'name'        => $item['title'],
                     'description' => $description,
-                    'pubDate' => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
-                    'link' => $item['link'],
-                    'thumb' => $image
+                    'pubDate'     => date('d/m/Y H:i:s', strtotime($item['pubDate'])),
+                    'link'        => $item['link'],
+                    'thumb'       => $image
                 ];
+
+                $i++;
             }
 
             return $result;

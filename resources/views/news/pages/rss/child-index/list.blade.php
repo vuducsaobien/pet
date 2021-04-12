@@ -1,27 +1,32 @@
-<div class="posts">
-    <div class="row" id="posts-content">
-        @foreach ($items as $item)
-            @php
-                $name = $item['name'];
-                $thumb = $item['thumb'];
-                $link = $item['link'];
-                $date = $item['pubDate'];
-                $description = $item['description']
-            @endphp
-            <div class="col-lg-6">
-                <div class="post_item post_v_small d-flex flex-column align-items-start justify-content-start">
-                    <div class="post_image"><img src="{{ $thumb }}" alt="{{ $name }}" class="img-fluid w-100"></div>
-                    <div class="post_content">
-                        <div class="post_title"><a href="{{ $link }}" target="_blank">{{ $name }}</a></div>
-                        <div class="post_info d-flex flex-row align-items-center justify-content-start">
-                            <div class="post_date"><a href="#">{{ $date }}</a></div>
-                        </div>
-                        <div class="post_text">
-                            <p>{!! $description !!}</p>
-                        </div>
-                    </div>
-                </div>
+@php
+    use App\Helpers\Template;
+    // echo '<pre style="color:red";>$items Blade === '; print_r($items);echo '</pre>';
+    // echo '<h3>Die is Called </h3>';die;
+@endphp
+
+@forelse($items as $item)
+
+    <div class="col-lg-6 col-md-6">
+
+        <div class="blog-wrapper mb-30 gray-bg">
+
+            <div class="blog-img hover-effect">
+                <a href="{{ $item['link'] }}"><img alt="" src="{{ asset($item['thumb']) }}" ></a>
             </div>
-        @endforeach
+
+            <div class="blog-content">
+                <div class="blog-meta">
+                    <ul>
+                        <li>Nguồn: <span>{{$item['title']}}</span></li>
+                        <li>{{ Template::showDatetimeFrontend( $item['pubDate'], 'long_time', 'no') }}</li>
+                    </ul>
+                </div>
+                <h4><a href="{{ $item['link'] }}">{{$item['name']}}</a></h4>
+            </div>
+
+        </div>
     </div>
-</div>
+
+@empty
+    <p>chua co bai viet nao</p>
+@endforelse
