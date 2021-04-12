@@ -9,14 +9,15 @@ class Template
 {
     public static function share($items, $url,$page,$position)
     {
-        echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-        echo '<pre style="color:red";>$url === '; print_r($url);echo '</pre>';
-        echo '<pre style="color:red";>$page === '; print_r($page);echo '</pre>';
-        echo '<pre style="color:red";>$position === '; print_r($position);echo '</pre>';
-        echo '<h3>Die is Called </h3>';die;
+        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+        // echo '<pre style="color:red";>$url === '; print_r($url);echo '</pre>';
+        // echo '<pre style="color:red";>$page === '; print_r($page);echo '</pre>';
+        // echo '<pre style="color:red";>$position === '; print_r($position);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
         $html = '';
         if(in_array($page,$items['page']) && $position==$items['placement']) {
             foreach ($items['app'] as $name) {
+                
                 switch ($name) {
                     case "facebook":
                         $link = "http://www.facebook.com/sharer.php?u=";
@@ -26,15 +27,17 @@ class Template
                         $link = "http://www.twitter.com/sharer.php?u=";
                         break;
 
-
                     case "pinterest":
                         $link = "http://www.pinterest.com/sharer.php?u=";
                         break;
-
                 }
-                $html .= sprintf('<a target="_blank" href="%s">
-                                <img width="30" src="%s" alt="">
-                            </a>', $link . $url, asset('images/logo/' . $name . '.png'));
+
+                $html .= sprintf('
+                    <a target="_blank" href="%s">
+                        <img width="30" src="%s" alt="">
+                    </a>
+                    ', $link . $url, asset('images/logo/' . $name . '.png')
+                );
             }
         }
 

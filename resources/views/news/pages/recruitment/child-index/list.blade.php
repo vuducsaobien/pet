@@ -1,9 +1,10 @@
 @php
     use App\Helpers\Template;
 @endphp
+
 @forelse($items as $item)
 @php
-    $link = route('article/detail',$item->slug);
+    $link = route('recruitment/detail', $item->slug);
 @endphp
 
 <div class="col-lg-6 col-md-12">

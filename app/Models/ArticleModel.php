@@ -159,7 +159,7 @@ class ArticleModel extends AdminModel
         if($options['task']=='news-get-item-recent'){
             $result=self::select(
                 'id','name','slug','content','created_by','created','thumb'
-            )->take(3)->orderBy('id','desc')->get();
+            )->take(5)->orderBy('id','desc')->get();
         }
 
         if($options['task']=='news-get-item-by-slug'){

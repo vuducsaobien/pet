@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\News;
 use App\Models\RecruitmentModel as MainModel;
+use App\Models\SettingModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -31,21 +32,18 @@ class RecruitmentController extends FrontendController
 
     public function detail(Request $request)
     {
-        $articleModel   = new ArticleModel();
         $params['slug'] = $request->recruitment_slug;
-
-        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-        echo '<h3>Die is Called Detail Recreuiment</h3>';die;
-        $item           = $articleModel->getItem($params, ['task' => 'news-get-item-by-slug']);
-        $comment        = new CommentArticleModel();
-        $itemComment    = $comment->listItems(['article_id'=>$item->id],['task'=>'news-list-items']);
+        $item           = $this->model->getItem($params, ['task' => 'news-get-item-by-slug']);
+        View::share('title', $item['name'] );
+        
+        // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+        // echo '<h3>Die is Called Detail Recreuiment</h3>';die;
 
         $setting       = new SettingModel();
         $share_setting = $setting->getItem(['type'=>'share']);
 
         return view($this->pathViewController .  'detail', compact(
-            'item','itemComment','share_setting'
-
+            'item', 'share_setting'
         ));
     }
 
