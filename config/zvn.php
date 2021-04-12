@@ -7,6 +7,7 @@ return [
     ],
     'format'         => [
         'long_time'        => 'H:i:s d/m/Y',
+        'long_time_front'  => 'H:i:s m/d/Y',
         'long_time_format' => 'd-m-Y H:i:s',
         'short_time'       => 'd/m/Y',
         'count_down'       => "+2 day",
@@ -137,6 +138,7 @@ return [
             'product'     => ['all', 'product_code', 'name', 'slug'],
             'attribute'   => ['all', 'name'],
             'rss'         => ['all', 'name', 'link', 'source'],
+            'recruitment' => ['all', 'name', 'slug', 'description'],
             'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],
         ],

@@ -89,12 +89,14 @@ function callAjax(element, url, type,data='') {
 		data    : data,
 		dataType: "json",
 		success : function (result) {
-			// console.log(result);
+			console.log(result);
 			
 			if (result) {
 				switch (type) {
 					case 'ordering':
-						$(".modified-" + result.id).html(result.modified);
+						if ($('td[class^=modified-]').length) {
+							$(".modified-" + result.id).html(result.modified);
+						}
 						showNotify(element, result.message);
 						break;
 						

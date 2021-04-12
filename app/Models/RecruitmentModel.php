@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB; 
+use App\Helpers\Template;
 
 class RecruitmentModel extends AdminModel
 {
@@ -11,15 +12,15 @@ class RecruitmentModel extends AdminModel
     {
         $this->table               = 'recruitment';
         $this->folderUpload        = 'recruitment';
-        $this->fieldSearchAccepted = ['id', 'name', 'description', 'link'];
-        $this->crudNotAccepted     = ['_token', 'thumb_current', 'slug'];
+        $this->fieldSearchAccepted = ['id', 'name', 'description'];
+        $this->crudNotAccepted     = ['_token', 'thumb_current'];
     }
     
     public function listItems($params = null, $options = null) {
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','name','description','ordering','thumb');
+            $query = $this->select('id', 'status','name','description','ordering','thumb', 'slug');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -38,7 +39,7 @@ class RecruitmentModel extends AdminModel
             }
 
             $result =  $query
-                ->orderBy('id', 'desc')
+                ->orderBy('ordering', 'asc')
                 ->paginate($params['pagination']['totalItemsPerPage'])
             ;
         }
@@ -91,6 +92,12 @@ class RecruitmentModel extends AdminModel
             $result = self::select('id', 'thumb')->where('id', $params['id'])->first();
         }
 
+        if($options['task'] == 'news-get-item'){
+            $result = self::select(
+                'id', 'name', 'slug', 'description', 'created_by', 'created', 'thumb'
+            )->paginate(6);
+        }
+
         return $result;
     }
 
@@ -122,6 +129,28 @@ class RecruitmentModel extends AdminModel
         if($options['task'] == 'edit-item') {
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
+
+        if ($options['task'] == 'change-ordering') {
+            $ordering   = $params['ordering'];
+    
+            self::where( 'id', $params['id'])
+                ->update([
+                    'ordering'    => $ordering,
+                    'modified'    => $modified,
+                    'modified_by' => $modifiedBy
+                ]
+            );
+
+            $result =  [
+                'id'       => $params['id'],
+                'modified' => Template::showItemHistory($modifiedBy, $modified),
+                'message'  => config('zvn.notify.success.update')
+            ];
+
+            return $result;
+        }
+
+
     }
 
     public function deleteItem($params = null, $options = null) 

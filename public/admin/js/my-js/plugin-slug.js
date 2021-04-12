@@ -2,7 +2,8 @@ $(document).ready(function() {
 	
 	if( controllerName == 'article' || 
 		controllerName == 'category' ||
-		controllerName == 'product' 
+		controllerName == 'product' ||
+		controllerName == 'recruitment' 
 
 	){
 

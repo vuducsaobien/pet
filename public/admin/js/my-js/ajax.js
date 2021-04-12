@@ -6,7 +6,7 @@ $(document).ready(function() {
 		let value           = $(this).val();
 		let $url            = $(this).data("url");
 		    $url            = $url.replace("value_new", value);
-
+console.log('$url = ' + $url);
 		if (checkInputOrdering(value, 1)) {
             callAjax($currentElement, $url, 'ordering');
         }

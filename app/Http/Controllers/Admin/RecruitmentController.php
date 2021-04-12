@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RecruitmentModel as MainModel;
-use App\Models\CategoryModel;
 use App\Http\Requests\RecruitmentRequest as MainRequest ;
 use Illuminate\Support\Str;
 
@@ -13,26 +11,9 @@ class RecruitmentController extends AdminController
     public function __construct()
     {
         $this->pathViewController = 'admin.pages.recruitment.';
-        $this->controllerName = 'recruitment';
-        $this->model = new MainModel();
+        $this->controllerName     = 'recruitment';
+        $this->model              = new MainModel();
         parent::__construct();
-    }
-
-    public function form(Request $request)
-    {
-        $item = null;
-        if($request->id !== null ) {
-            $params["id"] = $request->id;
-            $item = $this->model->getItem( $params, ['task' => 'get-item']);
-        }
-
-        $categoryModel  = new CategoryModel();
-        $itemsCategory  = $categoryModel->listItems(null, ['task' => 'admin-list-items-in-select-box']);
-
-        return view($this->pathViewController .  'form', [
-            'item'        => $item,
-            'itemsCategory'=>$itemsCategory
-        ]);
     }
 
     public function save(MainRequest $request)
@@ -56,17 +37,13 @@ class RecruitmentController extends AdminController
         }
     }
 
-    public function type(Request $request) {
-        $params["currentType"]    = $request->type;
-        $params["id"]             = $request->id;
-        $this->model->saveItem($params, ['task' => 'change-type']);
-        return redirect()->route($this->controllerName)->with("zvn_notify", "Cập nhật kiểu bài viết thành công!");
+    public function ordering(Request $request)
+    {
+        $params['ordering'] = $request->ordering;
+        $params['id']       = $request->id;
+
+        $result = $this->model->saveItem($params, ['task' => 'change-ordering']);
+        echo json_encode($result);
     }
 
-    public function changeCategory(Request $request) {
-        $params['category_id'] = $request->category_id;
-        $params['id'] = $request->id;
-        $result = $this->model->saveItem($params, ['task' => 'change-category']);
-        return response()->json($result);
-    }
 }
