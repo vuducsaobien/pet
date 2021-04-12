@@ -27,7 +27,6 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="shop-sidebar blog-mrg">
                         @include('news.partials.sidebar.recent_blog')
-                        @include('news.partials.sidebar.recent_faq')
                         @include('news.partials.sidebar.recent_rss')
                     </div>
                 </div>

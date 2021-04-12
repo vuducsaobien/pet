@@ -2,11 +2,11 @@
 @section('content')
 
     <!-- breadcumb -->
-    @include('news.templates.breadcumb', ['name' => 'Rrecruiment Detail'])
+    @include('news.templates.breadcumb', ['name' => 'FAQ'])
 
     <!-- shop-area -->
     @php
-        // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+        // echo '<pre style="color:red";>$item === '; print_r($items);echo '</pre>';
         // echo '<h3>Die is Called Detail Recruiment</h3>';die;
     @endphp
 
@@ -17,7 +17,7 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="blog-details-wrapper res-mrg-top">
 
-                        @include('news.pages.recruitment.child-index.blog_content')
+                        @include('news.pages.faq.content')
                         
                     </div>
                 </div>

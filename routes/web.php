@@ -78,7 +78,16 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         ])->where('recruitment_slug', '[0-9a-zA-Z_-]+');
 
     });    
-    
+
+    // ============================== 06. FAQ ==============================
+    $prefix         = 'cau-hoi-thuong-gap';
+    $controllerName = 'faq';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+
+        Route::get('/', ['as' => $controllerName. '/index',     'uses' => $controller . 'index']);
+    });    
+
 
     // ====================== Category page ========================
     $prefix         = '';

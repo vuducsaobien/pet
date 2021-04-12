@@ -89,10 +89,13 @@ class FaqModel extends AdminModel
 
         if($options['task'] == 'news-get-item'){
             $result = self::select(
-                'id', 'name',  'created', 'content'
+                'name', 'content'
             )->where('status', 'active')
             ->orderBy('ordering', 'asc')
-            ->paginate($params['pagination']['totalItemsPerPage']);
+            // ->paginate($params['pagination']['totalItemsPerPage'])
+            ->get()
+            ->toArray()
+            ;
         }        
 
         return $result;
