@@ -24,8 +24,16 @@
 
         <h3>Menu</h3>
         <ul class="nav side-menu">
-            <li id="dashboard"><a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> {{__('message.dashboard')}}
-                </a></li>
+
+            <li id="dashboard">
+                <a href="{{ route('dashboard') }}">
+                    <i class="fa fa-home"></i> {{__('message.dashboard')}}
+                </a>
+            </li>
+
+            <li id = "menu"><a href="{{ route('menu') }}"><i class="fa fa-sitemap"></i> Quản lý Menu</a></li>
+            <li id = "slider"><a href="{{ route('slider') }}"><i class="fa fa-sliders"></i> Slider</a></li>
+            <li id = "contact"><a href="{{ route('contact') }}"><i class="fa fa-connectdevelop"></i> Contact</a></li>
 
             <li>
                 <a><i class="fa fa-product-hunt"></i> Quản lý sản phẩm <span class="fa fa-chevron-down"></span></a>
@@ -40,6 +48,14 @@
                 </ul>
             </li>
 
+            <li>
+                <a><i class="fa fa-archive"></i> Quản lý Tin Tức <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li id="rss"><a href="{{ route('rss') }}"> RSS</a></li>
+                    <li id="recruiment"><a href="#"> Tuyển dụng</a></li>
+                    <li id="faq"><a href="#"> FAQ</a></li>
+                </ul>
+            </li>
 
             <li>
                 <a><i class="fa fa-archive"></i> Quản lý bài viết <span class="fa fa-chevron-down"></span></a>
@@ -50,20 +66,22 @@
                     <li id="team"><a href="{{ route('team') }}"> Team</a></li>
                 </ul>
             </li>
+
+            <li>
+                <a><i class="fa fa-image"></i> Quản lý Thư Viện <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li id="gallery"><a href="{{ route('gallery') }}"><i class="fa fa-image"></i> Gallery</a></li>
+                    <li id="#"><a href="#"><i class="fa fa-clip"></i> Videos</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a><i class="fa fa-user"></i> Quản lý thành viên <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li id="user"><a href="{{ route('user') }}"> User</a></li>
                     <li class="none"><a href="{{ route('user/change-logged-password') }}"> Change Password</a></li>
-
                 </ul>
             </li>
-            <li><a href="{{ route('menu') }}"><i class="fa fa-sitemap"></i> Quản lý Menu</a></li>
-            <li id = "logs" class="none"><a href="{{ route('logs') }}"><i class="fa fa-history"></i> Logs</a></li>
-            <li><a href="{{ route('gallery') }}"><i class="fa fa-image"></i> Gallery</a></li>
-
-            <li><a href="{{ route('slider') }}"><i class="fa fa-sliders"></i> Slider</a></li>
-            <li><a href="{{ route('contact') }}"><i class="fa fa-connectdevelop"></i> Contact</a></li>
 
             <li>
                 <a><i class="fa fa-cog"></i> {{__('message.config')}} <span class="fa fa-chevron-down"></span></a>
@@ -75,6 +93,7 @@
                 </ul>
             </li>
 
+            <li id = "logs" class="none"><a href="{{ route('logs') }}"><i class="fa fa-history"></i> Logs</a></li>
             <li><a href="{{ route('home') }}"><i class="fa fa-globe"></i> {{__('message.view-website')}}</a></li>
             <li><a href="{{ route('auth/logout') }}"><i class="fa fa-sign-out"></i> {{__('message.logout')}}</a></li>
 

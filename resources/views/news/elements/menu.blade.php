@@ -55,7 +55,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#"> RSS </a></li>
                             <li><a class="dropdown-item" href="{{ route('article/index') }}"> Blog </a></li>
-                            <li><a class="dropdown-item" href="#"> Recruiment </a></li>
+                            <li><a class="dropdown-item" href="#"> Tuyển Dụng </a></li>
                             <li><a class="dropdown-item" href="#"> FAQ </a></li>
                         </ul>
                     </li>

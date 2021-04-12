@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Helpers\Template;
 use App\Models\AdminModel;
+
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Template;
 
 class RssModel extends AdminModel
 {
     public function __construct()
     {
         $this->table               = 'rss';
-        $this->folderUpload        = 'slider';
         $this->fieldSearchAccepted = ['id', 'name', 'link'];
         $this->crudNotAccepted     = ['_token'];
     }
@@ -21,7 +21,7 @@ class RssModel extends AdminModel
         $result = null;
 
         if ($options['task'] == 'admin-list-items') {
-            $query = $this->select('id', 'name', 'link', 'status', 'ordering', 'source');
+            $query = $this->select('id', 'name', 'link', 'status', 'ordering', 'source', 'article_per_page');
 
             if (isset($params['filter']['status']) && $params['filter']['status'] != 'all') $query->where('status', $params['filter']['status']);
 
@@ -80,7 +80,11 @@ class RssModel extends AdminModel
 
     public function saveItem($params = null, $options = null)
     {
-        $result = null;
+        $result     = null;
+        $modifiedBy = session('userInfo')['username'];
+        $modified   = date('Y-m-d H:i:s');
+        $createdBy  = session('userInfo')['username'];
+        $created    = date('Y-m-d H:i:s');
 
         if ($options['task'] == 'change-ordering') {
             $ordering   = $params['ordering'];
@@ -102,6 +106,25 @@ class RssModel extends AdminModel
         if ($options['task'] == 'edit-item') {
             $this->where('id', $params['id'])->update($this->prepareParams($params));
         }
+
+        if($options['task'] == 'change-status') {
+            $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
+            self::where('id', $params['id'])->update(['status' => $status, 'modified' => $modified, 'modified_by' => $modifiedBy]);
+
+            $result = [
+                'id'       => $params['id'],
+                'modified' => Template::showItemHistory($modifiedBy, $modified),
+                'status'   => [
+                    'name'  => config("zvn.template.status.$status.name"),
+                    'class' => config("zvn.template.status.$status.class")
+                ],
+                'link'     => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+                'message'  => config('zvn.notify.success.update')
+            ];
+
+            return $result;
+        }
+
     }
 
     public function deleteItem($params = null, $options = null)
@@ -116,7 +139,8 @@ class RssModel extends AdminModel
         $result = null;
         
         if ($options['task'] == 'get-item') {
-            $result = $this->select('id', 'name', 'link', 'source', 'status')->where('id', $params['id'])->firstOrFail();
+            $result = $this->select('id', 'name', 'link', 'source', 'status', 'article_per_page', 'ordering')
+                ->where('id', $params['id'])->firstOrFail();
         }
 
         return $result;

@@ -110,6 +110,7 @@ return [
             'date_start'     => ['name'=> 'Ngày Bắt Đầu'],
             'star'           => ['name'=> 'Số Sao'],
             'slug'           => ['name'=> 'Đường Dẫn'],
+            'source'         => ['name'=> 'Soure Code'],
         ],
         'button' => [
             'edit'      => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
@@ -135,6 +136,7 @@ return [
             'contact'     => ['all', 'email'],
             'product'     => ['all', 'product_code', 'name', 'slug'],
             'attribute'   => ['all', 'name'],
+            'rss'         => ['all', 'name', 'link', 'source'],
             'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],
         ],
