@@ -53,7 +53,7 @@
                 <ul class="nav child_menu">
                     <li id="rss"><a href="{{ route('rss') }}"> RSS</a></li>
                     <li id="recruitment"><a href="{{ route('recruitment') }}"> Tuyển dụng</a></li>
-                    <li id="faq"><a href="#"> FAQ</a></li>
+                    <li id="faq"><a href="{{ route('faq') }}"> FAQ</a></li>
                 </ul>
             </li>
 

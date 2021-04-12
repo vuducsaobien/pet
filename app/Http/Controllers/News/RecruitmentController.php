@@ -47,13 +47,4 @@ class RecruitmentController extends FrontendController
         ));
     }
 
-    public function postComment(Request $request)
-    {
-        $params=$request->all();
-        $commentArticleModel=new CommentArticleModel();
-        $commentArticleModel->saveItem($params, ['task' => 'add-item']);
-
-        return redirect()->back();
-    }
-
 }
