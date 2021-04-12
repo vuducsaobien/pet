@@ -48,40 +48,30 @@
                 @break
 
                 @case("category_news")
-                    Category news
-                    {{-- <li class="mega-menu-position"><a href="{{$prefix.$item->link}}">News</a>
-                        <ul class="mega-menu">
-                            @foreach($itemsCategory as $item)
-                            <li>
-                                <ul>
-                                    <li class="mega-menu-title">{{$item->name}}</li>
-                                    @foreach($item->children as $i)
-                                    <li><a href="{{URL::linkCategory($i)}}">{{$i->name}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            @endforeach
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" 
+                            data-toggle="dropdown" href="#" data-name="category_news">{{ $item['name'] }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"> RSS </a></li>
+                            <li><a class="dropdown-item" href="{{ route('article/index') }}"> Blog </a></li>
+                            <li><a class="dropdown-item" href="#"> Recruiment </a></li>
+                            <li><a class="dropdown-item" href="#"> FAQ </a></li>
                         </ul>
-                    </li> --}}
+                    </li>
                 @break
 
                 @case("category_library")
-                Category library
-                {{-- <li class="mega-menu-position"><a href="{{$prefix.$item->link}}">News</a>
-                    <ul class="mega-menu">
-                        @foreach($itemsCategory as $item)
-                        <li>
-                            <ul>
-                                <li class="mega-menu-title">{{$item->name}}</li>
-                                @foreach($item->children as $i)
-                                <li><a href="{{URL::linkCategory($i)}}">{{$i->name}}</a></li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        @endforeach
-                    </ul>
-                </li> --}}
-            @break
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" 
+                            data-toggle="dropdown" href="#" data-name="category_library">{{ $item['name'] }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"> Hình Ảnh </a></li>
+                            <li><a class="dropdown-item" href="#"> Video </a></li>
+                        </ul>
+                    </li>
+                @break
 
 
             @endswitch
