@@ -60,6 +60,24 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         Route::get('/get-gold', ['as' => $controllerName.'/get-gold',     'uses' => $controller . 'getGold']);
         Route::get('/get-coin', ['as' => $controllerName.'/get-coin',     'uses' => $controller . 'getCoin']);
     });
+
+    // ============================== 06. RSS ==============================
+    $prefix         = 'tuyen-dung';
+    $controllerName = 'recruitment';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+
+        Route::get('/', [
+            'as' => $controllerName.'/index',
+            'uses' => $controller . 'index'
+        ]);
+        
+        Route::get('{recruitment_slug}.html', [
+            'as' => $controllerName . '/detail', 
+            'uses' => $controller . 'detail' 
+        ])->where('recruitment_slug', '[0-9a-zA-Z_-]+');
+
+    });    
     
 
     // ====================== Category page ========================

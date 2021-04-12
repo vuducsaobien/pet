@@ -95,7 +95,8 @@ class RecruitmentModel extends AdminModel
         if($options['task'] == 'news-get-item'){
             $result = self::select(
                 'id', 'name', 'slug', 'description', 'created_by', 'created', 'thumb'
-            )->paginate(6);
+            )->orderBy('ordering', 'asc')
+            ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
         return $result;

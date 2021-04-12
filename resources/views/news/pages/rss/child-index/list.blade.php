@@ -18,7 +18,7 @@
                 <div class="blog-meta">
                     <ul>
                         <li>Nguồn: <span>{{$item['title']}}</span></li>
-                        <li>{{ Template::showDatetimeFrontend( $item['pubDate'], 'long_time', 'no') }}</li>
+                        <li>{{ Template::showDatetimeFrontend( $item['pubDate'], 'long_time_front', 'no') }}</li>
                     </ul>
                 </div>
                 <h4><a href="{{ $item['link'] }}">{{$item['name']}}</a></h4>
