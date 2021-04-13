@@ -193,5 +193,15 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         Route::get('/', [ 'as' => $controllerName, 'uses' => $controller . 'index' ]);
     });
 
+    // ============================== 07. IMAGE LIBRARY ==============================
+    $prefix         = 'thu-vien';
+    $controllerName = 'gallery';
+    Route::group(['prefix' => $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName) . 'Controller@';
+        
+        Route::get('/', [ 'as' => $controllerName . '/web', 'uses' => $controller . 'index' ]);
+    });
+    
+
 });
 

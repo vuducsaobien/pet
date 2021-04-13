@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\View;
 class GalleryController extends Controller
 {
     private $pathViewController = 'admin.pages.gallery.';
-    private $controllerName = 'gallery';
-    private $params = [];
+    private $controllerName     = 'gallery';
+    private $params             = [];
 
     public function __construct()
     {

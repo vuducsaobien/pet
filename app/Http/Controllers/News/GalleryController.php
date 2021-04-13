@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\View;
 class GalleryController extends Controller
 {
     private $pathViewController = 'news.pages.gallery.';
-    private $controllerName = 'gallery';
-    private $params = [];
+    private $controllerName     = 'gallery';
 
     public function __construct()
     {
@@ -20,10 +19,10 @@ class GalleryController extends Controller
     public function index()
     {
         View::share('title', 'Thư viện hình ảnh');
-        // $directory = public_path(config('zvn.path.gallery'));
-        // $images = File::files($directory);
-        // return view($this->pathViewController . 'index', compact('images'));
-        return view($this->pathViewController . 'index');
+        $directory = public_path(config('zvn.path.gallery'));
+        $images    = File::files($directory);
 
+        return view($this->pathViewController . 'index', compact('images'));
     }
+
 }

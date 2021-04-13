@@ -67,7 +67,7 @@
                             data-toggle="dropdown" href="#" data-name="category_library">{{ $item['name'] }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"> Hình Ảnh </a></li>
+                            <li><a class="dropdown-item" href="{{ route('gallery/web') }}"> Hình Ảnh </a></li>
                             <li><a class="dropdown-item" href="#"> Video </a></li>
                         </ul>
                     </li>
