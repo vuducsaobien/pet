@@ -68,7 +68,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('gallery/web') }}"> Hình Ảnh </a></li>
-                            <li><a class="dropdown-item" href="#"> Video </a></li>
+                            <li><a class="dropdown-item" href="{{ route('youtube/web') }}"> Video </a></li>
                         </ul>
                     </li>
                 @break

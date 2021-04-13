@@ -193,8 +193,8 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         Route::get('/', [ 'as' => $controllerName, 'uses' => $controller . 'index' ]);
     });
 
-    // ============================== 07. IMAGE LIBRARY ==============================
-    $prefix         = 'thu-vien';
+    // ============================== 07. LIBRARY - IMAGE ==============================
+    $prefix         = 'thu-vien/hinh-anh';
     $controllerName = 'gallery';
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
@@ -202,6 +202,14 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         Route::get('/', [ 'as' => $controllerName . '/web', 'uses' => $controller . 'index' ]);
     });
     
+    // ============================== 07. LIBRARY - YOUTUBE - CLIPS ==============================
+    $prefix         = 'thu-vien/video';
+    $controllerName = 'youtube';
+    Route::group(['prefix' => $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName) . 'Controller@';
+        
+        Route::get('/', [ 'as' => $controllerName . '/web', 'uses' => $controller . 'index' ]);
+    });
 
 });
 
