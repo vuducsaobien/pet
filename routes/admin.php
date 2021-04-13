@@ -254,6 +254,16 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
     });
 
+    // ============================== YOUTUBE PLAYLIST ============================== //
+    $prefix         = 'youtube';
+    $controllerName = 'youtube';
+    Route::group(['prefix' => $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName) . 'Controller@';
+        Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
+        Route::post('save',                             [ 'as' => $controllerName . '/save',        'uses' => $controller . 'save']);
+    });
+    
+
     // ============================== SETTING ============================== //
     $prefix         = 'setting';
     $controllerName = 'setting';

@@ -71,7 +71,7 @@
                 <a><i class="fa fa-image"></i> Quản lý Thư Viện <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li id="gallery"><a href="{{ route('gallery') }}"><i class="fa fa-image"></i> Gallery</a></li>
-                    <li id="#"><a href="#"><i class="fa fa-clip"></i> Videos</a></li>
+                    <li id="#"><a href="{{ route('youtube') }}"><i class="fa fa-clip"></i> Youtube</a></li>
                 </ul>
             </li>
 

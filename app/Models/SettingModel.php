@@ -46,6 +46,12 @@ class SettingModel extends AdminModel
             $keyValue = 'setting-share';
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
+
+        if ($options['task'] == 'update-link-youtube-playlist') {
+            $value    = $params['link'];
+            $keyValue = 'youtube-playlist-link';
+            $this->where('key_value', $keyValue)->update(['value' => $value]);
+        }
         
     }
 
@@ -53,8 +59,15 @@ class SettingModel extends AdminModel
     {
         $result = null;
 
-        if ($params != null) {
+        if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-link')->value('value');
+            $params = null;
+            $options = null;
+        }
 
+
+        if ($params != null) {
+    
             if ($params['type'] == 'general') {
                 $item   = $this->select('value')->where('key_value', 'setting-general')->firstOrFail()->toArray();
                 $result = json_decode($item['value'], true);
