@@ -25,7 +25,11 @@
 
                     <div class="x_content">
                         <div class="row">
-                            @include('admin.pages.youtube.list')
+                            @foreach($items as $key => $value)    
+                                <iframe width="450" height="315" 
+                                    src="{{ 'https://www.youtube.com/embed/' . $value }}">
+                                </iframe>
+                            @endforeach
                         </div>
                     </div>
                 </div>

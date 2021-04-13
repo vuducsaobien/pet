@@ -48,9 +48,33 @@ class SettingModel extends AdminModel
         }
 
         if ($options['task'] == 'update-link-youtube-playlist') {
-            $value    = $params['link'];
-            $keyValue = 'youtube-playlist-link';
-            $this->where('key_value', $keyValue)->update(['value' => $value]);
+            $playlistID = substr($params['link'], strpos($params['link'], "=") + 1);
+            $keyValue   = 'youtube-playlist-link';
+            
+            // Save playlist ID to Database
+            self::where('key_value', $keyValue)->update(['value' => $playlistID]);
+
+            // Get API From Youtube
+            $api_key    = 'AIzaSyD9c63gg59C5CbZIoKHpN1id-4GhKbBTr8';
+            $base_url   = 'https://www.googleapis.com/youtube/v3/';
+            // https://www.youtube.com/playlist?list=PLV7_SDtanVwiClWBjnVr6ICDfvKS1qdl4
+            // https://www.youtube.com/playlist?list=PLV7_SDtanVwhB_Fw6Glpojck_qKEngpUp
+            $maxResult  = 10;
+            $API_URL    = "{$base_url}playlistItems?part=snippet&maxResults=$maxResult&playlistId=$playlistID&key=$api_key";
+            $video_list = json_decode(file_get_contents($API_URL), true);
+    
+            // Save Videos_Id to Database
+            if($video_list['kind'] == 'youtube#playlistItemListResponse' )
+            {
+                $videos = $video_list['items'];
+                foreach ($videos as $key => $value) {
+                    $items[$key] = $value['snippet']['resourceId']['videoId'];
+                }
+
+                $items = json_encode($items, JSON_UNESCAPED_UNICODE);
+                self::where('key_value', 'youtube-playlist-link-ids')->update(['value' => $items]);
+            }
+
         }
         
     }
@@ -60,11 +84,21 @@ class SettingModel extends AdminModel
         $result = null;
 
         if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
-            $result = self::where('key_value', 'youtube-playlist-link')->value('value');
+            $result = self::where('key_value', 'youtube-playlist-id')->value('value');
             $params = null;
             $options = null;
         }
 
+        if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
+
+            if ($result) {
+                $result = json_decode($result, true);
+            }
+
+            $params = null;
+            $options = null;
+        }
 
         if ($params != null) {
     
