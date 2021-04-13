@@ -3,11 +3,11 @@
     {{-- Slider --}}
     @include('news.pages.home.child-index.slider')
 
-    {{-- Food Category --}}
+    {{-- Category --}}
     <div class="food-category food-category-col pt-100 pb-60">
         <div class="container">
             <div class="row">
-                @include('news.pages.home.child-index.food_category')
+                @include('news.pages.home.child-index.category')
             </div>
         </div>
     </div>

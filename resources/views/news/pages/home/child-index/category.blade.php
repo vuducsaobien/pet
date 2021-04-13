@@ -10,9 +10,9 @@
                 <img src="{{ asset($item['thumb']) }}" alt="">
             </div>
             <div class="single-food-content">
-                {{-- <h3><a href="{{URL::linkCategory($item)}}">{{ucfirst($item->name)}}</a></h3> --}}
-                {{-- <h3><a href="{{URL::linkCategory($item)}}">{{ucfirst($item['name'])}}</a></h3> --}}
-
+                <h3>
+                    <a href="{{URL::linkCategoryArray($item['slug'])}}">{{ucfirst($item['name'])}}</a>
+                </h3>
             </div>
         </div>
     </div>
