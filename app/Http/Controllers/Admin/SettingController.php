@@ -63,4 +63,17 @@ class SettingController extends Controller
             return redirect()->route($this->controllerName, ['type' => 'share'])->with('zvn_notify', 'Cập nhật cấu hình share thành công!');
         }
     }
+
+    public function policy(Request $request){
+        if ($request->method() == 'POST') {
+            $params = $request->all();
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+            $this->model->saveItem($params, ['task' => 'policy']);
+            return redirect()->route($this->controllerName, ['type' => 'policy'])->with('
+                zvn_notify', 'Cập nhật Cấu Hình Chính Sách Thành công!');
+        }
+    }
+
+
 }

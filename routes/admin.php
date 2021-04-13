@@ -275,6 +275,7 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::post('/share-setting',          [ 'as' => $controllerName . '/share_setting',          'uses' => $controller . 'share' ]);
         Route::post('/email-account-setting',   [ 'as' => $controllerName . '/email_account_setting',   'uses' => $controller . 'emailAccount' ]);
         Route::post('/email-bcc-setting',       [ 'as' => $controllerName . '/email_bcc_setting',       'uses' => $controller . 'emailBcc' ]);
+        Route::post('/policy-setting',          [ 'as' => $controllerName . '/policy_setting',          'uses' => $controller . 'policy' ]);
     });
 
     // ============================== CONTACT ============================== //

@@ -47,6 +47,15 @@ class SettingModel extends AdminModel
             $this->where('key_value', $keyValue)->update(['value' => $value]);
         }
 
+        if ($options['task'] == 'policy') {
+            $params = $this->prepareParams($params);
+
+            foreach ($params as $key => $value) {
+                self::where('key_value', $key)->update(['value' => $value]);
+            }
+        }
+
+
         if ($options['task'] == 'update-link-youtube-playlist') 
         {
             if ( $params['link'] ) 
@@ -122,6 +131,18 @@ class SettingModel extends AdminModel
             if ($params['type'] == 'social') {
                 $item   = $this->select('value')->where('key_value', 'setting-social')->firstOrFail()->toArray();
                 $result = json_decode($item['value'], true);
+            }
+
+            if ($params['type'] == 'policy') {
+                $use      = 'setting-policy-terms-of-use';
+                $exchange = 'setting-policy-exchange';
+                $shopping = 'setting-policy-shopping-guide';
+                $business = 'setting-policy-business-conception';                
+                
+                $result[$use]      = self::where('key_value', $use)->value('value');
+                $result[$exchange] = self::where('key_value', $exchange)->value('value');
+                $result[$shopping] = self::where('key_value', $shopping)->value('value');
+                $result[$business] = self::where('key_value', $business)->value('value');
             }
 
             if ($params['type'] == 'share') {
