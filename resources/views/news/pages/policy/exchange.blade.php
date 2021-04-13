@@ -2,7 +2,7 @@
 @section('content')
 
     <!-- breadcumb -->
-    @include('news.templates.breadcumb', ['name' => 'Điều Khoản Sử Dụng'])
+    @include('news.templates.breadcumb', ['name' => 'Chính Sách Đổi Hàng'])
 
     <!-- shop-area -->
     <div class="shop-area pt-100 pb-100">
@@ -12,8 +12,6 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="blog-details-wrapper res-mrg-top">
                         {!! $item !!}
-                        {{-- @include('news.pages.faq.content') --}}
-                        
                     </div>
                 </div>
 

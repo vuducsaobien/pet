@@ -84,9 +84,10 @@
             </li>
 
             <li>
-                <a><i class="fa fa-cog"></i> {{__('message.config')}} <span class="fa fa-chevron-down"></span></a>
+                <a><i class="fa fa-cog"></i> Quản Lý Cài Đặt <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li id="setting"><a href="{{ route('setting', ['type' => 'general']) }}">Cấu hình chung</a></li>
+                    <li id="setting"><a href="{{ route('setting', ['type' => 'policy']) }}">Chính Sách</a></li>
                     <li id="setting"><a href="{{ route('setting', ['type' => 'email']) }}">Email</a></li>
                     <li id="setting"><a href="{{ route('setting', ['type' => 'social']) }}">Social</a></li>
                     <li id="setting"><a href="{{ route('setting', ['type' => 'share']) }}">Share button</a></li>

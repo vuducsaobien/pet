@@ -169,7 +169,10 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
 
-        Route::get('/su-dung.html',[ 'as' => $controllerName . '/use', 'uses' => $controller . 'use' ]);
+        Route::get('/dieu-khoan-su-dung.html',[ 'as' => $controllerName . '/use', 'uses' => $controller . 'use' ]);
+        Route::get('/chinh-sach-doi-hang.html',[ 'as' => $controllerName . '/exchange', 'uses' => $controller . 'exchange' ]);
+        Route::get('/huong-dan-mua-hang.html',[ 'as' => $controllerName . '/shopping', 'uses' => $controller . 'shopping' ]);
+        Route::get('quan-diem-kinh-doanh.html',[ 'as' => $controllerName . '/business', 'uses' => $controller . 'business' ]);
     });
 
     // ============================== COMMENT ==============================

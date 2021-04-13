@@ -162,6 +162,18 @@ class SettingModel extends AdminModel
                 $result = self::where('key_value', 'setting-policy-terms-of-use')->value('value');
             }
 
+            if ($params['type'] == 'policy-exchange') {
+                $result = self::where('key_value', 'setting-policy-exchange')->value('value');
+            }
+
+            if ($params['type'] == 'policy-shopping-guide') {
+                $result = self::where('key_value', 'setting-policy-shopping-guide')->value('value');
+            }
+
+            if ($params['type'] == 'policy-business-conception') {
+                $result = self::where('key_value', 'setting-policy-business-conception')->value('value');
+            }
+
         }
 
         if ($options != null) {
