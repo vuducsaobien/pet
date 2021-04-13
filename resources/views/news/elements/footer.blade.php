@@ -33,7 +33,7 @@
                 <!-- USEFUL LINKS -->
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                     <div class="footer-widget mb-30 pl-50">
-                        <h4 class="footer-title">USEFUL LINKS</h4>
+                        <h4 class="footer-title">Hỗ Trợ</h4>
 
                         @include('news.elements.footer.footer_useful')
 
@@ -43,7 +43,7 @@
                 <!-- Info -->
                 <div class="col-xl-3 col-lg-2 col-md-6 col-sm-6">
                     <div class="footer-widget mb-30 pl-70">
-                        <h4 class="footer-title">Thông tin</h4>
+                        <h4 class="footer-title">Liên hệ</h4>
 
                         @include('news.elements.footer.footer_info')
 

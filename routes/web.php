@@ -133,7 +133,6 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
     // news69/login
     $prefix         = '';
     $controllerName = 'auth';
-    
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/login',        ['as' => $controllerName.'/login',      'uses' => $controller . 'login'])->middleware('check.login');;
@@ -149,19 +148,28 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         // Route::get('/', [ 'as' => $controllerName . '/index', 'uses' => $controller . 'index' ]);
-        Route::get('/', [ 'as' => $controllerName, 'uses' => $controller . 'index' ]);
+        Route::get('/', [ 'as' => $controllerName . '/web', 'uses' => $controller . 'index' ]);
 
         Route::post('/post-contact',                 [ 'as' => $controllerName . '/post_contact',                  'uses' => $controller . 'postContact' ]);
         Route::get('/thank-you.html',                 [ 'as' => $controllerName . '/thankyou',                  'uses' => $controller . 'thankyou' ]);
     });
 
     // ====================== ABOUT US ========================
-    $prefix         = '';
+    $prefix         = 'gioi-thieu';
     $controllerName = 'about';
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
 
-        Route::get('/about-us',[ 'as' => $controllerName . '/index', 'uses' => $controller . 'index' ]);
+        Route::get('/',[ 'as' => $controllerName . '/web', 'uses' => $controller . 'index' ]);
+    });
+
+    // ====================== POLICY - USE ========================
+    $prefix         = 'chinh-sach';
+    $controllerName = 'policy';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+
+        Route::get('/su-dung.html',[ 'as' => $controllerName . '/use', 'uses' => $controller . 'use' ]);
     });
 
     // ============================== COMMENT ==============================

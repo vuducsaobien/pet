@@ -157,6 +157,11 @@ class SettingModel extends AdminModel
                     $result = json_decode($item[0]['value'], true);
                 }
             }
+
+            if ($params['type'] == 'policy-use') {
+                $result = self::where('key_value', 'setting-policy-terms-of-use')->value('value');
+            }
+
         }
 
         if ($options != null) {
