@@ -83,7 +83,7 @@ class TestimonialModel extends AdminModel
         $result = null;
 
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'content', 'job', 'thumb')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'content', 'job', 'thumb', 'status')->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'get-thumb') {

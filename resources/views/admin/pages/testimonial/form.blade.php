@@ -3,11 +3,15 @@
 
     use App\Helpers\Form as FormTemplate;
     use App\Helpers\Template;
-
+    // echo '<pre style="color:red";>$controllerName === '; print_r($controllerName);echo '</pre>';
+    // echo '<h3>Die is Called </h3>';die;
     $formInputAttr = config('zvn.template.form_input');
     $formLabelAttr = config('zvn.template.form_label');
 
-    $statusValue      = ['default' => 'Select status', 'active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
+    $statusValue      = [
+        'active'   => config('zvn.template.status.active.name'),
+        'inactive' => config('zvn.template.status.inactive.name')
+    ];
 
     $inputHiddenID    = Form::hidden('id', @$item['id']);
     $inputHiddenThumb = Form::hidden('thumb_current', @$item['thumb']);

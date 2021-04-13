@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TestimonialModel as MainModel;
 use App\Http\Requests\TestimonialRequest as MainRequest ;    
@@ -11,8 +10,8 @@ class TestimonialController extends AdminController
     public function __construct()
     {
         $this->pathViewController = 'admin.pages.testimonial.';
-        $this->controllerName = 'testimonial';
-        $this->model = new MainModel();
+        $this->controllerName     = 'testimonial';
+        $this->model              = new MainModel();
         parent::__construct();
     }
 
@@ -55,13 +54,6 @@ class TestimonialController extends AdminController
         return redirect()->route($this->controllerName)->with('zvn_notify', 'Cập nhật trạng thái hiển thị trang chủ thành công!');
     }
 
-    public function display(Request $request) {
-        $params["currentDisplay"]   = $request->display;
-        $params["id"]               = $request->id;
-        $result = $this->model->saveItem($params, ['task' => 'change-display']);
-        echo json_encode($result);
-    }
-
     public function ordering(Request $request)
     {
         $this->params['ordering'] = $request->ordering;
@@ -70,11 +62,4 @@ class TestimonialController extends AdminController
         echo json_encode($result);
     }
 
-    public function move(Request $request)
-    {
-        $params['type'] = $request->type;
-        $params['id'] = $request->id;
-        $this->model->move($params, null);
-        return redirect()->route($this->controllerName);
-    }
 }

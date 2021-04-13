@@ -27,7 +27,7 @@ class TestimonialRequest extends FormRequest
         $id = $this->id;
 
         $condThumb = 'bail|required|max:500';
-        $condName  = "bail|required|between:5,100|unique:$this->table,name";
+        $condName  = "bail|required|between:1,100|unique:$this->table,name";
 
         if(!empty($id)){ // edit
             $condThumb = 'required';
@@ -36,7 +36,7 @@ class TestimonialRequest extends FormRequest
         return [
             'name'        => $condName,
             'content' => 'bail|required|min:5',
-            'job'        => 'bail|required|min:5',
+            'job'        => 'bail|required|min:1',
             'status'      => 'bail|in:active,inactive',
             'thumb'       => $condThumb
         ];
