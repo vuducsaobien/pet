@@ -9,8 +9,8 @@
             </div>
         </div>
     </div>
-    
-    @if( $items !== null )
+
+    @if( $items !== null && $items !== '')
         <div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
