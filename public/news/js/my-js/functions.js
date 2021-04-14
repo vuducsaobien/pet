@@ -77,7 +77,7 @@ function callAjax(element, url, type) {
 						// Add Price
 						let xhtml = format_html_price(result.price, result.price_until);
 						$("div#product_price").html(xhtml);
-						$("div#product_price").data('price', result.price_sale);
+						$("div#product_price").data('price', result.price_until);
 
 						// Add Short Description
 						let short = $(".qwick-view-content div.product-short-description");
@@ -265,6 +265,7 @@ function getUrlParam(key) {
 
 function showRating($rating)
 {
+	let $xhtml;
 	$rating = parseInt($rating);
 	if ( checkNumber($rating) && checkInteger($rating) ) {
 		$tru = 5 - $rating;

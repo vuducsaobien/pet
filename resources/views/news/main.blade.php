@@ -35,7 +35,9 @@
 
 
         @yield('content')
-
+            @php
+                // echo '<pre style="color:red";>$cart === '; print_r($cart);echo '</pre>';
+            @endphp
 
     	@include('news.elements.footer')
 

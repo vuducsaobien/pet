@@ -29,3 +29,9 @@
         <a href="#"><i class="ti-close"></i></a>
     </div>
 </li>
+
+<div class="shopping-cart-total">
+    <h4>Shipping : <span>$20.00</span></h4>
+    <h4>Total : <span class="shop-total">$260.00</span></h4>
+</div>
+

@@ -6,24 +6,12 @@ $(document).ready(function() {
 		let currentElement = $(this);
 		let url            = currentElement.attr("href");
 		localStorage.setItem('product_id', url.match(/\d+$/));
-
+		console.log('url = ' + url);
 		callAjax(currentElement, url, 'modal');
 	});
 
 	// add To Cart
 	$('.addtocart-btn').click(function (e) {
-
-		if ( !login ) {
-			$('#exampleModal').modal('hide');
-			Swal.fire({
-				position         : 'top-end',
-				icon             : 'error',
-				title            : 'Bạn phải Login mới mua được SP !',
-				showConfirmButton: false,
-				timer            : 3000
-			})
-			return false;
-		}
 
 		e.preventDefault();
 		let currentElement = $(this);
@@ -53,18 +41,28 @@ $(document).ready(function() {
 				arrAttribVal.push(attribute_value);
 			})
 
-				strProductID = arrProductID.join(',');
-				strAttribID  = arrAttribID.join(',');
-				strAttribVal = arrAttribVal.join(',');
+			strProductID = arrProductID.join(',');
+			strAttribID  = arrAttribID.join(',');
+			strAttribVal = arrAttribVal.join(',');
 
-				product_id = strProductID.substr(strProductID.indexOf(",") + 1);
-				url = url.replace("product_id", product_id).replace("quantity", quantity)
-				.replace("price", price).replace("total_price", total_price)
-				.replace("attribute_id", strAttribID).replace("attribute_value", strAttribVal);
+			product_id = strProductID.substring(0, strProductID.indexOf(','));
+
+			url        = url
+			.replace("product_id", product_id)
+			.replace("quantity", quantity)
+			.replace("price", price)
+			.replace("total_price", total_price)
+			.replace("attribute_id", strAttribID)
+			.replace("attribute_value", strAttribVal);
 
 			console.log('url = ' + url);
+			$('div.shopping-cart-btn').children().attr('hidden', false);
 			callAjax(currentElement, url, 'cart');
 			$('#exampleModal').modal('hide');
+
+			let hidden = $('div.header-cart').attr('hidden');
+			
+		
 		}
 	});
 
@@ -237,6 +235,13 @@ $(document).ready(function() {
 		// console.log(userInfo);
 		// console.log(userInfo.id);
 	}else{
+	}
+
+	console.log('cartCheck = ' + cartCheck);
+	let hidden = $('div.header-cart').attr('hidden');
+	console.log('hidden = ' + hidden);
+	if (cartCheck) {
+		let hidden = $('div.cart-header').attr('hidden', false);
 	}
 
 	$('ul#product-attribute').css("list-style-type", "none");
