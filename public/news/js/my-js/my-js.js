@@ -62,14 +62,6 @@ $(document).ready(function() {
 		}
 	});
 
-	// Refreash Ship
-	let shipDefine = localStorage.getItem('ship');
-	if ( shipDefine !== null || shipDefine !== '' ) {
-		console.log('shipDefine = ' + shipDefine);
-		localStorage.setItem('ship', '');
-		// $('span#fee').html('');
-	}	
-
 	// Discount
 	$buttonCoupon.click(function(e){
 		e.preventDefault();
@@ -182,19 +174,42 @@ $(document).ready(function() {
 	// }
 
 	$("a#checkout").click(function(e){
-		let currentElement = $(this);
-		let url            = currentElement.data("url");
-		let fee            = $('select.shipping_change').val();
+		let fee            = htmlToNumber($fee.text());
+		let ship           = htmlToNumber($coupon.text());
+		let coupon_name   = $('div.discount-code input').val();
 
 		if (checkInputOrdering(fee, 1)) {
-			// url = url.replace("default", fee)
-			// console.log('ship = ' + ship);
 			localStorage.setItem('ship', fee);
-			// callAjax(null, url, 'ship');
-			// $("input#ship").val(fee);
-			// e.preventDefault();
+			localStorage.setItem('coupon', ship);
+			localStorage.setItem('coupon_name', coupon_name);
+			localStorage.setItem('back_cart', false);
 		}
 	});
+
+	// Back FromCheckout to Cart
+	let check_back = localStorage.getItem('back_cart');
+	if ( check_back !== null && check_back !== '') localStorage.setItem('back_cart', false);
+
+	$("a#back_cart").click(function(e){
+		localStorage.setItem('back_cart', true);
+	});
+
+	if ( check_back == 'true' ) {
+		let product_price = htmlToNumber($product_price.text() );
+		let ship          = parseInt( localStorage.getItem('ship') );
+		let coupon        = parseInt( localStorage.getItem('coupon') );
+		let coupon_name   = localStorage.getItem('coupon_name');
+
+		let string        = '<h5>Tổng Cộng: ' + format_price(product_price + ship - coupon) + '</h5>';
+
+		if ( ship !== null && ship !== '' ) $fee.html(format_price( ship ));
+		if ( coupon !== null && coupon !== '' ) $coupon.html(format_price( coupon ));
+
+		$grandTotal.html(string);
+		$("select.shipping_change").val(localStorage.getItem('ship'));
+		$("div.discount-code input").val(coupon_name);
+	}
+
 
 	// Coutinue Checkout Button
 	let startIdButton = [3, 4, 5, 6];

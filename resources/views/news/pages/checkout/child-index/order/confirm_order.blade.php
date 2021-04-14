@@ -26,7 +26,7 @@
 <div class="billing-back-btn">
     <span>
         Quên giỏ hàng ?
-        <a href="{{ route('cartFront') }}"> Quay lại & Chỉnh sửa lại Giỏ Hàng.</a>
+        <a id="back_cart" href="{{ route('cartFront') }}"> Quay lại & Chỉnh sửa lại Giỏ Hàng.</a>
 
     </span>
     <div class="billing-btn">
