@@ -17,6 +17,7 @@
 <script src="{{asset('news/js/main.js')}}"></script>
 
 {{-- My JS --}}
+<script src="{{ asset('news/js/my-js/define.js') }}"></script>
 <script src="{{ asset('news/js/my-js/my-js.js') }}"></script>
 <script src="{{ asset('news/js/my-js/dropdown_menu.js') }}"></script>
 <script src="{{ asset('news/js/my-js/functions.js') }}"></script>

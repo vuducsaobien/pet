@@ -10,9 +10,9 @@
         Tỉnh/Thành Phố
     </label>
     <select class="email s-email s-wid shipping_change">
-        <option value="default">Chọn Tỉnh/Thành Phố</option>
+        <option value="default" selected>Chọn Tỉnh/Thành Phố</option>
         @foreach($items as $key => $value)
-            <option value="{{ $value->fee }}">{{ $value->name }}</option>
+            <option value="{{ $value->price }}">{{ $value->name }}</option>
         @endforeach
     </select>
 </div>

@@ -58,17 +58,32 @@ $(document).ready(function() {
 			console.log('url = ' + url);
 			$('div.shopping-cart-btn').children().attr('hidden', false);
 			callAjax(currentElement, url, 'cart');
-			$('#exampleModal').modal('hide');
-
-			let hidden = $('div.header-cart').attr('hidden');
-			
-		
+			$('#exampleModal').modal('hide');		
 		}
 	});
 
+	// Ship
+	// if ( localStorage.getItem('ship') !== null) {
+	// 	// localStorage.setItem('ship', null);
+	// 	let ship = localStorage.getItem('ship');
+	// 	console.log('ship = ' + ship);
+	// 	$("input#ship").val(ship);
+	// }	
+
+	// Refreash Ship
+	let shipDefine = localStorage.getItem('ship');
+	if ( shipDefine !== null || shipDefine !== '' ) {
+		console.log('shipDefine = ' + shipDefine);
+		localStorage.setItem('ship', '');
+		// $('span#fee').html('');
+	}
+	
+
+	// Ship Change in Cart
 	$('select.shipping_change').on("change", function(e) {
 		e.preventDefault();
 		let fee = parseInt($(this).val());
+		console.log('fee = ' + fee);
 
 		if (checkNumber(fee)) {
 			let span                = $('span#grand_total span');
@@ -77,12 +92,15 @@ $(document).ready(function() {
 			let grand_total         = parseInt(currenciesAsNumbers);
 			let grand_total_ship    = grand_total + fee;
 			let format              = format_price(grand_total_ship);
-			let string              =  '<h5>Tổng Cộng: ' + format + '</h5>';
-			let selectValue = $(this).val();
-			// console.log('selectValue = ' + selectValue);
+			let string              = '<h5>Tổng Cộng: ' + format + '</h5>';
+			let selectValue         = $(this).val();
+
+			console.log('fee = ' + fee);
+			console.log('selectValue = ' + selectValue);
 
 			$('div.grand-totall h5').html(string);
-			showNotify($('span#fee'), 'Đã Cập nhật Lại Giá Tiền');
+			$fee.html(format_price(fee));
+			showNotify($fee, 'Đã Cập nhật Lại Giá Tiền');
 
 			let   value = {
 				'fee'             : fee,
@@ -99,7 +117,7 @@ $(document).ready(function() {
 				let arrtest = JSON.parse(cart);
 				$.each(arrtest, function( index, result ) {
 					if (index == 'fee') {
-						$('span#fee').html(format_price(result));
+						// $('span#fee').html(format_price(result));
 					}
 		
 					// console.log(`index = ${index} - result = ${result}`);
@@ -107,34 +125,45 @@ $(document).ready(function() {
 			}
 		
 			// $(this "select").val("val2");
+		}else{
+			$fee.html(format_price(0));
+			let pri = $('span#grand_total span').text();
+			pri = parseFloat( pri.replace(/[^\d\.]/g,'') ) + '000';
+			pri = parseInt(pri);
+
+			let string = '<h5>Tổng Cộng: ' + format_price(pri) + '</h5>';
+			$('div.grand-totall h5').html(string);
+
 		}
 	});
 
 	// Checkout Ship
-	let cart = localStorage.getItem('cart');
-	if (cart) {
-		let arrtest = JSON.parse(cart);
-		$.each(arrtest, function( index, result ) {
+	// let cart = localStorage.getItem('cart');
+	// if (cart && shipDefine !== null || shipDefine !== '') 
+	// {
+	// 	let arrtest = JSON.parse(cart);
+	// 	$.each(arrtest, function( index, result ) 
+	// 	{
+	// 		console.log(`---index = ${index} - result = ${result}`);
 
-			if (index == 'fee') {
-				$('p#check-out-fee').html('Phí vận chuyển : ' + format_price(result));
-				$('span#fee').html(format_price(result));
-				$('td#check-out-fee').html('+ ' + format_price(result));
-			}
+	// 		if (index == 'fee') {
+	// 			$('p#check-out-fee').html('Phí vận chuyển : ' + format_price(result));
+	// 			$('span#fee').html(format_price(result));
+	// 			$('td#check-out-fee').html('+ ' + format_price(result));
+	// 		}
 
-			if (index == 'grand_total_ship') {
-				$('td#grand_total_ship').html('= ' + format_price(result));
-				let string =  '<h5>Tổng Cộng: ' + format_price(result) + '</h5>';
-				$('div.grand-totall h5').html(string);
-			}
+	// 		if (index == 'grand_total_ship') {
+	// 			$('td#grand_total_ship').html('= ' + format_price(result));
+	// 			let string =  '<h5>Tổng Cộng: ' + format_price(result) + '</h5>';
+	// 			$('div.grand-totall h5').html(string);
+	// 		}
 
-			if (index == 'selectValue') {
-				$('select.shipping_change').val(result);
-			}
+	// 		// if (index == 'selectValue') {
+	// 		// 	$('select.shipping_change').val(result);
+	// 		// }
 
-			// console.log(`index = ${index} - result = ${result}`);
-		})
-	}
+	// 	})
+	// }
 
 	$("a#checkout").click(function(e){
 		let currentElement = $(this);
@@ -150,13 +179,6 @@ $(document).ready(function() {
 			// e.preventDefault();
 		}
 	});
-
-	if ( localStorage.getItem('ship') !== null) {
-		let ship = localStorage.getItem('ship');
-		console.log('ship = ' + ship);
-		$("input#ship").val(ship);
-	}	
-
 
 	// Coutinue Checkout Button
 	let startIdButton = [3, 4, 5, 6];
@@ -237,11 +259,8 @@ $(document).ready(function() {
 	}else{
 	}
 
-	console.log('cartCheck = ' + cartCheck);
-	let hidden = $('div.header-cart').attr('hidden');
-	console.log('hidden = ' + hidden);
 	if (cartCheck) {
-		let hidden = $('div.cart-header').attr('hidden', false);
+		$('div.cart-header').attr('hidden', false);
 	}
 
 	$('ul#product-attribute').css("list-style-type", "none");
