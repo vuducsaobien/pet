@@ -79,7 +79,7 @@
 <tfoot>
     <tr>
         <td colspan="3">Tổng Giá Tiền</td>
-        <td colspan="1">= {!! $total !!}</td>
+        <td id="check-out-product_price" colspan="1">= {!! $total !!}</td>
     </tr>
     <tr class="tr-f">
         <td colspan="3">Phí Vận Chuyển</td>

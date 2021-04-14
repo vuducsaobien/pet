@@ -59,9 +59,9 @@ class CartController extends FrontendController
         $data = $request->all()['info'];
         $cart = json_decode($request->cart, true);
 
-        // echo '<pre style="color:red";>$data === '; print_r($data);echo '</pre>';
-        // echo '<pre style="color:red";>$cart === '; print_r($cart);echo '</pre>';
-        // echo '<h3>Die is Called Cart Controll</h3>';die;
+        echo '<pre style="color:red";>$data === '; print_r($data);echo '</pre>';
+        echo '<pre style="color:red";>$cart === '; print_r($cart);echo '</pre>';
+        echo '<h3>Die is Called Cart Controll</h3>';die;
 
         $order_code = $this->model->saveItem($data, ['task' => 'news-add-item-customer-model']);
         $data['order_code'] = $order_code;

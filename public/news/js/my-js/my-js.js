@@ -173,14 +173,41 @@ $(document).ready(function() {
 	// 	})
 	// }
 
-	$("a#checkout").click(function(e){
-		let fee            = htmlToNumber($fee.text());
-		let ship           = htmlToNumber($coupon.text());
-		let coupon_name   = $('div.discount-code input').val();
+	// Update Infomation From Cart to Checkout
+	let address = localStorage.getItem('address');
+	if (address !== null && address !== '' && controllerName == 'checkout') {
+		$("label#address").html('Địa Chỉ Chính Xác Tại ' + '<u>' + address + '</u>');
 
-		if (checkInputOrdering(fee, 1)) {
-			localStorage.setItem('ship', fee);
-			localStorage.setItem('coupon', ship);
+		//
+		let product_price = parseInt( htmlToNumber( $('td#check-out-product_price').html() ) );
+		let ship          = parseInt( localStorage.getItem('ship') );
+		let coupon        = parseInt( localStorage.getItem('coupon') );
+
+		// $('p#check-out-fee').html('Phí vận chuyển: ' + format_price(result));
+		// $('span#fee').html(format_price(result));
+		$('td#check-out-fee').html('+ ' + format_price(ship));	
+		$('td#check-out-coupon').html('- ' + format_price(coupon));	
+		$('td#grand_total_ship').html('= ' + format_price(product_price + ship - coupon));
+
+		$("div#submit_cart input#ship")
+		.val( localStorage.getItem('ship') );
+
+		// let string =  '<h5>Tổng Cộng: ' + format_price(result) + '</h5>';
+		// $('div.grand-totall h5').html(string);
+	}
+
+
+
+	$("a#checkout").click(function(e){
+		let ship        = htmlToNumber($fee.text());
+		let address     = $('select.shipping_change option:selected').text();
+		let coupon      = htmlToNumber($coupon.text());
+		let coupon_name = $('div.discount-code input').val();
+		
+		if (checkInputOrdering(ship, 1)) {
+			localStorage.setItem('ship', ship);
+			localStorage.setItem('address', address);
+			localStorage.setItem('coupon', coupon);
 			localStorage.setItem('coupon_name', coupon_name);
 			localStorage.setItem('back_cart', false);
 		}
@@ -199,7 +226,6 @@ $(document).ready(function() {
 		let ship          = parseInt( localStorage.getItem('ship') );
 		let coupon        = parseInt( localStorage.getItem('coupon') );
 		let coupon_name   = localStorage.getItem('coupon_name');
-
 		let string        = '<h5>Tổng Cộng: ' + format_price(product_price + ship - coupon) + '</h5>';
 
 		if ( ship !== null && ship !== '' ) $fee.html(format_price( ship ));
@@ -210,16 +236,21 @@ $(document).ready(function() {
 		$("div.discount-code input").val(coupon_name);
 	}
 
+	//
+	// $("button#payment-3").click(function(e){
+	// 	e.preventDefault();
+	// 	alert(22);
+	// });	
 
 	// Coutinue Checkout Button
-	let startIdButton = [3, 4, 5, 6];
+	let startIdButton = [3, 4, 5];
 	$.each(startIdButton, function( index, result ) {
-		// console.log(`index = ${index} - result = ${result}`);
+		console.log(`index = ${index} - result = ${result}`);
 
-		$(`button#payment-${result}`).click(function () {
-			if (result == 6) {
-				
-			}
+		$(`button#payment-${result}`).click(function (e) {
+			// if (result == 3) {e.preventDefault()}
+			if (result == 5) {}
+
 			let div         = $(`div#payment-${result}`);
 			let nextDiv     = $(`div#payment-${result + 1}`);
 			let showClass   = div.attr('class');
@@ -239,6 +270,27 @@ $(document).ready(function() {
 		});
 
 	})
+
+	$("form[name=customer] button[type=submit]").click(function(e){
+		e.preventDefault();
+
+		$("div#submit_cart input#email")
+		.val( $("form[name=customer] input[name=email]").val() );
+
+		$("div#submit_cart input#name")
+		.val( $("form[name=customer] input[name=name]").val() );
+
+		$("div#submit_cart input#phone")
+		.val( $("form[name=customer] input[name=phone]").val() );
+
+		$("div#submit_cart input#address")
+		.val( $("form[name=customer] input[name=address]").val() );
+		
+	});
+	// $('div#submit_cart form button').click(function(e){
+	// 	e.preventDefault();
+	// });
+
 
 	// Show Creadit Card
 	// $("input#creadit_card").click(function(){
