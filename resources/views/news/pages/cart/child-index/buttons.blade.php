@@ -3,7 +3,7 @@
         <div class="cart-shiping-update-wrapper">
 
             <div class="cart-shiping-update">
-                <a href="#">Continue Shopping</a>
+                <a href="{{route('home')}}">Continue Shopping</a>
                 {{-- <button>Update Shopping Cart</button> --}}
             </div>
 

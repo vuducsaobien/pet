@@ -62,51 +62,69 @@ $(document).ready(function() {
 		}
 	});
 
-	// Ship
-	// if ( localStorage.getItem('ship') !== null) {
-	// 	// localStorage.setItem('ship', null);
-	// 	let ship = localStorage.getItem('ship');
-	// 	console.log('ship = ' + ship);
-	// 	$("input#ship").val(ship);
-	// }	
-
 	// Refreash Ship
 	let shipDefine = localStorage.getItem('ship');
 	if ( shipDefine !== null || shipDefine !== '' ) {
 		console.log('shipDefine = ' + shipDefine);
 		localStorage.setItem('ship', '');
 		// $('span#fee').html('');
-	}
-	
+	}	
+
+	// Discount
+	$buttonCoupon.click(function(e){
+		e.preventDefault();
+		let coupon_name   = $('div.discount-code input').val();
+		let product_price = htmlToNumber( $product_price.text() );
+		let ship          = htmlToNumber( $fee.text() );
+		let coupon_price  = htmlToNumber( $coupon.text() );
+
+		let url           = urlCoupon
+		.replace('coupon_name', coupon_name)
+		.replace('price', product_price + ship)
+
+		// if ( coupon_name !== '' && coupon_price == 0) {
+		if ( coupon_name !== '' ) {
+
+			// url = url.replace("default", fee)
+			console.log('url = ' + url);
+			// localStorage.setItem('ship', fee);
+			callAjax(null, url, 'coupon');
+			// $("input#ship").val(fee);
+		}
+	});	
 
 	// Ship Change in Cart
 	$('select.shipping_change').on("change", function(e) {
 		e.preventDefault();
 		let fee = parseInt($(this).val());
-		console.log('fee = ' + fee);
+		// console.log('fee = ' + fee);
 
-		if (checkNumber(fee)) {
-			let span                = $('span#grand_total span');
-			let old_grandTotal_text = span.text();
-			let currenciesAsNumbers = parseFloat( old_grandTotal_text.replace(/[^\d\.]/g,'') ) + '000';
-			let grand_total         = parseInt(currenciesAsNumbers);
-			let grand_total_ship    = grand_total + fee;
-			let format              = format_price(grand_total_ship);
-			let string              = '<h5>Tổng Cộng: ' + format + '</h5>';
-			let selectValue         = $(this).val();
+		if (checkNumber(fee)) 
+		{
+			$coupon.html( format_price(0) );
+			let product_price    = htmlToNumber($product_price.text());
+			// let product_coupon   = htmlToNumber($coupon.text());
+			// let grand_total      = htmlToNumber($product_price.text());
+			// let grand_total_ship = grand_total + fee;
+			let grand_total = product_price + fee;
+			let format      = format_price(grand_total);
+			let string      = '<h5>Tổng Cộng: ' + format + '</h5>';
+			let selectValue = $(this).val();
 
-			console.log('fee = ' + fee);
-			console.log('selectValue = ' + selectValue);
+			// console.log('fee = ' + fee);
+			// console.log('selectValue = ' + selectValue);
 
-			$('div.grand-totall h5').html(string);
+			$grandTotal.html(string);
 			$fee.html(format_price(fee));
-			showNotify($fee, 'Đã Cập nhật Lại Giá Tiền');
+			showNotify($grandTotal, 'Đã Cập nhật Lại Giá Tiền');
 
 			let   value = {
 				'fee'             : fee,
-				'grand_total'     : grand_total,
-				'grand_total_ship': grand_total_ship,
-				'selectValue'     : selectValue,
+				// 'grand_total'     : grand_total,
+				// 'grand_total_ship': grand_total_ship,
+				'product_price': product_price,
+				'grand_total'  : grand_total,
+				'selectValue'  : selectValue,
 			};
 
 			localStorage.setItem('cart', JSON.stringify(value));
@@ -127,12 +145,10 @@ $(document).ready(function() {
 			// $(this "select").val("val2");
 		}else{
 			$fee.html(format_price(0));
-			let pri = $('span#grand_total span').text();
-			pri = parseFloat( pri.replace(/[^\d\.]/g,'') ) + '000';
-			pri = parseInt(pri);
+			let pri = htmlToNumber($product_price.text());
 
 			let string = '<h5>Tổng Cộng: ' + format_price(pri) + '</h5>';
-			$('div.grand-totall h5').html(string);
+			$grandTotal.html(string);
 
 		}
 	});

@@ -1,6 +1,6 @@
 function showNotify(element, message, type = 'success') {
     element.notify(message, {
-        position: "top center",
+        position : "bottom center",
         className: type,
     });
 }
@@ -52,10 +52,29 @@ function checkNumberHigher(number, higher){
 function callAjax(element, url, type) {
 
 	$.ajax({
-		url: url,
-		type: "GET",
-		dataType: "json",
-		success: function (result) {
+		url       : url,
+		type      : "GET",
+		dataType  : "json",
+		statusCode: 
+		{
+			500: function() {
+				console.log('500');
+
+				switch (type) {
+					case 'coupon':
+						// Calculator Again Grand Total
+						$coupon.html(format_price(0) );
+						let product_price = htmlToNumber($product_price.text());
+						let ship          = htmlToNumber($fee.text());
+						let format        = format_price(product_price + ship);
+						let string        = '<h5>Tổng Cộng: ' + format + '</h5>';
+						$grandTotal.html(string);
+						showNotify($grandTotal, 'Đã Cập nhật Lại Giá Tiền');
+					break;
+				}
+			}
+		},
+		success   : function (result) {
 			// console.log(result);
 			
 			if (result) {
@@ -151,7 +170,6 @@ function callAjax(element, url, type) {
 					break;
 
 					case 'cart':
-
 						// SHow success message
 						let cartIcon = $('span.count-style');
 						let count    = parseInt(cartIcon.text());
@@ -164,12 +182,44 @@ function callAjax(element, url, type) {
 						}
 
 						showNotify(cartIcon, `Đã thêm ${result} SP vào Giỏ hàng`);
-			
 					break;
-	
+
+					case 'coupon':
+						console.log(result);
+						console.log(result.type);
+
+						let product_price = htmlToNumber($product_price.text());
+						let ship          = htmlToNumber($fee.text());
+						let grand_total   = product_price + ship;
+						
+						// Subtraction Grand_Total
+						let minus;
+						if ( result.type == 'percent' ) {
+							minus = result.value * grand_total / 100;
+							$coupon.html(format_price(minus) );
+					
+						} else if(result.type == 'price') {
+							$coupon.html(format_price(result.value) );
+							minus = result.value;
+						}else{
+							showNotify($fee, 'Đã Cập nhật Lại Giá Tiền');
+							$coupon.html(format_price(0) );
+							break;
+						}
+
+						// Edit Grand Total
+						let format      = format_price(grand_total - minus);
+						let string      = '<h5>Tổng Cộng: ' + format + '</h5>';
+						$grandTotal.html(string);
+
+						showNotify($grandTotal, 'Đã Cập nhật Lại Giá Tiền');
+						console.log('minus = ' + minus);
+
+					break;
+
 				}
 			} else {
-				console.log('fail');
+				// console.log('fail');
 			}
 		},
 	});
@@ -206,6 +256,10 @@ function format_price(price, type = 'vietnam', comma = '.', decimal = 0){
 			break;
 	}
 
+}
+
+function htmlToNumber($element){
+	return parseInt(parseFloat($element.replace(/[^\d\.]/g,'') ) + '000');
 }
 
 function selectBox(attribute, list_attribute){

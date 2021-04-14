@@ -117,6 +117,8 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
 
         Route::get('addToCart/{product_id}-{quantity}-{price}-{total_price}-{attribute_id}-{attribute_value}', 
         ['as' => $controllerName . '/addToCart', 'uses' => $controller . 'addToCart'])->where('id', '[0-9]+');
+        Route::get('{coupon_name?}/{total_price?}', 
+        ['as' => $controllerName . '/coupon', 'uses' => $controller . 'coupon']);
 
     });
     

@@ -97,6 +97,30 @@ class DiscountModel extends AdminModel
             $result = self::select('id', 'thumb')->where('id', $params['id'])->first();
         }
 
+        if($options['task'] == 'news-get-items-get-price-coupon') {
+            $result = self::select('total_times', 'times_used', 'price', 'percent', 'min_price', 
+            'max_price', 'date_start', 'date_end')
+            // $result = self::select('total_times')
+
+            ->where('status', 'active')
+            ->where('code', $params['coupon_name'])
+            ->first()->toArray();
+        }
+
+        if($options['task'] == 'news-get-items-increase-coupon-times-used') {
+            $result = self::where('code', $params['coupon_name'])->value('times_used');
+
+            if ($result == null || $result == '' || $result == 0) {
+                self::where('code', $params['coupon_name'])
+                ->update(['times_used' => 1 ]);
+            } else {
+                self::where('code', $params['coupon_name'])
+                ->update(['times_used' => $result + 1 ]);
+            }
+            
+        }
+
+
         return $result;
     }
 

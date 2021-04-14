@@ -48,6 +48,7 @@
             var login          = "{{ $login }}";
             var cartCheck      = "{{ $cartCheck }}";
             var asset          = "{{ URL::asset('images/product') }}/";
+            var urlCoupon      = "{{ route('product/coupon', ['coupon_name', 'price']) }}";
 
             if (login) {
                 var userInfo       = JSON.parse(`<?= json_encode($userInfo) ?>`);

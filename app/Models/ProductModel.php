@@ -6,6 +6,7 @@ use App\Models\ProductImageModel;
 use App\Models\AttributeModel;
 use App\Models\ProductAttributeModel;
 use App\Models\CommentModel;
+use App\Models\DiscountModel;
 use Illuminate\Support\Facades\DB;
 
 class ProductModel extends AdminModel
@@ -244,8 +245,14 @@ class ProductModel extends AdminModel
             $result       = $commentModel->getItem($params, ['task' => 'news-get-items-modal-rating-from-product-id']);
         }
 
-
-        
+        if($options['task'] == 'news-get-items-get-price-coupon') {
+            $discountModel = new DiscountModel();
+            $result        = $discountModel->getItem($params, ['task' => 'news-get-items-get-price-coupon']);
+        }
+        if($options['task'] == 'news-get-items-increase-coupon-times-used') {
+            $discountModel = new DiscountModel();
+            $result        = $discountModel->getItem($params, ['task' => 'news-get-items-increase-coupon-times-used']);
+        }
 
         if($options['task'] == 'get-list-thumb-product-detail') {
             $productImage = new ProductImageModel();

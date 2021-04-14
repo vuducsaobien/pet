@@ -100,4 +100,50 @@ class ProductController extends FrontendController
 
     }
 
+    public function coupon(Request $request)
+    {
+        $params["coupon_name"] = $request->coupon_name;
+        $params["total_price"] = $request->total_price;
+
+        $items = $this->model->getItem($params, ['task' => 'news-get-items-get-price-coupon']);
+        if ( // Ok
+            $items['total_times'] >= $items['times_used'] &&
+            (
+                $params["total_price"] >= $items['min_price'] && 
+                $params["total_price"] <= $items['max_price']
+            ) && (
+                ( ( time() - strtotime($items['date_start']) ) >= 0 ) &&
+                ( ( strtotime($items['date_end']) - time() ) >= 0 )
+            )
+        ) {
+
+            if ( $items['price'] == null || $items['price'] == '' ) {
+                $result['value'] = $items['percent'];
+                $result['type']  = 'percent';
+            } else {
+                $result['value'] = $items['price'];
+                $result['type']  = 'price';
+            }
+
+            // Increase times_used Coupon +1
+            // $this->model->getItem($params, 
+            // ['task' => 'news-get-items-increase-coupon-times-used']);
+        }else{
+            $result['type'] = 'error';
+        }
+
+        if ($items == null || $items == '') {
+            $result['type'] = 'error';
+        }
+
+        // $result = $result['total_times'];
+        // $result = time();
+        // $result = strtotime($items['date_start']);
+        // $result = date("Y-m-d H:i:s", $result);
+        // $result = date("H:i:s d-m-Y", $result);
+
+        return response()->json($result);
+    }
+
+
 }
