@@ -12,10 +12,10 @@
         $linkModal         = URL::linkModal($id);
         $linkProduct       = URL::linkProduct($value, 'index');
         $thumb             = $value['thumb'];
-        $name              = Hightlight::showFrontend($value['name'], $search);
+        $name              = Hightlight::showFrontend($value['name'], $search_name);
         $quantity          = $value['quantity'];
         $short_description = $value['short_description'];
-        $htmlPrice         = Template::caculatorPriceFrontend($value['price'], $value['price_sale'], $value['sale']);
+        $htmlPrice         = Template::caculatorPriceFrontend($value['price'], $value['price_until']);
         
     @endphp
 
@@ -23,8 +23,45 @@
         <div class="product-wrapper mb-10">
 
             @include('news.partials.product.product_image', ['linkProduct' => $linkProduct])
-            @include('news.partials.product.product_content')
-            @include('news.partials.product.product_list_content', ['quantity' => $quantity, 'quickview' => true])
+            
+            {{-- @if ($display == 'grid')
+                @include('news.partials.product.product_content')
+            @else
+                @include('news.partials.product.product_list_content', 
+                ['quantity' => $quantity, 'quickview' => true])
+            @endif --}}
+
+            @php
+                $hiddenGrid = null;
+                $hiddenList = null;
+
+                if ($display == 'grid') {
+                    $hiddenList = 'hidden';
+                } else {
+                    $hiddenGrid = 'hidden';
+                }
+                
+            @endphp
+
+            <div class="product-content" $hiddenGrid>
+                <h4><a href="{{ $linkProduct }}">{!! $name !!}</a></h4>
+                <div class="product-price">
+                    {!! $htmlPrice !!}
+                </div>
+            </div>
+
+            <div class="product-list-content" $hiddenList>
+                <h4><a href="{{ $linkProduct }}">{!! $name !!}</a></h4>
+                <div class="product-price">
+                    {!! $htmlPrice !!}
+                </div>
+            
+                {!! $short_description !!}
+                @include('news.partials.product.product_list_action', [
+                    'quantity'  => $quantity,
+                    'quickview' => true
+                    ])
+            </div>
 
         </div>
     </div>

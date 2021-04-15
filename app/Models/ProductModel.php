@@ -65,7 +65,7 @@ class ProductModel extends AdminModel
 
         // Home - Recent Products
         if($options['task'] == 'news-list-items') {
-            $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_sale', 'sale', 'slug')
+            $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug')
                 ->where('status', '=', 'active' )
                 ->orderBy('price_sale', 'desc')
                 ->orderBy('ordering', 'asc')
@@ -91,7 +91,7 @@ class ProductModel extends AdminModel
 
         // Home - Best Deal
         if($options['task'] == 'news-list-items-best-deal') {
-            $query = self::select('id', 'product_code', 'name', 'price', 'price_sale', 'sale', 'slug', 'short_description')
+            $query = self::select('id', 'product_code', 'name', 'price', 'price_until', 'slug', 'short_description')
                 ->where('status', '=', 'active' )
                 ->orderBy('sale', 'desc')
                 ->limit(2)
@@ -123,7 +123,7 @@ class ProductModel extends AdminModel
             $category_id   = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
 
             $query = self::select('id', 'product_code', 'name', 'thumb', 'price',
-            'price_sale', 'sale', 'slug', 'short_description');
+            'price_until', 'slug', 'short_description');
 
             if ($category_id) $query = $query->where('category_id', $category_id);
             

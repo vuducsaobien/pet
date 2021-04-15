@@ -11,11 +11,9 @@
 
 <div class="product-list-action">
     
-    {{-- @if ($quantity > 0) --}}
-        <div class="product-list-action-left">
-            <a class="addtocart-btn" title="Add to cart" href="{{ $linkCart }}"><i class="ion-bag"></i> Thêm vào Giỏ Hàng</a>
-        </div>
-    {{-- @endif --}}
+    <div class="product-list-action-left">
+        <a class="addtocart-btn" title="Add to cart" href="{{ $linkCart }}"><i class="ion-bag"></i> Thêm vào Giỏ Hàng</a>
+    </div>
         
     @if($quickview == true)
         <div class="product-list-action-right">

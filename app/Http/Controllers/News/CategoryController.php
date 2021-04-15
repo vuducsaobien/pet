@@ -73,14 +73,9 @@ class CategoryController extends FrontendController
         $price_max     = $request->max;
         $setting_price = $this->model->getItem(null, ['task' => 'news-get-item-setting-price']);
 
-
         // Get Category Id From URL when Search
         $url_current = url()->current();
-        // $slug        = substr( strrchr( $url_current, '/' ), 1 );
-        // $slug        = explode(".", $slug, 2);
-        // $slug        = $slug[0];
-
-        $slug = explode('/', $url_current);
+        $slug        = explode('/', $url_current);
         array_pop($slug);
         $slug = end($slug);
         $slug = explode(".", $slug, 2);
@@ -99,11 +94,11 @@ class CategoryController extends FrontendController
         $display = $this->model->getItem($this->params, ['task' => 'news-get-item-get-display-from-slug']);
         if (!$display) $display = 'grid';
         
-        $items = $items->toArray();
-
-        echo '<pre style="color:red";>$display === '; print_r($display);echo '</pre>';
-        echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-        echo '<h3>Die is Called </h3>';die;
+        // $items        = $items->toArray();
+        $search_price = null;
+        // echo '<pre style="color:red";>$display === '; print_r($display);echo '</pre>';
+        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
 
 
         // if ( !empty($price_min) && !empty($price_max) ) {
@@ -118,9 +113,9 @@ class CategoryController extends FrontendController
         //     // echo '<pre style="color:red";>$search_price === '; print_r($search_price);echo '</pre>';
         //     // echo '<h3>Die is Called </h3>';die;
 
-        //     return view($this->pathViewController . 'index', compact(
-        //         'items', 'search', 'display', 'setting_price', 'search_price'
-        //     ));
+            return view($this->pathViewController . 'index', compact(
+                'items', 'search_name', 'display', 'setting_price', 'search_price'
+            ));
         // }else{
         //     return redirect()->back();
         // }

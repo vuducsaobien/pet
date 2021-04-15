@@ -8,7 +8,7 @@
     $sku               = $items['product_code'];
     $short_description = $items['short_description'];
     $price_sale        = $items['price_sale'];
-    $htmlPrice         = Template::caculatorPriceFrontend($items['price'], $price_sale, $items['sale']);
+    $htmlPrice         = Template::caculatorPriceFrontend($items['price'], $items['price_until']);
     $htmlAtribute      = Template::getHtmlAttribute($items['id'], $items['attribute'], $items['list_attribute']);
 
 @endphp

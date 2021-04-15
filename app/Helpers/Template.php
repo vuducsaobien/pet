@@ -370,26 +370,26 @@ class Template
         }
     }
 
-    public static function caculatorPriceFrontend($price, $price_sale, $sale = 0, $type = 1)
+    public static function caculatorPriceFrontend($price, $price_until, $type = 1)
     {
         switch ($type) {
             case 1:
-                $price_sale = self::format_price($price_sale, 'vietnamese dong');
-                $xhtml = '<span class="new">' . $price_sale . ' </span>';
+                $price_until = self::format_price($price_until);
+                $xhtml       = '<span class="new">' . $price_until . ' </span>';
 
-                if ($sale > 0) {
-                    $price = self::format_price($price, 'vietnamese dong');
+                if ($price > $price_until) {
+                    $price = self::format_price($price);
                     $xhtml .= '<span class="old">' . $price . ' </span>';
                 }
                 break;
             case 2:
 
-                if ($sale > 0) {
-                    $price = self::format_price($price, 'vietnamese dong');
-                    $price_sale = self::format_price($price_sale, 'vietnamese dong');
-                    $xhtml = '
+                if ($price > $price_until) {
+                    $price       = self::format_price($price);
+                    $price_until = self::format_price($price_until);
+                    $xhtml       = '
                         <span class="deal-old-price">' . $price . ' </span>
-                        <span>' . $price_sale . ' </span>
+                        <span>' . $price_until . ' </span>
                     ';
 
                 }
@@ -398,11 +398,11 @@ class Template
 
                 break;
             default:
-                $price_sale = self::format_price($price_sale, 'vietnamese dong');
+                $price_sale = self::format_price($price_sale);
                 $xhtml = '<span class="new">' . $price_sale . ' </span>';
 
                 if ($sale > 0) {
-                    $price = self::format_price($price, 'vietnamese dong');
+                    $price = self::format_price($price);
                     $xhtml .= '<span class="old">' . $price . ' </span>';
                 }
                 break;
@@ -468,7 +468,7 @@ class Template
 
     public static function createPaginationPublic(
         $currentPage, $lastPage, $perPage, $total, $search = null, $search_price = null
-    )
+        )
     {
         if ($lastPage == 1) {
             $startItem = 1;

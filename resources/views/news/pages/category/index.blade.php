@@ -11,7 +11,7 @@
 
                     <!-- Shop - Topbar -->
                     @include('news.templates.shop_topbar', [
-                        'search'       => $search,
+                        'search'       => $search_name,
                         'search_price' => $search_price,
                         ])
 

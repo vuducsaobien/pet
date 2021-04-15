@@ -4,8 +4,9 @@
     // echo '<h3>Die is Called </h3>';die;
     $countdown = date('Y/m/d', strtotime(config('zvn.format.count_down')));
     $htmlPrice = Template::caculatorPriceFrontend(
-        $itemsBestDeal['price'], $itemsBestDeal['price_sale'], $itemsBestDeal['sale'], 2
+        $itemsBestDeal['price'], $itemsBestDeal['price_until'], 2
     );
+
 
 @endphp
 <div class="deal-area bg-img pt-95 pb-100">
