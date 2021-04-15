@@ -1,7 +1,8 @@
 @php
-    // $name = Hightlight::show($val['name'], $params['search'], 'name');
-    // $linkSearch = route("category/search", ['product_name' => 'product_name_old']); 
-    $linkSearch = route("category/search"); 
+    $prefixNews  = config('zvn.url.prefix_news') . '/';
+    $url_current = url()->current();
+    $uu          = substr( strrchr( $url_current, '/' ), 1 );
+    $linkSearch  = route("category/search", ['category_slug' => $uu]);
 @endphp
 
 <div class="shop-widget">
@@ -10,7 +11,7 @@
 
         <form class="shop-search-form" action="{{ $linkSearch }}" method="GET">
             {{-- @csrf --}}
-
+            {{-- <input name="url_current" type="hidden" value="{{ $uu }}"> --}}
             <input name="search" type="text" placeholder="Find a product" value="">
             <button id="search_product" type="submit">
                 <i class="icon-magnifier"></i>

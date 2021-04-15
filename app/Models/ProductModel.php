@@ -119,12 +119,18 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-item-search-all-food') {
-            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
-            'price_sale', 'sale', 'slug', 'short_description')
+            $categoryModel = new CategoryModel();
+            $category_id   = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
+
+            $query = self::select('id', 'product_code', 'name', 'thumb', 'price',
+            'price_sale', 'sale', 'slug', 'short_description');
+
+            if ($category_id) $query = $query->where('category_id', $category_id);
+            
+            $result = $query
             ->where('status','active')
             ->where('name', 'LIKE', "%{$params['search']}%")
             ->orderBy('ordering', 'asc')
-
             ->paginate($params['pagination']['totalItemsPerPage']);
             // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }

@@ -20,11 +20,13 @@ class CategoryController extends FrontendController
         $display      = 'grid';
         $search       = $request->search;
         $search_price = null;
+        $all          = $request->all();
 
         $setting_price = $this->model->getItem(null, ['task' => 'news-get-item-setting-price']);
 
         if ( $search == null ) {
-
+            // echo '<pre style="color:red";>$search === '; print_r($search);echo '</pre>';
+            // echo '<h3>Die is Called 11</h3>';die;
             $params['slug']   = $request->category_slug;
                     $all_slug = $this->model->getItem(null, ['task' => 'news-get-item-all-slug']);
             if (!in_array($params['slug'], $all_slug)) {
@@ -46,7 +48,15 @@ class CategoryController extends FrontendController
             return view($this->pathViewController . 'index', compact('items', 'search', 'display', 'setting_price', 'search_price'));
 
         }else{
-            $this->params['search']  = $search;
+            // Get Category Id From URL when Search
+            $url_current = url()->current();
+            $slug        = substr( strrchr( $url_current, '/' ), 1 );
+            $slug        = explode(".", $slug, 2);
+            $slug        = $slug[0];
+
+            $this->params['search'] = $search;
+            $this->params['slug']   = $slug;
+
             $items     = $this->model->getItem($this->params, ['task' => 'news-get-item-search-all-food']);
             return view($this->pathViewController . 'index', compact('items', 'search', 'display', 'setting_price', 'search_price'));
         }
