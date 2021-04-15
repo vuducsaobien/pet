@@ -282,16 +282,18 @@ $(document).ready(function() {
 
 	// Filter Search Category - Product
 	$("button#search_product").click(function(){
-		let searchValue = $('input[name=search]').val();
+		let searchValue = $('input[name=search_name]').val();
 		if ( searchValue !== null ) {
 			localStorage.setItem('search', searchValue);
 		}
 	});
 
-	let UrlSearch   = getUrlParam('search');
+	let UrlSearch   = getUrlParam('search_name');
 	let searchValue = localStorage.getItem('search');
 	if ( searchValue !== null && UrlSearch !== null) {
-		$('input[name=search]').val(searchValue);
+		$('input[name=search_name]').val(searchValue);
+	}else{
+		$('input[name=search_name]').val();
 	}
 
 	// Filter Search Price Min - Max Category - Product

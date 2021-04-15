@@ -23,13 +23,6 @@
         <div class="product-wrapper mb-10">
 
             @include('news.partials.product.product_image', ['linkProduct' => $linkProduct])
-            
-            {{-- @if ($display == 'grid')
-                @include('news.partials.product.product_content')
-            @else
-                @include('news.partials.product.product_list_content', 
-                ['quantity' => $quantity, 'quickview' => true])
-            @endif --}}
 
             @php
                 $hiddenGrid = null;
@@ -40,7 +33,6 @@
                 } else {
                     $hiddenGrid = 'hidden';
                 }
-                
             @endphp
 
             <div class="product-content" $hiddenGrid>

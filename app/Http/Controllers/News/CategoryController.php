@@ -20,48 +20,30 @@ class CategoryController extends FrontendController
         // echo '<h3>Die is Called Index</h3>';die;
 
         $display      = 'grid';
-        $search       = null;
+        $search_name  = null;
         $search_price = null;
-        // $all          = $request->all();
 
         $setting_price = $this->model->getItem(null, ['task' => 'news-get-item-setting-price']);
 
-        // if ( $search == null ) {
-            // echo '<pre style="color:red";>$search === '; print_r($search);echo '</pre>';
-            // echo '<h3>Die is Called 11</h3>';die;
-            $params['slug']   = $request->category_slug;
-                    $all_slug = $this->model->getItem(null, ['task' => 'news-get-item-all-slug']);
-            if (!in_array($params['slug'], $all_slug)) {
-                return redirect()->route('home');
-            }
+        $params['slug']   = $request->category_slug;
+                $all_slug = $this->model->getItem(null, ['task' => 'news-get-item-all-slug']);
+        if (!in_array($params['slug'], $all_slug)) {
+            return redirect()->route('home');
+        }
 
-            // All Food
-            if( $params['slug'] == 'all-food') {
-                $items = $this->model->getItem($this->params, ['task' => 'news-get-item-all-food']);
-            // Food in Category
-            } else {
-                $this->params['category_id'] = $this->model->getItem($params, ['task' => 'get-category-id-form-slug']);
+        // All Food
+        if( $params['slug'] == 'all-food') {
+            $items = $this->model->getItem($this->params, ['task' => 'news-get-item-all-food']);
+        // Food in Category
+        } else {
+            $this->params['category_id'] = $this->model->getItem($params, ['task' => 'get-category-id-form-slug']);
 
-                $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-id']);
-                $display = $this->model->getItem($this->params['category_id'], ['task' => 'news-get-item-category-display']);
-            }
+            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-id']);
+            $display = $this->model->getItem($this->params['category_id'], ['task' => 'news-get-item-category-display']);
+        }
 
-            // $breadcrumbs = $categoryModel->listItems($params, ['task' => 'news-breadcrumbs']);
-            return view($this->pathViewController . 'index', compact('items', 'search', 'display', 'setting_price', 'search_price'));
-
-        // }else{
-        //     // Get Category Id From URL when Search
-        //     $url_current = url()->current();
-        //     $slug        = substr( strrchr( $url_current, '/' ), 1 );
-        //     $slug        = explode(".", $slug, 2);
-        //     $slug        = $slug[0];
-
-        //     $this->params['search'] = $search;
-        //     $this->params['slug']   = $slug;
-
-        //     $items     = $this->model->getItem($this->params, ['task' => 'news-get-item-search-all-food']);
-        //     return view($this->pathViewController . 'index', compact('items', 'search', 'display', 'setting_price', 'search_price'));
-        // }
+        // $breadcrumbs = $categoryModel->listItems($params, ['task' => 'news-breadcrumbs']);
+        return view($this->pathViewController . 'index', compact('items', 'search_name', 'display', 'setting_price', 'search_price'));
     }
  
     public function search(Request $request)
