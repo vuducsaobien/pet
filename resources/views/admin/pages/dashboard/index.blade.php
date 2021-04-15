@@ -23,6 +23,8 @@
     ['name' => 'Testimonial',   'total' => $itemsTestimoniaCount,   'link' => route('testimonial'), 'class' => 'star' ],
     ['name' => 'User',          'total' => $itemsUserCount,         'link' => route('user'),        'class' => 'star' ],
     ['name' => 'Faq',           'total' => $itemsFaqCount,          'link' => route('faq'),         'class' => 'star' ],
+    ['name' => 'Gallery',       'total' => 0,                       'link' => route('gallery'),     'class' => 'star' ],
+    ['name' => 'Youtube',       'total' => 0,                       'link' => route('youtube'),     'class' => 'star' ],
 
     ['name' => 'Comment Article',   'total' => $itemsCommentArticleCount,   'link' => route('commentArticle'),  'class' => 'star' ],
     ['name' => 'Rss Content',       'total' => $itemsRssContentCount,       'link' => route('rss'),             'class' => 'star' ],
@@ -52,11 +54,16 @@
         {!! $xhtmlBoxDashboard !!}
     </div>
 
+    @php
+        $countCart    = count($itemsCart);
+        $countContact = count($itemsContact);
+    @endphp
+
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
-                @include('admin.templates.x_title', ['title' => 'Danh sách 5 Đơn Hàng Mới Nhất !'])
-                @include('admin.pages.cart.list')
+                @include('admin.templates.x_title', ['title' => "Danh sách $countCart Đơn Hàng Mới Nhất Trong Hôm Nay!"])
+                @include('admin.pages.cart.list', ['items' => $itemsCart])
                 <a href="{{ route('cart') }}" class="btn btn-success">Tới Trang Đơn Hàng</a>
             </div>
         </div>
@@ -65,8 +72,10 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
-                @include('admin.templates.x_title', ['title' => 'Danh sách 5 Liên Hệ Mới Nhất !'])
-                @include('admin.pages.contact.list')
+                @include('admin.templates.x_title', [
+                    'title' => "Danh sách $countContact Liên Hệ Mới Nhất Trong Hôm Nay!",
+                ])
+                @include('admin.pages.contact.list', ['items' => $itemsContact])
                 <a href="{{ route('contact') }}" class="btn btn-success">Tới Trang Liên Hệ</a>
             </div>
         </div>

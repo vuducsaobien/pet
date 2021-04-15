@@ -67,8 +67,6 @@ class DashboardController extends AdminController
         $itemsTestimoniaCount       = TestimonialModel::countItemsDashboad();
         $itemsUserCount             = UserModel::countItemsDashboad();
         $itemsFaqCount              = FaqModel::countItemsDashboad();
-        // $itemsGalleryCount          = SettingModel::countItemsDashboad();
-        // $itemsYoutubeCount          = SettingModel::countItemsDashboad();
 
         $itemsCart    = $this->cart($request);
         $itemsContact = $this->contact($request);
@@ -94,7 +92,7 @@ class DashboardController extends AdminController
 
         // Items Customer
         $cartModel        = new CartModel();
-        $items            = $cartModel->listItems($this->params, ['task'  => 'admin-list-items-customer']);
+        $items            = $cartModel->listItems($this->params, ['task'  => 'admin-list-items-customer-dashboard']);
 
         // Items Cart
         $itemsCart      = $cartModel->listItems($this->params, ['task'  => 'admin-list-items']);
@@ -113,7 +111,13 @@ class DashboardController extends AdminController
         $itemsCart = Functions::merge_05($itemsCart);
 
         foreach ($items as $key => $value) $items[$key]['detail'] = $itemsCart[$key];
-        // $items = $items->toArray();
+        // $items = $items->toArray()['data'];
+
+        // $items = array_slice($items, 0, 2);
+        // echo '<pre style="color:red";>$itemss === '; print_r($itemss);echo '</pre>';
+        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+
+        // echo '<h3>Die is Called </h3>';die;
 
         return $items;
     }
@@ -126,7 +130,7 @@ class DashboardController extends AdminController
         $this->params['search']['value']    = $request->input('search_value', '' ) ;
 
         $contactModel     = new ContactModel();
-        $items            = $contactModel->listItems($this->params, ['task'  => 'admin-list-items']);
+        $items            = $contactModel->listItems($this->params, ['task'  => 'admin-list-items-dashboard']);
 
         return $items;
     }

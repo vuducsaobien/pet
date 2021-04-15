@@ -9,6 +9,8 @@ use App\Models\AttributeModel;
 use App\Models\PaymentModel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB; 
+use Carbon\Carbon;
+use App\Helpers\Template;
 
 class CartModel extends AdminModel
 {
@@ -56,6 +58,18 @@ class CartModel extends AdminModel
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
                 // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
+        }
+
+        if($options['task'] == "admin-list-items-customer-dashboard") {
+            $customerModel = new CustomerModel();
+
+            $query = $customerModel->select(
+                'id', 'status', 'name', 'phone', 'email', 'address', 'ip', 'order_code', 'quantity', 'amount',
+                'created', 'modified', 'modified_by');
+            $result =  $query->whereDate( 'created', Carbon::today() )
+            ->orderBy('id', 'desc')->get()->toArray()
+            ;
+
         }
 
         if($options['task'] == "admin-list-items") {
@@ -162,24 +176,27 @@ class CartModel extends AdminModel
     }
 
     public function saveItem($params = null, $options = null) { 
-        $modifiedBy = session('userInfo')['username'];
-        $modified   = date('Y-m-d H:i:s');
-        $createdBy  = session('userInfo')['username'];
-        $created    = date('Y-m-d H:i:s');
+        $modifiedBy  = session('userInfo')['username'];
+        $modified    = date('Y-m-d H:i:s');
+        $createdBy   = session('userInfo')['username'];
+        $created     = date('Y-m-d H:i:s');
+        $this->table = 'cart';
 
         if($options['task'] == 'change-status') {
-            $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
-            self::where('id', $params['id'])->update(['status' => $status ]);
+            // $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
+            // self::where('id', $params['id'])->update(['status' => $status ]);
 
-            return  [
-                'id'      => $params['id'],
-                'status'  => [
-                    'name'  => config("zvn.template.status.$status.name"),
-                    'class' => config("zvn.template.status.$status.class")
-                ],
-                'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
-                'message' => config('zvn.notify.success.update')
-            ];
+            // return  [
+            //     'id'      => $params['id'],
+            //     'status'  => [
+            //         'name'  => config("zvn.template.status.$status.name"),
+            //         'class' => config("zvn.template.status.$status.class")
+            //     ],
+            //     'link'    => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+            //     'message' => config('zvn.notify.success.update')
+            // ];
+
+            return $params;
         }
 
         if($options['task'] == 'add-item') {
@@ -293,6 +310,38 @@ class CartModel extends AdminModel
 
         return $result;
     }
+
+    public function status($params,$options)
+    {
+        $this->table = 'customer';
+        $modifiedBy  = session('userInfo')['username'];
+        $modified    = date('Y-m-d H:i:s');
+
+        $status = ($params['currentStatus'] == "active") ? "inactive" : "active";
+
+        self::where('id', $params['id'])
+        ->update([
+            'status'      => $status,
+            'modified'    => $modified,
+            'modified_by' => $modifiedBy
+        ]);
+        
+
+        $result = [
+            'id'       => $params['id'],
+            'modified' => Template::showItemHistory($modifiedBy, $modified),
+            'status'   => [
+                'name'  => config("zvn.template.status.$status.name"),
+                'class' => config("zvn.template.status.$status.class")
+            ],
+            'link'     => route($params['controllerName'] . '/status', ['status' => $status, 'id' => $params['id']]),
+            'message'  => config('zvn.notify.success.update')
+        ];
+
+        return $result;
+        
+    }
+
 
 
 }

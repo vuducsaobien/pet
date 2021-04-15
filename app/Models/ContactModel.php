@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ContactModel extends AdminModel
 {
@@ -43,6 +44,15 @@ class ContactModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage'])
             ;
         }
+
+        if($options['task'] == "admin-list-items-dashboard") {
+            $query = $this->select('id', 'name', 'subject', 'email', 'status', 'message', 'ip', 'created');
+            $result =  $query->whereDate( 'created', Carbon::today() )
+            ->orderBy('id', 'desc')->get()->toArray()
+            ;
+
+        }
+
 
         return $result;
     }
