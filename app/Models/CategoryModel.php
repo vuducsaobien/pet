@@ -153,6 +153,10 @@ class CategoryModel extends AdminModel
             $result = self::where('slug', $params['slug'])->value('id');
         }
 
+        if($options['task'] == 'news-get-item-get-display-from-slug') {
+            $result = self::where('slug', $params['slug'])->value('display');
+        }
+
         if($options['task'] == 'news-get-item-all-food') {
             $productModel = new ProductModel();
             $result       = $productModel->getItem($params, ['task' => 'news-get-item-all-food']);
@@ -174,9 +178,9 @@ class CategoryModel extends AdminModel
             }
         }
 
-        if($options['task'] == 'news-get-item-search-all-food') {
+        if($options['task'] == 'news-get-item-search-product-name') {
             $productModel = new ProductModel();
-            $result       = $productModel->listItems($params, ['task' => 'news-get-item-search-all-food']);
+            $result       = $productModel->listItems($params, ['task' => 'news-get-item-search-product-name']);
         }
 
         if($options['task'] == 'news-get-item-category-display') {

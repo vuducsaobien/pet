@@ -12,7 +12,7 @@
         <form class="shop-search-form" action="{{ $linkSearch }}" method="GET">
             {{-- @csrf --}}
             {{-- <input name="url_current" type="hidden" value="{{ $uu }}"> --}}
-            <input name="search" type="text" placeholder="Find a product" value="">
+            <input name="search_name" type="text" placeholder="Find a product" value="">
             <button id="search_product" type="submit">
                 <i class="icon-magnifier"></i>
             </button>

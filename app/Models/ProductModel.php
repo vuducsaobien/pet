@@ -118,7 +118,7 @@ class ProductModel extends AdminModel
             }
         }
 
-        if($options['task'] == 'news-get-item-search-all-food') {
+        if($options['task'] == 'news-get-item-search-product-name') {
             $categoryModel = new CategoryModel();
             $category_id   = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
 
@@ -129,7 +129,7 @@ class ProductModel extends AdminModel
             
             $result = $query
             ->where('status','active')
-            ->where('name', 'LIKE', "%{$params['search']}%")
+            ->where('name', 'LIKE', "%{$params['search_name']}%")
             ->orderBy('ordering', 'asc')
             ->paginate($params['pagination']['totalItemsPerPage']);
             // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
