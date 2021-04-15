@@ -85,23 +85,29 @@
         let searchParams = new URLSearchParams(window.location.search);
         return searchParams.get(key);
     }
-
-    let setting_price_min   = (parseInt(setting_price.min))/1000;
-    let setting_price_max   = (parseInt(setting_price.max))/1000;
-    let setting_price_range = (parseInt(setting_price.range))/1000;
+    console.log(setting_price);
+    let setting_price_min       = (parseInt(setting_price.min))/1000;
+    let setting_price_min_plus  = (parseInt(setting_price.min_plus))/1000;
+    let setting_price_max       = (parseInt(setting_price.max))/1000;
+    let setting_price_max_minus = (parseInt(setting_price.max_minus))/1000;
+    let setting_price_range     = (parseInt(setting_price.range))/1000;
 
     let UrlPriceMin = getUrlParam('min');
     let UrlPriceMax = getUrlParam('max');
     var sliderrange = $('#slider-range');
     var amountprice = $('#amount');
-    $(function() {
 
-        let startValues = setting_price_min + 50;
-        let endValues   = setting_price_max - 200;
+    $(function() {
+        let startValues = setting_price_min + setting_price_min_plus;
+        let endValues   = setting_price_max - setting_price_max_minus;
+
         let searchPrice = localStorage.getItem('search_price');
+        // console.log('startValues = ' + startValues);
+        // console.log('endValues = ' + endValues);
 
         if (searchPrice && UrlPriceMin !== null &&  UrlPriceMax !== null ) {
             let teeee = JSON.parse(searchPrice);
+
             $.each(teeee, function( index, result ) {
                 console.log(`index = ${index} - result = ${result}`);
                 if (index == 'search_price_min') {

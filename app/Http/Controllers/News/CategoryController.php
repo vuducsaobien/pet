@@ -72,7 +72,6 @@ class CategoryController extends FrontendController
         // echo '<pre style="color:red";>$slug === '; print_r($slug);echo '</pre>';
         // echo '<h3>Die is Called </h3>';die;
         
-        $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search']);
         $display = $this->model->getItem($this->params, ['task' => 'news-get-item-get-display-from-slug']);
 
         if ( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' &&
@@ -86,7 +85,7 @@ class CategoryController extends FrontendController
 
             // Search_Price
         } else if( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' ) {
-            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
+            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-price']);
         }
         
 

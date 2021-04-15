@@ -187,9 +187,11 @@ class SettingModel extends AdminModel
             }
 
             if ($options['task'] == 'news-get-item-setting-price') {
-                $result['min']   = self::where('key_value', 'filter_price_min')->value('value');
-                $result['max']   = self::where('key_value', 'filter_price_max')->value('value');
-                $result['range'] = self::where('key_value', 'filter_price_range')->value('value');
+                $result['min']       = self::where('key_value', 'filter_price_min')->value('value');
+                $result['min_plus']  = self::where('key_value', 'filter_price_min_plus')->value('value');
+                $result['max']       = self::where('key_value', 'filter_price_max')->value('value');
+                $result['max_minus'] = self::where('key_value', 'filter_price_max_minus')->value('value');
+                $result['range']     = self::where('key_value', 'filter_price_range')->value('value');
             }
 
         }

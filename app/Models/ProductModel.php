@@ -118,7 +118,6 @@ class ProductModel extends AdminModel
             }
         }
 
-        // if($options['task'] == 'news-get-item-search-product-name') {
         if($options['task'] == 'news-get-item-category-search-product-name') {
             $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug', 'short_description');
 
@@ -135,11 +134,18 @@ class ProductModel extends AdminModel
             // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }
 
-        if($options['task'] == 'news-get-item-search-price-all-food') {
-            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
-            'price_until', 'slug', 'short_description')
+        if($options['task'] == 'news-get-item-category-search-product-price') {
+            $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug', 'short_description');
+
+            // Get Category ID
+               $categoryModel        = new CategoryModel();
+               $category_id          = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
+            if ($category_id) $query = $query->where('category_id', $category_id);
+         
+            $result = $query
             ->where('status','active')
-            ->whereBetween('price', [ $params['min'] * 1000, $params['max'] * 1000  ])
+            // ->whereBetween('price', [ $params['search_price_min'] * 1000, $params['search_price_max'] * 1000  ])
+            ->whereBetween('price', [ $params['search_price_min'], $params['search_price_max']  ])
             ->orderBy('ordering', 'asc')
 
             ->paginate($params['pagination']['totalItemsPerPage']);

@@ -221,7 +221,7 @@ $(document).ready(function() {
 	// Coutinue Checkout Button
 	let startIdButton = [3, 4, 5];
 	$.each(startIdButton, function( index, result ) {
-		console.log(`index = ${index} - result = ${result}`);
+		// console.log(`index = ${index} - result = ${result}`);
 
 		$(`button#payment-${result}`).click(function (e) {
 			if (result == 4) {
@@ -302,10 +302,46 @@ $(document).ready(function() {
 		if (UrlSearch == null || url == '') {
 			$( 'input[name=search_name]' ).prop( "disabled", true );
 		}
-		console.log('UrlSearch = ' + UrlSearch);
+		let search_price_min = parseInt( $search_price_min.val() );
+		let search_price_max = parseInt( $search_price_max.val() );
+
+		let setting_price_min       = parseInt(setting_price.min);
+		let setting_price_min_plus  = parseInt(setting_price.min_plus);
+		let setting_price_max       = parseInt(setting_price.max);
+		let setting_price_max_minus = parseInt(setting_price.max_minus);
 		// e.preventDefault();
-		let search_price_min = $('input[name=min]').val();
-		let search_price_max = $('input[name=max]').val();
+	
+		console.log('UrlSearch = ' + UrlSearch);
+		console.log('search_price_min = ' + search_price_min);
+		console.log('search_price_max = ' + search_price_max);
+		console.log('------');
+		console.log('setting_price_min = ' + setting_price_min);
+		console.log('setting_price_min_plus = ' + setting_price_min_plus);
+		console.log('setting_price_max = ' + setting_price_max);
+		console.log('setting_price_max_minus = ' + setting_price_max_minus);
+
+		if ( search_price_min == setting_price_min && search_price_max == setting_price_max
+				|| 
+				(
+					search_price_min*1000 == setting_price_min + setting_price_min_plus
+				&& 
+					search_price_max*1000 == setting_price_max - setting_price_max_minus 
+				)
+			) {
+				// alert(11)
+				$search_price_min.val( setting_price_min + setting_price_min_plus );
+				$search_price_max.val( setting_price_max - setting_price_max_minus );
+		} else {
+			// alert(22)
+			$search_price_min.val( search_price_min*1000 );
+			$search_price_max.val( search_price_max*1000 );
+		}
+		// console.log('------');
+		// console.log('$search_price_min.val() = ' + parseInt( $search_price_min.val() ) );
+		// console.log('$search_price_max.val() = ' + parseInt( $search_price_max.val() ) );
+
+		// e.preventDefault();
+
 		let searchValue      = {
 			'search_price_min': search_price_min,
 			'search_price_max': search_price_max

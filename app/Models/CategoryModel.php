@@ -183,6 +183,11 @@ class CategoryModel extends AdminModel
             $result       = $productModel->listItems($params, ['task' => 'news-get-item-category-search-product-name']);
         }
 
+        if($options['task'] == 'news-get-item-category-search-product-price') {
+            $productModel = new ProductModel();
+            $result       = $productModel->listItems($params, ['task' => 'news-get-item-category-search-product-price']);
+        }
+
         if($options['task'] == 'news-get-item-category-display') {
             $result = self::where('id', $params)->value('display');
         }
