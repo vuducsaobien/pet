@@ -74,13 +74,16 @@ class CategoryController extends FrontendController
         
         $display = $this->model->getItem($this->params, ['task' => 'news-get-item-get-display-from-slug']);
 
+        // Search Name + Price
         if ( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' &&
             $search_name !== null && $search_name !== ''
         ) {
-            
+            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-name-and-price']);
+            $search_price['min'] = $price_min;
+            $search_price['max'] = $price_max;
+
             // Search_name
         } else if( $search_name !== null && $search_name !== '' ) {
-            // $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
             $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-name']);
             $search_price = null;
 

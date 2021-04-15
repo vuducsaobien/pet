@@ -152,6 +152,26 @@ class ProductModel extends AdminModel
             // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
         }
 
+        if($options['task'] == 'news-get-item-category-search-product-name-and-price') {
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug', 'short_description');
+
+            // Get Category ID
+               $categoryModel        = new CategoryModel();
+               $category_id          = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
+            if ($category_id) $query = $query->where('category_id', $category_id);
+         
+            $result = $query
+            ->where('status','active')
+            ->where('name', 'LIKE', "%{$params['search_name']}%")
+            ->whereBetween('price', [ $params['search_price_min'], $params['search_price_max']  ])
+            ->orderBy('ordering', 'asc')
+            ->paginate($params['pagination']['totalItemsPerPage']);
+            // ->paginate($params['pagination']['totalItemsPerPage'])->toArray();
+
+        }
+
+
         return $result;
     }
 

@@ -297,9 +297,11 @@ $(document).ready(function() {
 	}
 
 	// Filter Search Price Min - Max Category - Product
-	$("button#filter_price").click(function(e){
+	$("button#filter_price").click(function(e)
+	{
+		// alert('price');
 		// let UrlSearch   = getUrlParam('search_name');
-		if (UrlSearch == null || url == '') {
+		if (UrlSearch == null || UrlSearch == '') {
 			$( 'input[name=search_name]' ).prop( "disabled", true );
 		}
 		let search_price_min = parseInt( $search_price_min.val() );
@@ -336,16 +338,18 @@ $(document).ready(function() {
 			$search_price_min.val( search_price_min*1000 );
 			$search_price_max.val( search_price_max*1000 );
 		}
+		// alert(33)
+
 		// console.log('------');
-		// console.log('$search_price_min.val() = ' + parseInt( $search_price_min.val() ) );
-		// console.log('$search_price_max.val() = ' + parseInt( $search_price_max.val() ) );
+		console.log('$search_price_min.val() = ' + parseInt( $search_price_min.val() ) );
+		console.log('$search_price_max.val() = ' + parseInt( $search_price_max.val() ) );
 
 		// e.preventDefault();
-
 		let searchValue      = {
 			'search_price_min': search_price_min,
 			'search_price_max': search_price_max
 		};
+		console.log('XXXX search_price_min = ' + search_price_min);
 
 		if ( search_price_min !== null && search_price_max !== null ){
 			localStorage.setItem('search_price', JSON.stringify(searchValue));

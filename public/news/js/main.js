@@ -85,7 +85,9 @@
         let searchParams = new URLSearchParams(window.location.search);
         return searchParams.get(key);
     }
+
     console.log(setting_price);
+
     let setting_price_min       = (parseInt(setting_price.min))/1000;
     let setting_price_min_plus  = (parseInt(setting_price.min_plus))/1000;
     let setting_price_max       = (parseInt(setting_price.max))/1000;
@@ -102,6 +104,17 @@
         let endValues   = setting_price_max - setting_price_max_minus;
 
         let searchPrice = localStorage.getItem('search_price');
+        if (searchPrice !== null && searchPrice !== '') {
+
+            let searchPriceURL      = {
+                'search_price_min': getUrlParam('min') / 1000,
+                'search_price_max': getUrlParam('max') / 1000
+            };
+            searchPrice = JSON.stringify(searchPriceURL);
+
+            // console.log('XXXX search_price_min = ' + search_price_min);
+    
+        }
         // console.log('startValues = ' + startValues);
         // console.log('endValues = ' + endValues);
 
