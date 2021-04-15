@@ -8,7 +8,8 @@
             <thead>
                 <tr class="headings">
                     <th class="column-title">#</th>
-                    <th class="column-title">{{$controllerName}} type</th>
+                    <th class="column-title">Kiểu Thanh Toán</th>
+                    <th class="column-title">Tên</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Tạo mới</th>
                     <th class="column-title">Hành động</th>
@@ -21,10 +22,9 @@
                             $index           = $key + 1;
                             $class           = ($index % 2 == 0) ? "even" : "odd";
                             $id              = $val['id'];
-                            $name            = Hightlight::show($val['type'], $params['search'], 'type');
-                            $description     = Hightlight::show($val['description'], $params['search'], 'description');
-                            $message            = Hightlight::show($val['message'], $params['search'], 'message');
-                            $star=$val['star'];
+
+                            $type            = Hightlight::show($val['type'], $params['search'], 'type');
+                            $name            = Hightlight::show($val['name'], $params['search'], 'name');
                             $status          = Template::showItemStatus($controllerName, $id, $val['status']); ;
                             $createdHistory  = Template::showItemHistory($val['created_by'], $val['created']);
                             $modifiedHistory = Template::showItemHistory($val['modified_by'], $val['modified']);
@@ -34,11 +34,11 @@
                         <tr class="{{ $class }} pointer">
                             <td >{{ $index }}</td>
                             <td width="20%">
-                                 {!! $name !!}
-
-
-
+                                 {!! $type !!}
                             </td>
+                            <td width="20%">
+                                {!! $name !!}
+                           </td>
 
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>

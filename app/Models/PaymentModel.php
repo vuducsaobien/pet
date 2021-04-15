@@ -18,7 +18,7 @@ class PaymentModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'status','type','created', 'created_by', 'modified', 'modified_by');
+            $query = $this->select('id', 'status','type', 'name', 'created', 'created_by', 'modified', 'modified_by');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
