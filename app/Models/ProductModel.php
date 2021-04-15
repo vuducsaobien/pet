@@ -118,13 +118,13 @@ class ProductModel extends AdminModel
             }
         }
 
-        if($options['task'] == 'news-get-item-search-product-name') {
-            $categoryModel = new CategoryModel();
-            $category_id   = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
+        // if($options['task'] == 'news-get-item-search-product-name') {
+        if($options['task'] == 'news-get-item-category-search-product-name') {
+            $query = self::select('id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug', 'short_description');
 
-            $query = self::select('id', 'product_code', 'name', 'thumb', 'price',
-            'price_until', 'slug', 'short_description');
-
+            // Get Category ID
+               $categoryModel        = new CategoryModel();
+               $category_id          = $categoryModel->getItem($params, ['task' => 'get-category-id-form-slug']);
             if ($category_id) $query = $query->where('category_id', $category_id);
             
             $result = $query

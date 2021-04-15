@@ -178,9 +178,9 @@ class CategoryModel extends AdminModel
             }
         }
 
-        if($options['task'] == 'news-get-item-search-product-name') {
+        if($options['task'] == 'news-get-item-category-search-product-name') {
             $productModel = new ProductModel();
-            $result       = $productModel->listItems($params, ['task' => 'news-get-item-search-product-name']);
+            $result       = $productModel->listItems($params, ['task' => 'news-get-item-category-search-product-name']);
         }
 
         if($options['task'] == 'news-get-item-category-display') {

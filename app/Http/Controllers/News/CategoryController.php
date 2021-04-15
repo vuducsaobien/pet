@@ -70,10 +70,26 @@ class CategoryController extends FrontendController
 
         // echo '<pre style="color:red";>$this->params === '; print_r($this->params);echo '</pre>';
         // echo '<pre style="color:red";>$slug === '; print_r($slug);echo '</pre>';
-
         // echo '<h3>Die is Called </h3>';die;
-        $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
+        
+        $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search']);
         $display = $this->model->getItem($this->params, ['task' => 'news-get-item-get-display-from-slug']);
+
+        if ( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' &&
+            $search_name !== null && $search_name !== ''
+        ) {
+            
+            // Search_name
+        } else if( $search_name !== null && $search_name !== '' ) {
+            // $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
+            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-name']);
+
+            // Search_Price
+        } else if( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' ) {
+            $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
+        }
+        
+
         if (!$display) $display = 'grid';
         
         // $items        = $items->toArray();

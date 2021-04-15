@@ -297,8 +297,13 @@ $(document).ready(function() {
 	}
 
 	// Filter Search Price Min - Max Category - Product
-	$("button#filter_price").click(function(e, num){
-
+	$("button#filter_price").click(function(e){
+		// let UrlSearch   = getUrlParam('search_name');
+		if (UrlSearch == null || url == '') {
+			$( 'input[name=search_name]' ).prop( "disabled", true );
+		}
+		console.log('UrlSearch = ' + UrlSearch);
+		// e.preventDefault();
 		let search_price_min = $('input[name=min]').val();
 		let search_price_max = $('input[name=max]').val();
 		let searchValue      = {

@@ -37,7 +37,7 @@
                         <input type="hidden" name="min" value="{{ $setting_price['min'] }}"/>
                         <input type="hidden" name="max" value="{{ $setting_price['max'] }}"/>
                         {{-- <input type="hidden" name="params" value="{{ $setting_price['max'] }}"/> --}}
-                        <input type="hidden" name="search" value="{{ $url_all_cut_input }}"/>
+                        <input type="hidden" name="search_name" value="{{ $url_all_cut_input }}"/>
 
                 </div>
                 <button id="filter_price" type="submit">Lọc</button> 
