@@ -4,7 +4,7 @@
     $comment = $items['comment'];    
 @endphp
 
-@if (count($comment))
+@if (count($comment) > 0)
     @foreach($comment as $key => $value)
         @php
             $rating = $value['star'];
@@ -19,11 +19,10 @@
                 </div>
                 <div class="ratting-author f-right">
                     <h3>{{ $value['name'] }}</h3>
-                    <span>12:24</span>
-                    <span>{{ $value['created'] }}</span>
+                    <span>{{ Template::showDatetimeFrontend($value['created'], 'long_time') }}</span>
                 </div>
             </div>
-            <p>{{ $message }}</p>
+            <p>{!! $message !!}</p>
         </div>
     @endforeach
 @endif

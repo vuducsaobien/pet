@@ -1,5 +1,4 @@
 <?php
-use App\Models\MenuModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -182,7 +181,9 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
     $controllerName = 'comment';
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
-        Route::post('addComment/{product_id}',      [ 'as' => $controllerName . '/addComment',  'uses' => $controller . 'addComment'])->where('product_id', '[0-9]+');
+        Route::post('addComment/{product_id}',      [ 'as' => $controllerName . '/addCommentProduct',  'uses' => $controller . 'addComment'])
+        // ->where('product_id', '[0-9]+');
+        ;
     });
     
     // ============================== CART ==============================

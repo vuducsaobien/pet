@@ -15,7 +15,6 @@ use App\Models\ContactModel;
 use App\Models\CustomerModel;
 use App\Models\DiscountModel;
 use App\Models\MenuModel;
-use App\Models\PageModel;
 use App\Models\PaymentModel;
 use App\Models\ProductAttributeModel;
 use App\Models\ProductImageModel;
@@ -52,7 +51,6 @@ class DashboardController extends AdminController
         $itemsCustomerCount         = CustomerModel::countItemsDashboad();
         $itemsDiscountCount         = DiscountModel::countItemsDashboad();
         $itemsMenuCount             = MenuModel::countItemsDashboad();
-        $itemsPageCount             = PageModel::countItemsDashboad();
         $itemsPaymentCount          = PaymentModel::countItemsDashboad();
         $itemsProductAttributeCount = ProductAttributeModel::countItemsDashboad();
         $itemsProductImageCount     = ProductImageModel::countItemsDashboad();
@@ -75,7 +73,7 @@ class DashboardController extends AdminController
             'itemsSliderCount', 'itemsUserCount', 'itemsCategoryCount', 'itemsArticleCount',
             'itemsAttributeCount', 'itemsCartCount', 'itemsCommentArticleCount', 
             'itemsCommentCount', 'itemsContactCount', 'itemsCustomerCount', 'itemsDiscountCount',
-            'itemsMenuCount', 'itemsPageCount', 'itemsPaymentCount', 'itemsProductAttributeCount',
+            'itemsMenuCount', 'itemsPaymentCount', 'itemsProductAttributeCount',
             'itemsProductImageCount', 'itemsProductCount', 'itemsRecruitmentCount', 'itemsRssCount',
             'itemsSettingCount', 'itemsShippingCount', 'itemsTeamCount',
             'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount', 

@@ -3,6 +3,7 @@
         <h5 class="checkout-sub-title">Form Thông Tin</h5>
         <p>Nhập Tên, Địa Chỉ ... Vào Form</p>
         <form name="customer">
+            @csrf
             <label> Họ & Tên </label>
             <input type="text" name="name">
 

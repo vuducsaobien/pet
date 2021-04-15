@@ -17,12 +17,14 @@ class CommentArticleController extends FrontendController
 
     public function addCommentArticle(MainRequest $request)
     {
+        echo '<h3>Die is Called CommentArticle COntroller</h3>';die;
+
         if ($request->method() == 'POST') {
             $params = $request->all();
 
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
 
-            // echo '<h3>Die is Called CommentArticle COntroller</h3>';die;
+            echo '<h3>Die is Called CommentArticle COntroller</h3>';die;
 
             $notify = "Gửi CommentArticle thành công, Pet Shop xin cám ơn!";
 

@@ -11,7 +11,6 @@
     ['name' => 'Customer',      'total' => $itemsCustomerCount,     'link' => route('cart'),        'class' => 'star' ],
     ['name' => 'Discount',      'total' => $itemsDiscountCount,     'link' => route('discount'),    'class' => 'star' ],
     ['name' => 'Menu',          'total' => $itemsMenuCount,         'link' => route('menu'),        'class' => 'star' ],
-    ['name' => 'Page',          'total' => $itemsPageCount,         'link' => route('page'),        'class' => 'star' ],
     ['name' => 'Payment',       'total' => $itemsPaymentCount,      'link' => route('payment'),     'class' => 'star' ],
     ['name' => 'Product',       'total' => $itemsProductCount,      'link' => route('product'),     'class' => 'star' ],
     ['name' => 'Recruitment',   'total' => $itemsRecruitmentCount,  'link' => route('recruitment'), 'class' => 'star' ],
