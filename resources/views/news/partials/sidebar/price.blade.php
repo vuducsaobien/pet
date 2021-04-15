@@ -19,9 +19,12 @@
     //     'search'        => $url_all_cut_input
     // ]);
 
-    $link = route('category/search', [
-        'category_slug' => $url_current_cut
-    ]);
+    // Multi search price
+    if (isset($slug)) {
+        $link  = route("category/search", ['category_slug' => $slug]);
+    } else {
+        $link = route('category/search', ['category_slug' => $url_current_cut]);
+    }
 
 @endphp
 

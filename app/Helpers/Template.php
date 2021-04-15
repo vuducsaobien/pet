@@ -494,8 +494,11 @@ class Template
             $xhtml = "<label>Hiển thị <span>$startItem-$endItem</span> của <span>$total</span> 
             Kết quả - Tìm kiếm Tên SP = '{$search}'</label>";
         } elseif ($search_price !== null) {
+            $search_price_min = self::format_price($search_price['min']);
+            $search_price_max = self::format_price($search_price['max']);
+
             $xhtml = "<label>Hiển thị <span>$startItem-$endItem</span> của <span>$total</span>
-            Kết quả - Tìm kiếm theo Giá từ {$search_price['min']}.000 <u>đ</u> đến {$search_price['max']}.000 <u>đ</u></label>";
+            Kết quả - Tìm kiếm theo Giá từ $search_price_min đến $search_price_max</label>";
         } else {
             $xhtml = "<label>Hiển thị <span>$startItem-$endItem</span> của <span>$total</span> Kết quả</label>";
         }

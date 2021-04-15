@@ -2,7 +2,14 @@
     $prefixNews  = config('zvn.url.prefix_news') . '/';
     $url_current = url()->current();
     $uu          = substr( strrchr( $url_current, '/' ), 1 );
-    $linkSearch  = route("category/search", ['category_slug' => $uu]);
+
+    // Multi search name
+    if (isset($slug)) {
+        $linkSearch  = route("category/search", ['category_slug' => $slug]);
+    } else {
+        $linkSearch  = route("category/search", ['category_slug' => $uu]);
+    }
+    
 @endphp
 
 <div class="shop-widget">

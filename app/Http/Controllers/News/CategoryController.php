@@ -82,41 +82,23 @@ class CategoryController extends FrontendController
         } else if( $search_name !== null && $search_name !== '' ) {
             // $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-search-product-name']);
             $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-name']);
+            $search_price = null;
 
             // Search_Price
         } else if( $price_min !== null && $price_min !== '' && $price_max !== null && $price_max !== '' ) {
             $items   = $this->model->getItem($this->params, ['task' => 'news-get-item-category-search-product-price']);
+            $search_price['min'] = $price_min;
+            $search_price['max'] = $price_max;
         }
         
 
         if (!$display) $display = 'grid';
-        
+        $slug = $slug . '.html';
         // $items        = $items->toArray();
-        $search_price = null;
-        // echo '<pre style="color:red";>$display === '; print_r($display);echo '</pre>';
-        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-        // echo '<h3>Die is Called </h3>';die;
 
-
-        // if ( !empty($price_min) && !empty($price_max) ) {
-        //     $search_price['min'] = $price_min;
-        //     $search_price['max'] = $price_max;
-
-        //     $this->params['min']  = $price_min;
-        //     $this->params['max']  = $price_max;
-
-        //     $items     = $this->model->getItem($this->params, ['task' => 'news-get-item-search-price-all-food']);
-
-        //     // echo '<pre style="color:red";>$search_price === '; print_r($search_price);echo '</pre>';
-        //     // echo '<h3>Die is Called </h3>';die;
-
-            return view($this->pathViewController . 'index', compact(
-                'items', 'search_name', 'display', 'setting_price', 'search_price'
-            ));
-        // }else{
-        //     return redirect()->back();
-        // }
-
+        return view($this->pathViewController . 'index', compact(
+            'items', 'search_name', 'display', 'setting_price', 'search_price', 'slug'
+        ));
     }
 
 }

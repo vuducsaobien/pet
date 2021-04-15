@@ -312,13 +312,13 @@ $(document).ready(function() {
 		// e.preventDefault();
 	
 		console.log('UrlSearch = ' + UrlSearch);
-		console.log('search_price_min = ' + search_price_min);
-		console.log('search_price_max = ' + search_price_max);
-		console.log('------');
-		console.log('setting_price_min = ' + setting_price_min);
-		console.log('setting_price_min_plus = ' + setting_price_min_plus);
-		console.log('setting_price_max = ' + setting_price_max);
-		console.log('setting_price_max_minus = ' + setting_price_max_minus);
+		// console.log('search_price_min = ' + search_price_min);
+		// console.log('search_price_max = ' + search_price_max);
+		// console.log('------');
+		// console.log('setting_price_min = ' + setting_price_min);
+		// console.log('setting_price_min_plus = ' + setting_price_min_plus);
+		// console.log('setting_price_max = ' + setting_price_max);
+		// console.log('setting_price_max_minus = ' + setting_price_max_minus);
 
 		if ( search_price_min == setting_price_min && search_price_max == setting_price_max
 				|| 
