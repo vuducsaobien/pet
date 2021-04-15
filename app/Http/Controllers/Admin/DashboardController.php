@@ -29,6 +29,7 @@ use App\Models\SliderModel;
 use App\Models\TeamModel;
 use App\Models\TestimonialModel;
 use App\Models\UserModel;
+use App\Models\FaqModel;
 
 class DashboardController extends AdminController
 {
@@ -65,6 +66,9 @@ class DashboardController extends AdminController
         $itemsTeamCount             = TeamModel::countItemsDashboad();
         $itemsTestimoniaCount       = TestimonialModel::countItemsDashboad();
         $itemsUserCount             = UserModel::countItemsDashboad();
+        $itemsFaqCount              = FaqModel::countItemsDashboad();
+        // $itemsGalleryCount          = SettingModel::countItemsDashboad();
+        // $itemsYoutubeCount          = SettingModel::countItemsDashboad();
 
         $itemsCart    = $this->cart($request);
         $itemsContact = $this->contact($request);
@@ -77,7 +81,7 @@ class DashboardController extends AdminController
             'itemsProductImageCount', 'itemsProductCount', 'itemsRecruitmentCount', 'itemsRssCount',
             'itemsSettingCount', 'itemsShippingCount', 'itemsTeamCount',
             'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount', 
-            'itemsCart', 'itemsContact'
+            'itemsCart', 'itemsContact', 'itemsFaqCount'
         ]));
     }
 

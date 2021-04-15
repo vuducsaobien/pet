@@ -33,7 +33,7 @@
 
             <li id = "menu"><a href="{{ route('menu') }}"><i class="fa fa-sitemap"></i> Quản lý Menu</a></li>
             <li id = "slider"><a href="{{ route('slider') }}"><i class="fa fa-sliders"></i> Slider</a></li>
-            <li id = "contact"><a href="{{ route('contact') }}"><i class="fa fa-connectdevelop"></i> Contact</a></li>
+            <li id = "contact"><a href="{{ route('contact') }}"><i class="fa fa-connectdevelop"></i> Liên Hệ</a></li>
             <li id = "payment"><a href="{{ route('payment') }}"><i class="fa fa-money"></i> Phương Thức Thanh Toán</a></li>
 
             <li>
@@ -41,9 +41,9 @@
                 <ul class="nav child_menu">
                     <li id="category"><a href="{{ route('category') }}"> Danh mục</a></li>
                     <li id="attribute"><a href="{{ route('attribute') }}"> Thuộc tính</a></li>
-                    <li id="discount"><a href="{{ route('discount') }}"> Coupon</a></li>
+                    <li id="discount"><a href="{{ route('discount') }}"> Mã Giảm Giá</a></li>
                     <li id="shipping"><a href="{{ route('shipping') }}"> Phí ship</a></li>
-                    <li id="comment"><a href="{{ route('comment') }}"> Comment</a></li>
+                    <li id="comment"><a href="{{ route('comment') }}"> Nhận Xét KH Về Sp</a></li>
                     <li id="product"><a href="{{ route('product') }}"> Sản phẩm</a></li>
                     <li id="cart"><a href="{{ route('cart') }}">Đơn Hàng</a></li>
                 </ul>
@@ -52,27 +52,27 @@
             <li>
                 <a><i class="fa fa-archive"></i> Quản lý Tin Tức <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li id="rss"><a href="{{ route('rss') }}"> RSS</a></li>
+                    <li id="rss"><a href="{{ route('rss') }}"> Tin Tức Online</a></li>
                     <li id="recruitment"><a href="{{ route('recruitment') }}"> Tuyển dụng</a></li>
-                    <li id="faq"><a href="{{ route('faq') }}"> FAQ</a></li>
+                    <li id="faq"><a href="{{ route('faq') }}"> Câu Hỏi Thường Gặp</a></li>
                 </ul>
             </li>
 
             <li>
                 <a><i class="fa fa-archive"></i> Quản lý bài viết <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li id="article"><a href="{{ route('article') }}"> Article</a></li>
-                    <li id="comment_article"><a href="{{ route('commentArticle') }}"> Comment</a></li>
+                    <li id="article"><a href="{{ route('article') }}"> Bài Viết</a></li>
+                    <li id="comment_article"><a href="{{ route('commentArticle') }}"> Nhận Xét KH Về Bài Viết</a></li>
                     <li id="testimonial"><a href="{{ route('testimonial') }}"> Testimonial</a></li>
-                    <li id="team"><a href="{{ route('team') }}"> Team</a></li>
+                    <li id="team"><a href="{{ route('team') }}"> Nhóm</a></li>
                 </ul>
             </li>
 
             <li>
                 <a><i class="fa fa-image"></i> Quản lý Thư Viện <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li id="gallery"><a href="{{ route('gallery') }}"><i class="fa fa-image"></i> Gallery</a></li>
-                    <li id="#"><a href="{{ route('youtube') }}"><i class="fa fa-clip"></i> Youtube</a></li>
+                    <li id="gallery"><a href="{{ route('gallery') }}"><i class="fa fa-image"></i> Hình Ảnh</a></li>
+                    <li id="#"><a href="{{ route('youtube') }}"><i class="fa fa-youtube-play"></i> Youtube</a></li>
                 </ul>
             </li>
 
