@@ -79,7 +79,7 @@ class ProductModel extends AdminModel
         // Product Detail - Related Product
         if($options['task'] == 'news-list-items-related-in-product') {
             $category_id = self::getItem($params, ['task' => 'news-get-category-id']);
-            $query       = self::select('id', 'name', 'price', 'price_sale', 'sale', 'thumb', 'slug')
+            $query       = self::select('id', 'name', 'price', 'price_until', 'thumb', 'slug')
                 ->where('category_id', $category_id)
                 ->where('status', 'active')
                 ->where('id', '!=', $params['product_id'])
@@ -137,7 +137,7 @@ class ProductModel extends AdminModel
 
         if($options['task'] == 'news-get-item-search-price-all-food') {
             $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
-            'price_sale', 'sale', 'slug', 'short_description')
+            'price_until', 'slug', 'short_description')
             ->where('status','active')
             ->whereBetween('price', [ $params['min'] * 1000, $params['max'] * 1000  ])
             ->orderBy('ordering', 'asc')
@@ -192,7 +192,7 @@ class ProductModel extends AdminModel
 
         if($options['task'] == 'news-get-item-product-detail') {
             $result = self::select('id', 'category_id', 'product_code', 'name',
-                'thumb', 'price', 'price_sale', 'sale', 'slug', 'short_description', 'description')
+                'thumb', 'price', 'price_until', 'slug', 'short_description', 'description')
             ->where('status','active')
             ->where('id', $params["product_id"])
             ->first()->toArray();
@@ -203,7 +203,7 @@ class ProductModel extends AdminModel
         }
 
         if($options['task'] == 'news-get-item-category-id') {
-            $result = self::select('id', 'category_id', 'product_code', 'name', 'thumb', 'price', 'price_sale', 'sale', 'slug', 'short_description')
+            $result = self::select('id', 'category_id', 'product_code', 'name', 'thumb', 'price', 'price_until', 'slug', 'short_description')
             ->where('status','active')
             ->where('category_id', $params["category_id"])
             ->orderBy('ordering', 'asc')
@@ -217,7 +217,7 @@ class ProductModel extends AdminModel
 
         if($options['task'] == 'news-get-item-all-food') {
             $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
-                'price_sale', 'sale', 'slug', 'short_description')
+                'price_until', 'slug', 'short_description')
             ->where('status','active')
             ->orderBy('ordering', 'asc')
             ->paginate($params['pagination']['totalItemsPerPage']);

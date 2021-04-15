@@ -7,8 +7,8 @@
     $name              = $items['name'];
     $sku               = $items['product_code'];
     $short_description = $items['short_description'];
-    $price_sale        = $items['price_sale'];
-    $htmlPrice         = Template::caculatorPriceFrontend($items['price'], $items['price_until']);
+    $price_until       = $items['price_until'];
+    $htmlPrice         = Template::caculatorPriceFrontend($items['price'], $price_until);
     $htmlAtribute      = Template::getHtmlAttribute($items['id'], $items['attribute'], $items['list_attribute']);
 
 @endphp
@@ -26,7 +26,7 @@
         </p> --}}
         @include('news.partials.product.product_rating')
 
-        <div data-price="{{ $price_sale }}" id="product_price" class="product-price">{!! $htmlPrice !!}</div>
+        <div data-price="{{ $price_until }}" id="product_price" class="product-price">{!! $htmlPrice !!}</div>
 
         @include('news.partials.product.product_stock')
 
