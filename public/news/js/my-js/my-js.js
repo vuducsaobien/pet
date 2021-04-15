@@ -286,6 +286,20 @@ $(document).ready(function() {
 		if ( searchValue !== null ) {
 			localStorage.setItem('search', searchValue);
 		}
+
+		let UrlPriceMin = getUrlParam('min');
+		let UrlPriceMax = getUrlParam('max');
+		if (
+				UrlPriceMin !== null && UrlPriceMin !== '' && 
+				UrlPriceMax !== null && UrlPriceMax !== ''
+			) {
+
+			$("form#search_name input[name=min]").val( UrlPriceMin );
+			$("form#search_name input[name=max]").val( UrlPriceMax );
+		} else {
+			$("form#search_name input[name=min]").prop( "disabled", true );
+			$("form#search_name input[name=max]").prop( "disabled", true );
+		}
 	});
 
 	let UrlSearch   = getUrlParam('search_name');

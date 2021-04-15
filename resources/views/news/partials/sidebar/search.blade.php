@@ -16,9 +16,11 @@
     <h4 class="shop-sidebar-title">Tìm kiếm Sản Phẩm</h4>
     <div class="shop-search mt-25 mb-50">
 
-        <form class="shop-search-form" action="{{ $linkSearch }}" method="GET">
+        <form id="search_name" class="shop-search-form" action="{{ $linkSearch }}" method="GET">
             {{-- @csrf --}}
-            {{-- <input name="url_current" type="hidden" value="{{ $uu }}"> --}}
+            <input type="hidden" name="min" value=""/>
+            <input type="hidden" name="max" value=""/>
+
             <input name="search_name" type="text" placeholder="Find a product" value="">
             <button id="search_product" type="submit">
                 <i class="icon-magnifier"></i>
