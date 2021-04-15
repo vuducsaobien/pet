@@ -3,7 +3,7 @@
     <div>
         <label>
             <div class="single-ship">
-                <input id="cash" type="radio" checked="" value="cash" name="address">
+                <input id="cash" type="radio" checked="" value="1" name="payment_id">
                 Tiền Mặt
             </div>
         </label>
@@ -12,7 +12,7 @@
     <div>
         <label>
             <div class="single-ship">
-                <input id="creadit_card" type="radio" value="creadit_card" name="address">
+                <input id="creadit_card" type="radio" value="2" name="payment_id">
                 Thẻ Tín Dụng
             </div>
         </label>

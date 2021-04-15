@@ -1,6 +1,8 @@
 @extends('admin.main')
 @php
     use App\Helpers\Template;
+    // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+    // echo '<h3>Die is Called </h3>';die;
 @endphp
 
 @section('content')
@@ -19,9 +21,13 @@
                             <ul>
                                 <li><p>Họ tên : {{ $item['name'] }}</p></li>
                                 <li><p>Địa chỉ: {{ $item['address'] }}</p></li>
-                                <li><p>Số Điện Thoại : 0{{ $item['phone'] }}</p></li>
+                                <li><p>Số Điện Thoại : {{ $item['phone'] }}</p></li>
                                 <li><p>Email : {{ $item['email'] }}</p></li>
+                                <li><p>Tổng Giá Sản Phẩm : {!! Template::format_price($item['amount'],'vietnamese dong') !!}</p></li>
                                 <li><p>Phí Vận Chuyển : {!! Template::format_price($item['ship'],'vietnamese dong') !!}</p></li>
+                                <li><p>Tiền Giảm Giá : {!! Template::format_price(-$item['discount'],'vietnamese dong') !!}</p></li>
+                                <li><p>Tổng : {!! Template::format_price($item['amount'] + $item['ship'] - $item['discount'],
+                                'vietnamese dong') !!}</p></li>
                                 <li><p>Địa chỉ IP : {{ $item['ip'] }}</p></li>
                             </ul>
                         </blockquote>
@@ -32,7 +38,6 @@
                             <ul>
                                 <li><p>Mã Đơn Hàng : {{ $item['order_code'] }}</p></li>
                                 <li><p>Số Lượng: {{ $item['quantity'] }}</p></li>
-                                <li><p>Tổng Số Tiền : {!! Template::format_price($item['amount'],'vietnamese dong') !!}</p></li>
                                 <li><p>Hình thức Thanh toán : {{ $item['payment'] }}</p></li>
                                 <li><p>Ngày Mua: {{ date(config('zvn.format.long_time'), strtotime($item['created'])) }}</p></li>
                                 <li><p>Trạng Thái: {{ config("zvn.template.status.{$item['status']}.name") }}</p></li>

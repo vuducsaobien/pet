@@ -17,8 +17,13 @@ class CartModel extends AdminModel
     {
         $this->table               = 'cart as c';
         $this->folderUpload        = 'cart';
-        $this->fieldSearchAccepted = ['order_code', 'name', 'email', 'address', 'quantity', 'amount'];
-        $this->crudNotAccepted     = ['_token','name', 'thumb', 'id', 'attribute', 'total_price', 'product_code', 'slug'];    
+        $this->fieldSearchAccepted = [
+            'order_code', 'name', 'email', 'address', 'quantity', 'amount'
+        ];
+        $this->crudNotAccepted     = [
+            '_token','name', 'thumb', 'id', 'attribute', 'total_price', 
+            'product_code', 'slug'
+        ];    
     }
 
     public function listItems($params = null, $options = null) {
@@ -124,7 +129,7 @@ class CartModel extends AdminModel
 
             $result = $customerModel::select(
                 'id', 'status', 'name', 'phone', 'email', 'address', 'ip', 'order_code', 'quantity', 'amount',
-                'created', 'payment_id', 'ship')
+                'created', 'payment_id', 'ship', 'discount')
                 ->where('id', $params['id'])->first()->toArray()
             ;
         }
@@ -193,7 +198,6 @@ class CartModel extends AdminModel
 
             $params['order_code'] = Str::random(7);
             $params['ip']         = $_SERVER['REMOTE_ADDR'];
-            $params['status']     = 'inactive';
 
             $customerModel = new CustomerModel();
             $prepare       = $customerModel->prepareParams($params);

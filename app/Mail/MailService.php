@@ -115,8 +115,8 @@ class MailService
                         <li>Mã Đơn Hàng: '.$data['order_code'].'</li>
                         <li>Địa chỉ nhận hàng: '.$data['address'].'</li>
                         <li>Email: '.$data['email'].'</li>
-                        <li>Số Điện thoại: 0'.$data['phone'].'</li>
-                        <li>Phương thức thanh toán: '.$data['payment_id'].'</li>
+                        <li>Số Điện thoại: '.$data['phone'].'</li>
+                        <li>Phương thức thanh toán: '.$data['payment'].'</li>
                         <li>Tổng số lượng Sản phẩm: '.$data['quantity'].'</li>
                         <li>Tổng Số Tiền: '.$total.'</li>
                     </ul>

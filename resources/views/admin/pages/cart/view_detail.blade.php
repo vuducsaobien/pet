@@ -11,7 +11,6 @@
             $name         = $val['name'];
             $attribute    = $val['detail'];
             $thumb        = $val['thumb'];
-            $thumb        = $val['thumb'];
             $quantity     = $val['quantity'];
             $price        = Template::format_price($val['price'] / $quantity, 'vietnamese dong');
             $total        = Template::format_price($val['price'], 'vietnamese dong');

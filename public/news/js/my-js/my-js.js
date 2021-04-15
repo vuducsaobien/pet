@@ -146,32 +146,6 @@ $(document).ready(function() {
 	});
 
 	// Checkout Ship
-	// let cart = localStorage.getItem('cart');
-	// if (cart && shipDefine !== null || shipDefine !== '') 
-	// {
-	// 	let arrtest = JSON.parse(cart);
-	// 	$.each(arrtest, function( index, result ) 
-	// 	{
-	// 		console.log(`---index = ${index} - result = ${result}`);
-
-	// 		if (index == 'fee') {
-	// 			$('p#check-out-fee').html('Phí vận chuyển : ' + format_price(result));
-	// 			$('span#fee').html(format_price(result));
-	// 			$('td#check-out-fee').html('+ ' + format_price(result));
-	// 		}
-
-	// 		if (index == 'grand_total_ship') {
-	// 			$('td#grand_total_ship').html('= ' + format_price(result));
-	// 			let string =  '<h5>Tổng Cộng: ' + format_price(result) + '</h5>';
-	// 			$('div.grand-totall h5').html(string);
-	// 		}
-
-	// 		// if (index == 'selectValue') {
-	// 		// 	$('select.shipping_change').val(result);
-	// 		// }
-
-	// 	})
-	// }
 
 	// Update Infomation From Cart to Checkout
 	let address = localStorage.getItem('address');
@@ -187,6 +161,8 @@ $(document).ready(function() {
 		// $('span#fee').html(format_price(result));
 		$('td#check-out-fee').html('+ ' + format_price(ship));	
 		$('td#check-out-coupon').html('- ' + format_price(coupon));	
+		$("div#submit_cart input#discount").val( coupon );
+
 		$('td#grand_total_ship').html('= ' + format_price(product_price + ship - coupon));
 
 		$("div#submit_cart input#ship")
@@ -248,7 +224,12 @@ $(document).ready(function() {
 		console.log(`index = ${index} - result = ${result}`);
 
 		$(`button#payment-${result}`).click(function (e) {
-			// if (result == 3) {e.preventDefault()}
+			if (result == 4) {
+				// alert(22);
+				var payment_id = $("div.ship-wrapper input:radio[name=payment_id]:checked").val();
+				$("div#submit_cart input#payment_id")
+				.val( payment_id );
+			}
 			if (result == 5) {}
 
 			let div         = $(`div#payment-${result}`);
@@ -287,20 +268,16 @@ $(document).ready(function() {
 		.val( $("form[name=customer] input[name=address]").val() );
 		
 	});
-	// $('div#submit_cart form button').click(function(e){
-	// 	e.preventDefault();
-	// });
-
 
 	// Show Creadit Card
-	// $("input#creadit_card").click(function(){
+	$("input#creadit_card").click(function(){
 	// 	$('div.toHide').show('slow');
-	// 	$('input#payment').val(2);
-	// });
-	// $("input#cash").click(function(){
+		$('input#payment').val(2);
+	});
+	$("input#cash").click(function(){
 	// 	$('div.toHide').hide();
-	// 	$('input#payment').val(1);
-	// });
+		$('input#payment').val(1);
+	});
 
 	// Filter Search Category - Product
 	$("button#search_product").click(function(){

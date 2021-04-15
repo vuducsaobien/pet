@@ -20,7 +20,8 @@
             $customerName = Hightlight::show($val['name'], $params['search'], 'type');
             $email        = Hightlight::show($val['email'], $params['search'], 'type');
             $address      = Hightlight::show($val['address'], $params['search'], 'type');
-            $detail = $val['detail'];
+            $detail       = $val['detail'];
+
             $productName = '';
             foreach ($detail as $keyB => $valB) {
                 $price    = Template::showItemCart($valB['price'] / $valB['quantity'], 'primary');
@@ -51,14 +52,14 @@
 
             <td >{{ $index }}</td>
             <td width="5%">{!! $code !!}</td>
-            <td width="20%">
+            <td width="10%">
 
                 <p><strong>- Tên:</strong> {!! $customerName !!}</p>
                 <p><strong>- Email:</strong> {!! $email !!}</p>
                 <p><strong>- Địa chỉ:</strong> {!! $address !!}</p>
 
             </td>
-            <td width="20%">
+            <td width="30%">
                 {!! $productName !!}
             </td>
 
