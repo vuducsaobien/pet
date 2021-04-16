@@ -58,6 +58,12 @@ class ProductAttributeModel extends AdminModel
             $result = $query->get()->toArray();
         }
 
+        if ($options['task'] == 'news-list-items-get-all-brand') {
+            $result = self::where('attribute_id', 4)->groupBy('value')
+                ->pluck('value')->toArray()
+            ;
+        }
+
         return $result;
     }
 
@@ -128,7 +134,7 @@ class ProductAttributeModel extends AdminModel
 
         if ($options['task'] == 'news-get-item-get-list-tags-from-product-id') {
             $result = self::where('product_id', $params['product_id'])
-            ->where('attribute_id', 6)->pluck('value')->toArray()
+                ->where('attribute_id', 6)->pluck('value')->toArray()
             ;
         }
 
@@ -136,6 +142,13 @@ class ProductAttributeModel extends AdminModel
             $result = self::where('attribute_id', 6)->where('value', 'LIKE', "%{$params['tag']}%")
                 // ->groupBy('product_id')->pluck('product_id')->toArray()
                 ->groupBy('product_id')->pluck('product_id')
+            ;
+        }
+
+        if ($options['task'] == 'news-get-item-get-product-from-brand') {
+            $result = self::where('attribute_id', 4)->where('value', 'LIKE', "%{$params['brand']}%")
+                ->groupBy('product_id')->pluck('product_id')->toArray()
+                // ->groupBy('product_id')->pluck('product_id')
             ;
         }
 

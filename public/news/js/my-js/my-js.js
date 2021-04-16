@@ -253,7 +253,7 @@ $(document).ready(function() {
 	})
 
 	$("form[name=customer] button[type=submit]").click(function(e){
-		alert(22);
+		// alert(22);
 		e.preventDefault();
 
 		$("div#submit_cart input#email")

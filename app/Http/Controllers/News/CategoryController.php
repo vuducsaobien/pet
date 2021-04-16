@@ -117,13 +117,34 @@ class CategoryController extends FrontendController
 
         $items           = $this->model->getItem($this->params, ['task' => 'get-product-info-from-product-list-id']);
 
-        // echo '<pre style="color:red";>$this->params === '; print_r($this->params);echo '</pre>';
+        // echo '<pre style="color:red";>$this->params === '; print_r($this->params);echo '</pre>'; 
         // echo '<pre style="color:red";>$tag === '; print_r($tag);echo '</pre>';
         // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
         // echo '<h3>Die is Called Con tags</h3>';die;
 
-        // return redirect()->route('category/index')->with();
         return view($this->pathViewController . 'index', compact('items', 'search_name', 'display', 'setting_price', 'search_price'));
     }
+
+    public function brand(Request $request)
+    {  
+        $display       = 'grid';
+        $search_name   = null;
+        $search_price  = null;
+        $brand         = $request->brand_name;
+        $setting_price = $this->model->getItem(null, ['task' => 'news-get-item-setting-price']);
+
+        $this->params['brand']           = str_replace('-', ' ', $brand);
+        $this->params['product_list_id'] = $this->model->getItem($this->params, ['task' => 'news-get-item-get-product-from-brand']);
+
+        $items           = $this->model->getItem($this->params, ['task' => 'get-product-info-from-product-list-id']);
+        // $items = $items->toArray();
+        // echo '<pre style="color:red";>$this->params === '; print_r($this->params);echo '</pre>';
+        // echo '<pre style="color:red";>$brand === '; print_r($brand);echo '</pre>';
+        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+        // echo '<h3>Die is Called Con Brand</h3>';die;
+
+        return view($this->pathViewController . 'index', compact('items', 'search_name', 'display', 'setting_price', 'search_price'));
+    }
+
 
 }
