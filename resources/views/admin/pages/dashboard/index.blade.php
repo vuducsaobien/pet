@@ -22,6 +22,7 @@
     ['name' => 'Testimonial',   'total' => $itemsTestimoniaCount,   'link' => route('testimonial'), 'class' => 'star' ],
     ['name' => 'User',          'total' => $itemsUserCount,         'link' => route('user'),        'class' => 'star' ],
     ['name' => 'Faq',           'total' => $itemsFaqCount,          'link' => route('faq'),         'class' => 'star' ],
+    ['name' => 'Subcribe',      'total' => $itemsSubcribeCount,     'link' => route('subcribe'),    'class' => 'star' ],
     ['name' => 'Gallery',       'total' => 0,                       'link' => route('gallery'),     'class' => 'star' ],
     ['name' => 'Youtube',       'total' => 0,                       'link' => route('youtube'),     'class' => 'star' ],
 

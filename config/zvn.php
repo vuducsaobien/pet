@@ -142,6 +142,7 @@ return [
             'faq'         => ['all', 'name', 'content'],
             'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],
+            'subcribe'    => ['all', 'email'],
         ],
         'button' => [
             'default'        => ['edit', 'delete'],
@@ -166,6 +167,7 @@ return [
             'rss'            => ['edit', 'delete'],
             'attribute'      => ['edit', 'delete'],
             'product'        => ['edit', 'delete'],
+            'subcribe'       => ['delete'],
         ]
     ],
     'notify' => [

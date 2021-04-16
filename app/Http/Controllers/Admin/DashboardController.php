@@ -29,6 +29,7 @@ use App\Models\TeamModel;
 use App\Models\TestimonialModel;
 use App\Models\UserModel;
 use App\Models\FaqModel;
+use App\Models\SubcribeModel;
 
 class DashboardController extends AdminController
 {
@@ -65,6 +66,7 @@ class DashboardController extends AdminController
         $itemsTestimoniaCount       = TestimonialModel::countItemsDashboad();
         $itemsUserCount             = UserModel::countItemsDashboad();
         $itemsFaqCount              = FaqModel::countItemsDashboad();
+        $itemsSubcribeCount         = SubcribeModel::countItemsDashboad();
 
         $itemsCart    = $this->cart($request);
         $itemsContact = $this->contact($request);
@@ -77,7 +79,7 @@ class DashboardController extends AdminController
             'itemsProductImageCount', 'itemsProductCount', 'itemsRecruitmentCount', 'itemsRssCount',
             'itemsSettingCount', 'itemsShippingCount', 'itemsTeamCount',
             'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount', 
-            'itemsCart', 'itemsContact', 'itemsFaqCount'
+            'itemsCart', 'itemsContact', 'itemsFaqCount', 'itemsSubcribeCount'
         ]));
     }
 

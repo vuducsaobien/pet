@@ -34,6 +34,7 @@
             <li id = "menu"><a href="{{ route('menu') }}"><i class="fa fa-sitemap"></i> Quản lý Menu</a></li>
             <li id = "slider"><a href="{{ route('slider') }}"><i class="fa fa-sliders"></i> Slider</a></li>
             <li id = "contact"><a href="{{ route('contact') }}"><i class="fa fa-connectdevelop"></i> Liên Hệ</a></li>
+            <li id = "subcribe"><a href="{{ route('subcribe') }}"><i class="fa fa-paypal"></i> Subcribe</a></li>
             <li id = "payment"><a href="{{ route('payment') }}"><i class="fa fa-money"></i> Phương Thức Thanh Toán</a></li>
 
             <li>
