@@ -160,6 +160,15 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
         Route::get('/thank-you.html',                 [ 'as' => $controllerName . '/thankyou',                  'uses' => $controller . 'thankyou' ]);
     });
 
+    // // ============================== Subcribe ============================== //
+    $prefix         = 'subcribe';
+    $controllerName = 'subcribe';
+    Route::group(['prefix' => $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName) . 'Controller@';
+
+        Route::post('/post-subcribe',                 [ 'as' => $controllerName . '/post_subcribe',                  'uses' => $controller . 'postSubcribe' ]);
+    });    
+
     // ====================== ABOUT US ========================
     $prefix         = 'gioi-thieu';
     $controllerName = 'about';

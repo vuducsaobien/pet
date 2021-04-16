@@ -98,5 +98,24 @@ class SubcribeModel extends AdminModel
             $this->insert($this->prepareParams($params));
         }
 
+        if ($options['task'] == 'news-add-item-add-new-email-subcribe') {
+            // $prepare['created'] = $created;
+            $prepare['email']   = $params;
+
+            $this->insert($this->prepareParams($prepare));
+        }
+
     }
+
+    public function getItem($params = null, $options = null) { 
+        $result = null;
+        
+        if($options['task'] == 'news-add-item-check-email-exist') {
+            $result = self::where('email', $params)->exists();
+        }
+
+        return $result;
+    }
+
+
 }
