@@ -193,6 +193,12 @@ class CategoryModel extends AdminModel
             $result       = $productModel->listItems($params, ['task' => 'news-get-item-category-search-product-name-and-price']);
         }
 
+        if($options['task'] == 'news-get-item-get-product-from-tag') {
+            $productAttribModel = new ProductAttributeModel();
+            $result             = $productAttribModel->getItem($params, ['task' => 'news-get-item-get-product-from-tag']);
+        }
+        
+
         if($options['task'] == 'news-get-item-category-display') {
             $result = self::where('id', $params)->value('display');
         }
@@ -207,6 +213,10 @@ class CategoryModel extends AdminModel
             $result       = $productModel->listItems($params, ['task' => 'news-get-item-search-price-all-food']);
         }
 
+        if($options['task'] == 'get-product-info-from-product-list-id') {
+            $productModel = new ProductModel();
+            $result       = $productModel->getItem($params, ['task' => 'get-product-info-from-product-list-id']);
+        }
 
         
         return $result;

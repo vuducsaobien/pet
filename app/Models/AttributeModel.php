@@ -174,9 +174,8 @@ class AttributeModel extends AdminModel
         }
 
         if ($options['task'] == 'get-list-thumb-product-id-modal') {
-            // $result = self::select('id', 'name')->where('status', 'active')->orderBy('ordering')->limit(2)->get()->toArray();
-            $result = self::select('id', 'name')->where('status', 'active')->orderBy('ordering')->get()->toArray();
-    
+            $result = self::select('id', 'name')->where('status', 'active')->where('name', 'NOT LIKE', '%tag%')
+            ->orderBy('ordering')->get()->toArray();
         }
 
         if ($options['task'] == 'get-attribute-id-from-attribute-name') {

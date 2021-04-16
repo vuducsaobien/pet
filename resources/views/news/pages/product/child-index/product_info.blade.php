@@ -1,5 +1,6 @@
 @php
     use App\Helpers\Template;
+    use Illuminate\Support\Str;
 
     // echo '<pre style="color:red";>$item === '; print_r($items);echo '</pre>';
     // echo '<h3>Die is Called </h3>';die;
@@ -10,6 +11,10 @@
     $price_until       = $items['price_until'];
     $htmlPrice         = Template::caculatorPriceFrontend($items['price'], $price_until);
     $htmlAtribute      = Template::getHtmlAttribute($items['id'], $items['attribute'], $items['list_attribute']);
+
+    $url_current     = url()->current();
+    $url_current_cut = substr( strrchr( $url_current, '/' ), 1 );
+    // echo '<pre style="color:red";>$url_current_cut === '; print_r($url_current_cut);echo '</pre>';
 
 @endphp
 
@@ -49,6 +54,26 @@
                 {!! Template::share($share_setting,URL::current(),'product','after') !!}
             @endisset
         </div> --}}
+
+        <br>
+        <div class="blog-dec-tags-social">
+            <div class="blog-dec-tags">
+                <ul>
+                    @forelse($items['tags'] as $key => $value)
+                        @php
+                            $linkTags        = route('category/tags', [
+                                'category_slug' => 'all-food.html',
+                                'tag_name'      => Str::slug( $value ),
+                            ]);
+                        @endphp
+                
+                        <li><a href="{{ $linkTags }}">{{ $value }}</a></li>
+                    @empty
+                        
+                    @endforelse
+                </ul>
+            </div>
+        </div>
 
     </div>
 </div>

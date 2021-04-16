@@ -101,6 +101,7 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
 
             Route::get('/{category_slug}/search', [ 'as' => $controllerName . '/search', 'uses' => $controller . 'search' ]);
             Route::get('{category_slug}.html', [ 'as' => $controllerName . '/index', 'uses' => $controller . 'index' ]);
+            Route::get('/{category_slug}/tags={tag_name}', [ 'as' => $controllerName . '/tags', 'uses' => $controller . 'tags' ]);
         });
     }
     

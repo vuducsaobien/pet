@@ -104,4 +104,26 @@ class CategoryController extends FrontendController
         ));
     }
 
+    public function tags(Request $request)
+    {  
+        $display       = 'grid';
+        $search_name   = null;
+        $search_price  = null;
+        $tag           = $request->tag_name;
+        $setting_price = $this->model->getItem(null, ['task' => 'news-get-item-setting-price']);
+
+        $this->params['tag'] = str_replace('-', ' ', $tag);
+        $this->params['product_list_id'] = $this->model->getItem($this->params, ['task' => 'news-get-item-get-product-from-tag']);
+
+        $items           = $this->model->getItem($this->params, ['task' => 'get-product-info-from-product-list-id']);
+
+        // echo '<pre style="color:red";>$this->params === '; print_r($this->params);echo '</pre>';
+        // echo '<pre style="color:red";>$tag === '; print_r($tag);echo '</pre>';
+        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+        // echo '<h3>Die is Called Con tags</h3>';die;
+
+        // return redirect()->route('category/index')->with();
+        return view($this->pathViewController . 'index', compact('items', 'search_name', 'display', 'setting_price', 'search_price'));
+    }
+
 }

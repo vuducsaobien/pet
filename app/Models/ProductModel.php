@@ -296,6 +296,11 @@ class ProductModel extends AdminModel
             $result    = $attribute->getItem(null, ['task' => 'get-list-thumb-product-id-modal']);
         }
 
+        if($options['task'] == 'news-get-item-get-list-tags-from-product-id') {
+            $productAttribute = new ProductAttributeModel();
+            $result           = $productAttribute->getItem($params, ['task' => 'news-get-item-get-list-tags-from-product-id']);
+        }
+
         if($options['task'] == 'get-list-thumb-product-id-modal-array') {
             $productAttribute = new ProductAttributeModel();
             $result           = $productAttribute->getItem($params, ['task' => 'get-list-thumb-product-id-modal-array']);
@@ -307,6 +312,16 @@ class ProductModel extends AdminModel
 
         if($options['task'] == 'get-product-id-from-product-code') {
             $result = self::where('product_code', $params)->value('id');
+        }
+
+        if($options['task'] == 'get-product-info-from-product-list-id') {
+            $result = self::select('id', 'product_code', 'name', 'thumb', 'price',
+                'price_until', 'slug', 'short_description')
+            ->whereIn('id', $params['product_list_id'])
+            ->where('status', 'active')
+            ->orderBy('ordering')
+            // ->paginate($params['pagination']['totalItemsPerPage']);
+            ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
         return $result;

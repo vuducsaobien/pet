@@ -41,6 +41,7 @@ class ProductController extends FrontendController
         $items['all_attribute'] = Functions::implode_01($allAttribute, 'detail', ', ');
         $items['comment']       = $this->model->getComment($params, ['task' => 'in-product-detail']);
         $items['related']       = $this->model->listItems($params, ['task' => 'news-list-items-related-in-product']);
+        $items['tags']          = $this->model->getItem($params, ['task' => 'news-get-item-get-list-tags-from-product-id']);
 
         // $cart = $request->session()->get('cart');
         // echo '<pre style="color:red";>$cart === '; print_r($cart);echo '</pre>';

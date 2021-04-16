@@ -126,6 +126,19 @@ class ProductAttributeModel extends AdminModel
             }
         }
 
+        if ($options['task'] == 'news-get-item-get-list-tags-from-product-id') {
+            $result = self::where('product_id', $params['product_id'])
+            ->where('attribute_id', 6)->pluck('value')->toArray()
+            ;
+        }
+
+        if ($options['task'] == 'news-get-item-get-product-from-tag') {
+            $result = self::where('attribute_id', 6)->where('value', 'LIKE', "%{$params['tag']}%")
+                // ->groupBy('product_id')->pluck('product_id')->toArray()
+                ->groupBy('product_id')->pluck('product_id')
+            ;
+        }
+
         return $result;
     }
 
