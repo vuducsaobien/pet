@@ -21,15 +21,12 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
 
     // ============================== HOMEPAGE ==============================
     $controllerName = 'home';
-    if ($controllerName == 'home') {
-        $prefix         = '';
-
-        Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
-            $controller = ucfirst($controllerName)  . 'Controller@';
-            Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
-            Route::get('/not-found',                    [ 'as' => $controllerName. '/not-found',                  'uses' => $controller . 'notFound' ]);
-        });
-    }
+    $prefix         = '';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+        Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
+        Route::get('/not-found',                    [ 'as' => $controllerName. '/not-found',                  'uses' => $controller . 'notFound' ]);
+    });
 
     // ====================== ARTICLE ========================
     $prefix         = 'bai-viet';
@@ -92,19 +89,16 @@ Route::group(['prefix' => $prefixNews, 'namespace' => 'News'], function () {
 
 
     // ====================== Category page ========================
+    $prefix         = '';
     $controllerName = 'category';
-    if ($controllerName == 'category') {
-        $prefix         = '';
+    Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
 
-        Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
-            $controller = ucfirst($controllerName)  . 'Controller@';
-
-            Route::get('/{category_slug}/search', [ 'as' => $controllerName . '/search', 'uses' => $controller . 'search' ]);
-            Route::get('{category_slug}.html', [ 'as' => $controllerName . '/index', 'uses' => $controller . 'index' ]);
-            Route::get('/{category_slug}/tags={tag_name}', [ 'as' => $controllerName . '/tags', 'uses' => $controller . 'tags' ]);
-            Route::get('/{category_slug}/brand={brand_name}', [ 'as' => $controllerName . '/brand', 'uses' => $controller . 'brand' ]);
-        });
-    }
+        Route::get('/{category_slug}/search', [ 'as' => $controllerName . '/search', 'uses' => $controller . 'search' ]);
+        Route::get('{category_slug}.html', [ 'as' => $controllerName . '/index', 'uses' => $controller . 'index' ]);
+        Route::get('/{category_slug}/tags={tag_name}', [ 'as' => $controllerName . '/tags', 'uses' => $controller . 'tags' ]);
+        Route::get('/{category_slug}/brand={brand_name}', [ 'as' => $controllerName . '/brand', 'uses' => $controller . 'brand' ]);
+    });
     
     // ====================== Product page ========================
     $prefix         = 'food';

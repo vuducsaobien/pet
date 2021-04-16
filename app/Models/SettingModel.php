@@ -98,22 +98,22 @@ class SettingModel extends AdminModel
     {
         $result = null;
 
-        if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
-            $result = self::where('key_value', 'youtube-playlist-id')->value('value');
-            $params = null;
-            $options = null;
-        }
+        // if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
+        //     $result = self::where('key_value', 'youtube-playlist-id')->value('value');
+        //     // $params = null;
+        //     // $options = null;
+        // }
 
-        if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
-            $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
+        // if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
+        //     $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
 
-            if ($result) {
-                $result = json_decode($result, true);
-            }
+        //     if ($result) {
+        //         $result = json_decode($result, true);
+        //     }
 
-            $params = null;
-            $options = null;
-        }
+        //     // $params = null;
+        //     // $options = null;
+        // }
 
         if ($params != null) {
     
@@ -215,5 +215,35 @@ class SettingModel extends AdminModel
         }
 
     }
+
+    public function youtubeList($params = null, $options = null) 
+    { 
+        if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-id')->value('value');
+            // $params = null;
+            // $options = null;
+        }
+
+        return $result;
+
+    }
+
+    public function youtubeListId($params = null, $options = null) 
+    { 
+        if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
+
+            if ($result) {
+                $result = json_decode($result, true);
+            }
+
+            // $params = null;
+            // $options = null;
+        }
+        return $result;
+
+    }
+
+
 
 }
