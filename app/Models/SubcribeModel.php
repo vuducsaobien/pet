@@ -114,6 +114,10 @@ class SubcribeModel extends AdminModel
             $result = self::where('email', $params)->exists();
         }
 
+        if($options['task'] == 'admin-get-item-get-all-email') {
+            $result = self::where('status', 'active')->pluck('email')->toArray();
+        }
+
         return $result;
     }
 

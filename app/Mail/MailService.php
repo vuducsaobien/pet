@@ -2,6 +2,7 @@
 namespace App\Mail;
 
 use App\Models\SettingModel;
+use App\Models\SubcribeModel;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\Template;
 
@@ -35,6 +36,41 @@ class MailService
             return true;
         }
     }
+
+    public function sendArticle($data)
+    {
+        // echo '<pre style="color:red";>$data === '; print_r($data);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
+        $mail = json_decode(SettingModel::where('key_value', 'setting-email')->first()->value, true);
+        if (empty($mail))
+            return false;
+        else {
+            Mail::send([], [], function ($message) use ($mail, $data) {
+                $message->from($mail['username'], $this->fromTitle);
+
+                $model  = new SubcribeModel();
+                $emails = $model->getItem(null, ['task' => 'admin-get-item-get-all-email']);        
+                $message->bcc($emails);
+
+                // $message->to('Subcribe User');
+                $message->subject($this->fromTitle . ' Thông báo Nhận Article thành Công');
+                $link = route('article/detail', $data['slug']);
+
+                $content = sprintf('
+                    <p>Marten Xin chào !</p>
+                    <p>Bài viết Mới Nhất !</p>
+                    <a href="%s" >%s</a>
+                    <p>Ngày Viết: %s </p>
+
+                    <p>Cảm ơn!</p>
+                    ', $link, $data['name'], $data['created']
+                );
+                $message->setBody($content, 'text/html');
+            });
+            return true;
+        }
+    }
+
 
     public function sendContactInfo($data)
     {

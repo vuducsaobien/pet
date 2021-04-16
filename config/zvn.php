@@ -114,9 +114,10 @@ return [
             'source'         => ['name'=> 'Soure Code'],
         ],
         'button' => [
-            'edit'      => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
-            'delete'    => ['class'=> 'btn-danger btn-delete'  , 'title'=> 'Delete'    , 'icon' => 'fa-trash'  , 'route-name' => '/delete'],
-            'info'      => ['class'=> 'btn-info'    , 'title'=> 'View'      , 'icon' => 'fa-eye' , 'route-name' => '/view'],
+            'edit'     => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
+            'delete'   => ['class'=> 'btn-danger btn-delete'  , 'title'=> 'Delete'    , 'icon' => 'fa-trash'  , 'route-name' => '/delete'],
+            'info'     => ['class'=> 'btn-info'    , 'title'=> 'View'      , 'icon' => 'fa-eye' , 'route-name' => '/view'],
+            'sendMail' => ['class'=> 'btn-info'    , 'title'=> 'Send Email'      , 'icon' => 'fa-eye' , 'route-name' => '/sendMailToSubcribe'],
         ]
 
     ],
@@ -148,7 +149,7 @@ return [
             'default'        => ['edit', 'delete'],
             'slider'         => ['edit', 'delete'],
             'category'       => ['edit', 'delete'],
-            'article'        => ['edit', 'delete'],
+            'article'        => ['edit', 'delete', 'sendMail'],
             'commentArticle' => ['edit', 'delete'],
             'user'           => ['edit'],
             'menu'           => ['edit', 'delete'],

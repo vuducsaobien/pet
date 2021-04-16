@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ArticleModel as MainModel;
 use App\Models\CategoryModel;
+use App\Models\SubcribeModel;
+use App\Mail\MailService;
+
 use App\Http\Requests\ArticleRequest as MainRequest ;
 use Illuminate\Support\Str;
 
@@ -72,4 +75,22 @@ class ArticleController extends AdminController
         $result = $this->model->saveItem($params, ['task' => 'change-category']);
         return response()->json($result);
     }*/
+
+    public function sendMailToSubcribe(Request $request)
+    {
+        $params['article_id'] = $request->article_id;
+        $article_info = $this->model->getItem($params, ['task' => 'admin-get-item-get-article-info-from-article-id']);
+
+
+
+        $mailService = new MailService();
+        $mailService->sendArticle($article_info);
+
+        // echo '<pre style="color:red";>$article_id === '; print_r($article_id);echo '</pre>';
+        // echo '<pre style="color:red";>$emails === '; print_r($emails);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
+
+        return redirect()->route($this->controllerName)->with('zvn_notify', 'Gửi Bài viết Thành Công!');
+    }
+
 }

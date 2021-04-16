@@ -166,6 +166,14 @@ class ArticleModel extends AdminModel
             $result=self::with('comments')->where('slug',$params['slug'])->first();
         }
 
+        if($options['task']=='admin-get-item-get-article-info-from-article-id'){
+            $result=self::select(
+                'id', 'name', 'slug', 'created'
+            )->where('id',$params['article_id'])
+            ->first()->toArray()
+            ;
+        }
+
         return $result;
     }
 
