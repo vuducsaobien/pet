@@ -71,6 +71,9 @@ class SettingModel extends AdminModel
                 // https://www.youtube.com/playlist?list=PLV7_SDtanVwhB_Fw6Glpojck_qKEngpUp
                 $maxResult  = 10;
                 $playlistID = substr($params['link'], strpos($params['link'], "=") + 1);
+                echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                echo '<pre style="color:red";>$playlistID === '; print_r($playlistID);echo '</pre>';
+                // echo '<h3>Die is Called </h3>';die;
                 $API_URL    = "{$base_url}playlistItems?part=snippet&maxResults=$maxResult&playlistId=$playlistID&key=$api_key";
                 $video_list = json_decode(file_get_contents($API_URL), true);
         
@@ -85,6 +88,7 @@ class SettingModel extends AdminModel
                     $items = json_encode($items, JSON_UNESCAPED_UNICODE);
                     self::where('key_value', 'youtube-playlist-link-ids')->update(['value' => $items]);
                 }
+
             } else {
                 self::deleteItem(null, ['task' => 'delete-item-youtube-playlist-id']);
                 self::deleteItem(null, ['task' => 'delete-item-youtube-playlist-link-ids']);
@@ -98,22 +102,18 @@ class SettingModel extends AdminModel
     {
         $result = null;
 
-        // if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
-        //     $result = self::where('key_value', 'youtube-playlist-id')->value('value');
-        //     // $params = null;
-        //     // $options = null;
-        // }
+        if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-id')->value('value');
+        }
 
-        // if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
-        //     $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
+        if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
+            $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
 
-        //     if ($result) {
-        //         $result = json_decode($result, true);
-        //     }
+            if ($result) {
+                $result = json_decode($result, true);
+            }
 
-        //     // $params = null;
-        //     // $options = null;
-        // }
+        }
 
         if ($params != null) {
     
@@ -215,35 +215,5 @@ class SettingModel extends AdminModel
         }
 
     }
-
-    public function youtubeList($params = null, $options = null) 
-    { 
-        if ($options['task'] == 'admin-get-item-get-link-youtube-playlist') {
-            $result = self::where('key_value', 'youtube-playlist-id')->value('value');
-            // $params = null;
-            // $options = null;
-        }
-
-        return $result;
-
-    }
-
-    public function youtubeListId($params = null, $options = null) 
-    { 
-        if ($options['task'] == 'admin-get-item-get-videos-id-youtube-playlist') {
-            $result = self::where('key_value', 'youtube-playlist-link-ids')->value('value');
-
-            if ($result) {
-                $result = json_decode($result, true);
-            }
-
-            // $params = null;
-            // $options = null;
-        }
-        return $result;
-
-    }
-
-
 
 }

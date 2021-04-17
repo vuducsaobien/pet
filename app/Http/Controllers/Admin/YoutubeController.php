@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use App\Http\Requests\YoutubeRequest as MainRequest;
 use Illuminate\Http\Request;
 use App\Models\SettingModel;
 
@@ -23,15 +24,13 @@ class YoutubeController extends Controller
         $link  = null;
 
         $settingModel = new SettingModel();
-        $playlistID   = $settingModel->youtubeList(null, ['task' => 'admin-get-item-get-link-youtube-playlist']);
-        $items        = $settingModel->youtubeListId(null, ['task' => 'admin-get-item-get-videos-id-youtube-playlist']);
-
-        if ( $playlistID ) $link  = "https://www.youtube.com/playlist?list=$playlistID";
+        $link         = $settingModel->getItem(null, ['task' => 'admin-get-item-get-link-youtube-playlist']);
+        $items        = $settingModel->getItem(null, ['task' => 'admin-get-item-get-videos-id-youtube-playlist']);
 
         return view($this->pathViewController . 'index', compact('items', 'link'));
     }
 
-    public function save(Request $request)
+    public function save(MainRequest $request)
     {
         if ($request->method() == 'POST') {
 

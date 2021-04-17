@@ -23,8 +23,8 @@ class YoutubeController extends Controller
         $link  = null;
 
         $settingModel = new SettingModel();
-        $playlistID   = $settingModel->youtubeList(null, ['task' => 'admin-get-item-get-link-youtube-playlist']);
-        $items        = $settingModel->youtubeListId(null, ['task' => 'admin-get-item-get-videos-id-youtube-playlist']);
+        $playlistID   = $settingModel->getItem(null, ['task' => 'admin-get-item-get-link-youtube-playlist']);
+        $items        = $settingModel->getItem(null, ['task' => 'admin-get-item-get-videos-id-youtube-playlist']);
 
         return view($this->pathViewController . 'index', compact('items'));
     }
