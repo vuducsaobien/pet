@@ -70,9 +70,6 @@ class DashboardController extends AdminController
 
         $itemsCart    = $this->cart($request);
         $itemsContact = $this->contact($request);
-    
-        echo '<pre style="color:red";>$routes === '; print_r($routes);echo '</pre>';
-        echo '<h3>Die is Called Dáh</h3>';die;
         
         return view($this->pathViewController .  'index', compact([
             'itemsSliderCount', 'itemsUserCount', 'itemsCategoryCount', 'itemsArticleCount',

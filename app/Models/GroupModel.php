@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
+use App\Models\PermissionModel;
 use Illuminate\Support\Facades\DB; 
 
-class UserModel extends AdminModel
+class GroupModel extends AdminModel
 {
 
     public $timestamps = false;
 
     public function __construct()
     {
-        $this->table               = 'user';
-        $this->folderUpload        = 'user';
-        $this->fieldSearchAccepted = ['id', 'username', 'email', 'fullname'];
+        $this->table               = 'group as g';
+        $this->folderUpload        = 'group';
+        $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
-            '_token','avatar_current', 'password_confirmation', 'taskAdd', 
-            'taskChangePassword', 'taskChangeLevel', 'taskEditInfo'
+            '_token'
         ];    
     }
     
@@ -25,27 +25,18 @@ class UserModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'username', 'email', 'fullname', 'thumb', 'status', 'level','created' ,'created_by','modified','modified_by');
-               
-            if ($params['filter']['status'] !== "all")  {
-                $query->where('status', '=', $params['filter']['status'] );
-            }
-
-            if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
-                    $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
-                        }
-                    });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
-                } 
-            }
+            $query = $this->select('id', 'name', 'permission_ids', 'status', 'created' , 'created_by', 'modified', 'modified_by');
 
             $result =  $query
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
+        }
+
+        if($options['task'] == 'admin-list-items-get-list-permission') {
+            $model = new PermissionModel();
+            $result = $model->listItems($params, ['task'  => 'admin-list-items-get-list-permission']);
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Group model</h3>';die;
         }
 
         return $result;
@@ -81,34 +72,11 @@ class UserModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'username', 'email', 'status', 'fullname', 'level', 'thumb')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'permission_ids', 'status')->where('id', $params['id'])->first();
         }
 
-        if($options['task'] == 'get-avatar') {
-            $result = self::select('id', 'thumb')->where('id', $params['id'])->first();
-        }
-
-        if($options['task'] == 'auth-login') {
-            $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb', 'group_id')
-                ->where('status', 'active')
-                ->where('email', $params['email'])
-                ->where('password', md5($params['password']) )->first();
-
-            if($result) $result = $result->toArray();
-        }
-
-        if ($options['task'] == 'check-password') {
-            $result = $this->select('id')->where([
-                ['username', session('userInfo')['username']],
-                ['password', md5($params['old_password'])]
-            ])->first();
-        }
-
-        if ($options['task'] == 'news-get-user-info') {
-            $result = self::select('address', 'phone')
-            ->where('username', $params)
-            ->first()->toArray()
-            ;
+        if($options['task'] == 'auth-login-get-permission-ids-from-group-id') {
+            $result = self::where('id', $params['id'])->value('permission_ids');
         }
 
         return $result;

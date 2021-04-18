@@ -169,6 +169,7 @@ return [
             'attribute'      => ['edit', 'delete'],
             'product'        => ['edit', 'delete'],
             'subcribe'       => ['delete'],
+            'group'          => ['edit', 'delete'],
         ]
     ],
     'notify' => [

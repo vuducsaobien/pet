@@ -222,8 +222,24 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::get('change-status-{status}/{id}',       [ 'as' => $controllerName . '/status',      'uses' => $controller . 'status']);
         Route::get('change-ordering-{ordering}/{id}',   [ 'as' => $controllerName . '/ordering',     'uses' => $controller . 'ordering']);
     });
+
+    // ============================== GROUP ==============================
+    $prefix         = 'group';
+    $controllerName = 'group';
+    Route::group(['prefix' =>  $prefix], function () use($controllerName) {
+        $controller = ucfirst($controllerName)  . 'Controller@';
+        Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
+        Route::get('form/{id?}',                        [ 'as' => $controllerName . '/form',        'uses' => $controller . 'form'])->where('id', '[0-9]+');
+        Route::post('save',                             [ 'as' => $controllerName . '/save',        'uses' => $controller . 'save']);
+        Route::get('delete/{id}',                       [ 'as' => $controllerName . '/delete',      'uses' => $controller . 'delete'])->where('id', '[0-9]+');
+        Route::get('change-status-{status}/{id}',       [ 'as' => $controllerName . '/status',      'uses' => $controller . 'status']);
+        Route::post('change-level',                     [ 'as' => $controllerName . '/change-level',        'uses' => $controller . 'changeLevel']);
+        Route::get('change-level-{level}/{id}',         [ 'as' => $controllerName . '/level',      'uses' => $controller . 'level']);
+        Route::get('change-permission_ids-{ids}/{id}',  [ 'as' => $controllerName . '/permission_ids',      'uses' => $controller . 'permission_ids']);
+    });
+        
     
-        // ============================== USER ==============================
+    // ============================== USER ==============================
     $prefix         = 'user';
     $controllerName = 'user';
 

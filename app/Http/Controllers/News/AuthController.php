@@ -4,6 +4,7 @@ namespace App\Http\Controllers\News;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;    
 use App\Http\Requests\AuthLoginRequest as MainRequest;
+use App\Models\GroupModel;
 use App\Models\UserModel;
 
 class AuthController extends Controller
@@ -34,6 +35,13 @@ class AuthController extends Controller
 
             $userModel = new UserModel();
             $userInfo = $userModel->getItem($params, ['task' => 'auth-login']);
+
+            $groupModel = new GroupModel();
+            $list_permission_ids = $groupModel->getItem($userInfo, [
+                'task' => 'auth-login-get-permission-ids-from-group-id']);
+            $userInfo['list_permission_ids'] = explode(',', $list_permission_ids);
+            // echo '<pre style="color:red";>$userInfo === '; print_r($userInfo);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
 
             if (!$userInfo) return redirect()->route($this->controllerName . '/login')->with('news_notify', 'Tài khoản hoặc mật khẩu không chính xác!');
 
