@@ -6,7 +6,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== DASHBOARD ==============================
     $prefix         = 'dashboard';
     $controllerName = 'dashboard';
-    $routes[$controllerName] = [];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -15,8 +14,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== SLIDER ==============================
     $prefix         = 'slider';
     $controllerName = 'slider';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -29,8 +26,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== TESTIMONIAL ==============================
     $prefix         = 'testimonial';
     $controllerName = 'testimonial';
-
-    $routes[$controllerName] = ['save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -43,8 +38,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== COMMENT ==============================
     $prefix         = 'comment';
     $controllerName = 'comment';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -57,8 +50,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== CommentArticle ==============================
     $prefix         = 'commentArticle';
     $controllerName = 'commentArticle';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'move', 'isHome', 'display', 'ordering'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -75,8 +66,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== PAYMENT ==============================
     $prefix         = 'payment';
     $controllerName = 'payment';
-
-    $routes[$controllerName] = [$controllerName, 'form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -89,8 +78,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== TEAM ==============================
     $prefix         = 'team';
     $controllerName = 'team';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -103,8 +90,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== SHIPPING ==============================
     $prefix         = 'shipping';
     $controllerName = 'shipping';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -117,8 +102,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== CUSTOMER ==============================
     $prefix         = 'customer';
     $controllerName = 'customer';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -131,8 +114,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== CART ==============================
     $prefix         = 'cart';
     $controllerName = 'cart';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'view'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -146,8 +127,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== DISCOUNT ==============================
     $prefix         = 'discount';
     $controllerName = 'discount';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                             [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -160,8 +139,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== CATEGORY ==============================
     $prefix         = 'category';
     $controllerName = 'category';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'isHome', 'display', 'ordering', 'move'];
     Route::group(['prefix' =>  $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -178,8 +155,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== ARTICLE ==============================
     $prefix         = 'article';
     $controllerName = 'article';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'type', 'change-category', 'sendMailToSubcribe'];
     Route::group(['prefix' =>  $prefix], function () use($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -195,8 +170,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== RECRUITMENT ==============================
     $prefix         = 'recruitment';
     $controllerName = 'recruitment';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'ordering'];
     Route::group(['prefix' =>  $prefix], function () use($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -210,8 +183,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== FAQ ==============================
     $prefix         = 'faq';
     $controllerName = 'faq';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'ordering'];
     Route::group(['prefix' =>  $prefix], function () use($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -232,8 +203,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::post('save',                             [ 'as' => $controllerName . '/save',        'uses' => $controller . 'save']);
         Route::get('delete/{id}',                       [ 'as' => $controllerName . '/delete',      'uses' => $controller . 'delete'])->where('id', '[0-9]+');
         Route::get('change-status-{status}/{id}',       [ 'as' => $controllerName . '/status',      'uses' => $controller . 'status']);
-        Route::post('change-level',                     [ 'as' => $controllerName . '/change-level',        'uses' => $controller . 'changeLevel']);
-        Route::get('change-level-{level}/{id}',         [ 'as' => $controllerName . '/level',      'uses' => $controller . 'level']);
         Route::get('change-permission_ids-{ids}/{id}',  [ 'as' => $controllerName . '/permission_ids',      'uses' => $controller . 'permission_ids']);
     });
 
@@ -252,22 +221,17 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== USER ==============================
     $prefix         = 'user';
     $controllerName = 'user';
-
-    $routes[$controllerName] = [
-        'form', 'save', 'delete', 'status', 'change-password', 'change-level', 'level', 
-        'change-logged-password', 'post-change-logged-password'
-    ];
     Route::group(['prefix' =>  $prefix], function () use($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
         Route::get('form/{id?}',                        [ 'as' => $controllerName . '/form',        'uses' => $controller . 'form'])->where('id', '[0-9]+');
-        Route::post('save',                             [ 'as' => $controllerName . '/save',        'uses' => $controller . 'save']);
         Route::get('delete/{id}',                       [ 'as' => $controllerName . '/delete',      'uses' => $controller . 'delete'])->where('id', '[0-9]+');
         Route::get('change-status-{status}/{id}',       [ 'as' => $controllerName . '/status',      'uses' => $controller . 'status']);
-        Route::post('change-password',                  [ 'as' => $controllerName . '/change-password',        'uses' => $controller . 'changePassword']);
-        Route::post('change-level',                     [ 'as' => $controllerName . '/change-level',        'uses' => $controller . 'changeLevel']);
         Route::get('change-level-{level}/{id}',         [ 'as' => $controllerName . '/level',      'uses' => $controller . 'level']);
         Route::get('change-logged-password',            ['as' => "$controllerName/change-logged-password",      'uses' => $controller . 'changeLoggedPassword']);
+        Route::post('change-password',                  [ 'as' => $controllerName . '/change-password',        'uses' => $controller . 'changePassword']);
+        Route::post('change-level',                     [ 'as' => $controllerName . '/change-level',        'uses' => $controller . 'changeLevel']);
+        Route::post('save',                             [ 'as' => $controllerName . '/save',        'uses' => $controller . 'save']);
         Route::post('post-change-logged-password',      ['as' => "$controllerName/post-change-logged-password", 'uses' => $controller . 'postChangeLoggedPassword']);
     });
 
@@ -275,8 +239,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== MENU ============================== //
     $prefix         = 'menu';
     $controllerName = 'menu';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'ordering', 'type_menu', 'type_link', 'link'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 ['as' => $controllerName,                   'uses' => $controller . 'index']);
@@ -293,8 +255,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== RSS ============================== //
     $prefix         = 'rss';
     $controllerName = 'rss';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'ordering'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -308,8 +268,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== GALLERY ============================== //
     $prefix         = 'gallery';
     $controllerName = 'gallery';
-
-    $routes[$controllerName] = [];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -318,8 +276,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== YOUTUBE PLAYLIST ============================== //
     $prefix         = 'youtube';
     $controllerName = 'youtube';
-
-    $routes[$controllerName] = ['save'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -329,11 +285,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== SETTING ============================== //
     $prefix         = 'setting';
     $controllerName = 'setting';
-
-    $routes[$controllerName] = [
-        'general_setting', 'social_setting', 'share_setting', 'email_account_setting',
-        'email_bcc_setting', 'policy_setting'
-    ];
     Route::group(['prefix' => $prefix], function () use ($controllerName){
         $controller = ucfirst($controllerName).'Controller@';
         Route::get('/',                         [ 'as' => $controllerName,                              'uses' => $controller . 'index' ]);
@@ -348,8 +299,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== CONTACT ============================== //
     $prefix         = 'contact';
     $controllerName = 'contact';
-
-    $routes[$controllerName] = ['status'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -359,8 +308,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     // ============================== SUBCRIBE ============================== //
     $prefix         = 'subcribe';
     $controllerName = 'subcribe';
-
-    $routes[$controllerName] = ['delete', 'status'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
@@ -380,8 +327,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
 
     $prefix         = 'attribute';
     $controllerName = 'attribute';
-
-    $routes[$controllerName] = ['form', 'save', 'delete', 'status', 'ordering'];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 ['as' => $controllerName,                   'uses' => $controller . 'index']);
@@ -396,11 +341,6 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
     /*================================= PRODUCT =============================*/
     $prefix         = 'product';
     $controllerName = 'product';
-
-    $routes[$controllerName] = [
-        'form', 'save', 'delete', 'status', 'get-image', 'image', 'ordering', 'change-category', 
-        'change-info', 'change-category-edit', 'change-price', 'change-attribute', 'change-dropzone'
-    ];
     Route::group(['prefix' => $prefix], function () use ($controllerName) {
         $controller = ucfirst($controllerName) . 'Controller@';
         Route::get('/',                                 ['as' => $controllerName,                   'uses' => $controller . 'index']);
@@ -428,14 +368,5 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         session(['language' => $locale]);
         return redirect()->back();
     })->name('language');
-
-    foreach ($routes as $key => $value) {
-        foreach ($value as $keyC => $valueC) {
-            $routes[$key][$keyC] = $key . '/' . $valueC;
-        }
-        array_push($routes[$key], $key);
-    }
-    // echo '<pre style="color:red";>$routes === '; print_r($routes);echo '</pre>';
-    // echo '<h3>Die is Called </h3>';die;
 
 });

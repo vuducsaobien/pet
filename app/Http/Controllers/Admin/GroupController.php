@@ -54,29 +54,4 @@ class GroupController extends AdminController
         }
     }
 
-    public function changeLevel(MainRequest $request)
-    {
-        if ($request->method() == 'POST') {
-            $params = $request->all();
-            $this->model->saveItem($params, ['task' => 'change-level-post']);
-            return redirect()->back()->with("zvn_notify", "Thay đổi level thành công!");
-        }
-    }
-
-    public function changePassword(MainRequest $request)
-    {
-        if ($request->method() == 'POST') {
-            $params = $request->all();
-            $this->model->saveItem($params, ['task' => 'change-password']);
-            return redirect()->back()->with("zvn_notify", "Thay đổi mật khẩu thành công!");
-        }
-    }
-
-    public function level(Request $request) {
-        $params["currentLevel"]   = $request->level;
-        $params["id"]               = $request->id;
-        $this->model->saveItem($params, ['task' => 'change-level']);
-        return redirect()->route($this->controllerName)->with("zvn_notify", "Cập nhật kiểu hiện thị thành công!");
-    }
-
 }

@@ -19,7 +19,7 @@ class PermissionAdmin
     public function handle($request, Closure $next)
     {
         App::setLocale(session()->get('language'));
-        
+
         if($request->session()->has('userInfo'))  {
 
             $userInfo              = $request->session()->get('userInfo');
@@ -33,6 +33,7 @@ class PermissionAdmin
             ) {
                 return $next($request);
             }else{
+                // return $next($request);
                 return redirect()->route('notify/noPermission');            
             }
         }
