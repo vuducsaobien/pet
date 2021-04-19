@@ -13,10 +13,63 @@ class UserController extends AdminController
     public function __construct() 
     {
         $this->pathViewController = 'admin.pages.user.';
-        $this->controllerName = 'user';
-        $this->model = new MainModel();
-        $this->params["pagination"]["totalItemsPerPage"] = 10;
+        $this->controllerName     = 'user';
+        $this->model              = new MainModel();
         parent::__construct();
+    }
+
+    public function index(Request $request)
+    {
+        $this->params['filter']['status']   = $request->input('filter_status', 'all' ) ;
+        $this->params['filter']['category'] = $request->input('filter_category', 'all' ) ;
+        $this->params['search']['field']    = $request->input('search_field', '' ) ;        // all id description
+        $this->params['search']['value']    = $request->input('search_value', '' ) ;
+                      $params               = $this->params;
+
+        $itemsStatusCount = $this->model->countItems($this->params, ['task' => 'admin-count-items-group-by-status']);
+        $items            = $this->model->listItems($this->params, ['task'  => 'admin-list-items']);
+        $itemsData        = $items->toArray()['data'];
+
+        foreach ($itemsData as $key => $value) {
+            // $data['user_id'][$key]         = $value['id'];
+            $data['group_id'][$key]        = $value['group_id'];
+            $data['permission_deny'][$key] = explode(',', $value['permission_deny']);
+            $data['permission_new'][$key]  = explode(',', $value['permission_new']);
+        }
+
+        $listGroupPermision = $this->model->listItems($data['group_id'], ['task'  => 'get-permission_ids-of-list-user']);
+        foreach ($listGroupPermision as $key => $value) {
+            $listGroupPermision[$key] = explode(',', $value);
+        }
+
+        // Remove Deny Permission for user
+        foreach ($data['permission_deny'] as $key => $value) {
+            foreach ($value as $keyB => $valueB) {
+                $key_value = array_search($valueB, $listGroupPermision[$key]);
+                unset( $listGroupPermision[$key][$key_value] );
+            }
+        }
+
+        // Add New Permission for User
+        foreach ($data['permission_new'] as $key => $value) {
+            foreach ($value as $keyB => $valueB) {
+                if ($valueB !== '') {
+                    array_push($listGroupPermision[$key], $valueB);
+                }
+            }
+        }
+
+        // Get All Permission name form List Permision
+        $permissions      = $this->model->listItems($listGroupPermision, ['task'  => 'get-permission-name-of-list-permission-id']);
+        foreach ($permissions as $key => $value) {
+            $permissions[$key] = '- ' . implode('<br>- ', $value);
+        }
+
+        // echo '<pre style="color:red";>$permissions === '; print_r($permissions);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
+        return view($this->pathViewController . 'index', compact(
+            'params', 'items', 'itemsStatusCount', 'permissions'
+        ));
     }
 
     public function save(MainRequest $request)

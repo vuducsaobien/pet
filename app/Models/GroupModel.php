@@ -39,6 +39,19 @@ class GroupModel extends AdminModel
             // echo '<h3>Die is Called Group model</h3>';die;
         }
 
+        if($options['task'] == 'get-permission_ids-of-list-user') {
+            foreach ($params as $key => $value) {
+                $result[] = self::where('id', $value)
+                ->where('status', 'active')
+                ->value('permission_ids')
+                ;
+            }
+
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Group model get-permission_ids-of-list-user</h3>';die;
+        }
+
         return $result;
     }
 

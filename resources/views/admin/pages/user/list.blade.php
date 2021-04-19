@@ -8,11 +8,9 @@
             <thead>
                 <tr class="headings">
                     <th class="column-title">#</th>
-                    <th class="column-title">Username</th>
-                    <th class="column-title">Email</th>
-                    <th class="column-title">Fullname</th>
+                    <th class="column-title">User Info</th>
+                    <th class="column-title">Tên các Quyền của User</th>
                     <th class="column-title">Level</th>
-                    <th class="column-title">thumb</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Tạo mới</th>
                     <th class="column-title">Chỉnh sửa</th>
@@ -23,12 +21,14 @@
                 @if (count($items) > 0)
                     @foreach ($items as $key => $val)
                         @php
-                            $index           = $key + 1;
-                            $class           = ($index % 2 == 0) ? "even" : "odd";
-                            $id              = $val['id'];
-                            $username        = Hightlight::show($val['username'], $params['search'], 'username');
-                            $fullname        = Hightlight::show($val['fullname'], $params['search'], 'fullname');
-                            $email           = Hightlight::show($val['email'], $params['search'], 'email');
+                            $index      = $key + 1;
+                            $class      = ($index % 2 == 0) ? "even" : "odd";
+                            $id         = $val['id'];
+                            $username   = Hightlight::show($val['username'], $params['search'], 'username');
+                            $fullname   = Hightlight::show($val['fullname'], $params['search'], 'fullname');
+                            $email      = Hightlight::show($val['email'], $params['search'], 'email');
+                            $permission = $permissions[$key];
+
                             $level           = Template::showItemSelect($controllerName, $id, $val['level'], 'level');
                             $avatar          = Template::showItemThumb($controllerName, $val['thumb'], $val['name']);
                             $status          = Template::showItemStatus($controllerName, $id, $val['status']); ;
@@ -39,11 +39,14 @@
 
                         <tr class="{{ $class }} pointer">
                             <td >{{ $index }}</td>
-                            <td width="10%">{!! $username !!}</td>
-                            <td width="10%">{!! $email!!}</td>
-                            <td width="10%">{!! $fullname!!}</td>
+                            <td width="13%">
+                                <p>Username: {!! $username !!}</p>
+                                <p>{!! $email !!}</p>
+                                <p>Fullname: {!! $fullname !!}</p>
+                                {!! $avatar !!}
+                            </td>
+                            <td width="20%">{!! $permission !!}</td>
                             <td width="20%">{!! $level !!}</td>
-                            <td width="5%">{!! $avatar !!}</td>
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>
                             <td>{!! $modifiedHistory !!}</td>

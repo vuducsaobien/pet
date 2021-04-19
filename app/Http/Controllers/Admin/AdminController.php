@@ -15,7 +15,6 @@ class AdminController extends Controller
 
     public function __construct()
     {
-
         $this->params["pagination"]["totalItemsPerPage"] = 10;
         view()->share('controllerName', $this->controllerName);
     }

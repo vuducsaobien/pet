@@ -48,6 +48,20 @@ class PermissionModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
+        if($options['task'] == 'admin-list-items-get-list-permission') {
+            foreach ($params as $value) {
+                $result[] = self::select('name')->whereIn('id', $value)->where('status', 'active')
+                ->pluck('name')->toArray()
+                ;
+            }
+        }
+
+        if($options['task'] == 'get-permission-name-of-list-permission-id') {
+            foreach ($params as $key => $value) {
+                $result[] = self::whereIn('id', $value)->pluck('name')->toArray();
+            }
+        }
+
         return $result;
     }
 

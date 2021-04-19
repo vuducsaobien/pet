@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
+use App\Models\PermissionModel;
 use Illuminate\Support\Facades\DB; 
 
 class UserModel extends AdminModel
@@ -25,7 +26,8 @@ class UserModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'username', 'email', 'fullname', 'thumb', 'status', 'level','created' ,'created_by','modified','modified_by');
+            $query = $this->select('id', 'username', 'email', 'fullname', 'thumb', 'status', 'level', 'group_id',
+            'permission_deny', 'permission_new', 'created' ,'created_by','modified','modified_by');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -46,6 +48,16 @@ class UserModel extends AdminModel
             $result =  $query
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
+        }
+
+        if($options['task'] == 'get-permission-name-of-list-permission-id') {
+            $model = new PermissionModel();
+            $result = $model->listItems($params, ['task'  => 'get-permission-name-of-list-permission-id']);
+        }
+
+        if($options['task'] == 'get-permission_ids-of-list-user') {
+            $model  = new GroupModel();
+            $result = $model->listItems($params, ['task' => 'get-permission_ids-of-list-user']);
         }
 
         return $result;
