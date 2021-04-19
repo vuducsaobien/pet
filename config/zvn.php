@@ -112,6 +112,7 @@ return [
             'star'           => ['name'=> 'Số Sao'],
             'slug'           => ['name'=> 'Đường Dẫn'],
             'source'         => ['name'=> 'Soure Code'],
+            'route_name'     => ['name'=> 'Tên Route'],
         ],
         'button' => [
             'edit'     => ['class'=> 'btn-primary' , 'title'=> 'Edit'      , 'icon' => 'fa-pencil' , 'route-name' => '/form'],
@@ -144,6 +145,7 @@ return [
             'comment'     => ['all', 'customer_name', 'product_name', 'message', 'email', 'ip', 'star'],
             'discount'    => ['all', 'code', 'total_times', 'times_used'],
             'subcribe'    => ['all', 'email'],
+            'permission'  => ['all', 'name', 'route_name'],
         ],
         'button' => [
             'default'        => ['edit', 'delete'],
@@ -170,6 +172,7 @@ return [
             'product'        => ['edit', 'delete'],
             'subcribe'       => ['delete'],
             'group'          => ['edit', 'delete'],
+            'permission'     => ['edit', 'delete'],
         ]
     ],
     'notify' => [

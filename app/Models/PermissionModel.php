@@ -24,7 +24,7 @@ class PermissionModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'name', 'permission_ids', 'status', 'created' , 'created_by', 'modified', 'modified_by');
+            $query = $this->select('id', 'name', 'route_name', 'status', 'created' , 'created_by', 'modified', 'modified_by');
 
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -45,14 +45,6 @@ class PermissionModel extends AdminModel
             $result =  $query
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
-        }
-
-        if($options['task'] == 'admin-list-items-get-list-permission') {
-            foreach ($params as $value) {
-                $result[] = self::select('name')->whereIn('id', $value)->where('status', 'active')
-                ->pluck('name')->toArray()
-                ;
-            }
         }
 
         return $result;

@@ -71,9 +71,6 @@ class SettingModel extends AdminModel
                 // https://www.youtube.com/playlist?list=PLV7_SDtanVwhB_Fw6Glpojck_qKEngpUp
                 $maxResult  = 10;
                 $playlistID = substr($params['link'], strpos($params['link'], "=") + 1);
-                echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-                echo '<pre style="color:red";>$playlistID === '; print_r($playlistID);echo '</pre>';
-                // echo '<h3>Die is Called </h3>';die;
                 $API_URL    = "{$base_url}playlistItems?part=snippet&maxResults=$maxResult&playlistId=$playlistID&key=$api_key";
                 $video_list = json_decode(file_get_contents($API_URL), true);
         

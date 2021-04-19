@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\GroupModel as MainModel;
 use App\Http\Requests\GroupRequest as MainRequest;
-use App\Helpers\Functions;
 
 class GroupController extends AdminController
 {
@@ -12,8 +11,8 @@ class GroupController extends AdminController
     public function __construct() 
     {
         $this->pathViewController = 'admin.pages.group.';
-        $this->controllerName = 'group';
-        $this->model = new MainModel();
+        $this->controllerName     = 'group';
+        $this->model              = new MainModel();
         parent::__construct();
     }
 
