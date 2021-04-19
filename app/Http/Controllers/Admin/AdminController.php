@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class AdminController extends Controller
 {
@@ -17,6 +16,10 @@ class AdminController extends Controller
     {
         $this->params["pagination"]["totalItemsPerPage"] = 10;
         view()->share('controllerName', $this->controllerName);
+
+        // $userInfo = session('userInfo');
+        // echo '<pre style="color:red";>$userInfo === '; print_r($userInfo);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
     }
 
     public function index(Request $request)

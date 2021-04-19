@@ -17,6 +17,9 @@ class AuthController extends Controller
     public function __construct()
     {
         view()->share('controllerName', $this->controllerName);
+        // $userInfo = session('userInfo');
+        // echo '<pre style="color:red";>$userInfo === '; print_r($userInfo);echo '</pre>';
+        // echo '<h3>Die is Called </h3>';die;
     }
 
     public function login(Request $request)
@@ -33,17 +36,36 @@ class AuthController extends Controller
         if ($request->method() == 'POST') {
             $params = $request->all();
 
-            $userModel = new UserModel();
-            $userInfo = $userModel->getItem($params, ['task' => 'auth-login']);
+            $userModel       = new UserModel();
+            $userInfo        = $userModel->getItem($params, ['task' => 'auth-login']);
+            $permission_deny = explode(',', $userInfo['permission_deny']);
+            $permission_new  = explode(',', $userInfo['permission_new']);
 
-            $groupModel = new GroupModel();
-            $list_permission_ids = $groupModel->getItem($userInfo, [
-                'task' => 'auth-login-get-permission-ids-from-group-id']);
-            $userInfo['list_permission_ids'] = explode(',', $list_permission_ids);
-            // echo '<pre style="color:red";>$userInfo === '; print_r($userInfo);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
+            // Get Permission of Group User
+            $groupModel     = new GroupModel();
+            $groupPermision = $groupModel->getItem($userInfo, ['task' => 'auth-login-get-permission-ids-from-group-id']);
+            $groupPermision = explode(',', $groupPermision);
 
-            if (!$userInfo) return redirect()->route($this->controllerName . '/login')->with('news_notify', 'Tài khoản hoặc mật khẩu không chính xác!');
+            // Remove Deny Permission for user
+            foreach ($permission_deny as $key => $value) {
+                echo $key_value = array_search($value, $groupPermision);
+                unset( $groupPermision[$key_value] );
+            }
+
+            // Add New Permission for User
+            foreach ($permission_new as $key => $value) {
+                if ($value !== '') {
+                    array_push($groupPermision, $value);
+                }
+            }
+
+            // Edit UserINfo
+            unset($userInfo['permission_deny']);
+            unset($userInfo['permission_new']);
+            $userInfo['permission_ids_accepted'] = $groupPermision;
+
+            if (!$userInfo) return redirect()->route($this->controllerName . '/login')
+            ->with('news_notify', 'Tài khoản hoặc mật khẩu không chính xác!');
 
             $request->session()->put('userInfo', $userInfo);
             $url = session()->pull('url.intended');

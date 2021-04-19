@@ -102,6 +102,10 @@ class PermissionModel extends AdminModel
             $result = self::where('id', $params['id'])->value('permission_ids');
         }
 
+        if($options['task'] == 'get-permission-id-from-route-name') {
+            $result = self::where('route_name', $params)->value('id');
+        }
+
         return $result;
     }
 

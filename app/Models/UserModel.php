@@ -101,7 +101,7 @@ class UserModel extends AdminModel
         }
 
         if($options['task'] == 'auth-login') {
-            $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb', 'group_id')
+            $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb', 'group_id', 'permission_deny', 'permission_new')
                 ->where('status', 'active')
                 ->where('email', $params['email'])
                 ->where('password', md5($params['password']) )->first();
