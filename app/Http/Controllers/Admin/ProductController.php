@@ -14,9 +14,9 @@ class ProductController extends AdminController
     public function __construct()
     {
         $this->pathViewController = 'admin.pages.product.';
-        $this->controllerName = 'product';
-        $this->model = new MainModel();
-        $this->params["pagination"]["totalItemsPerPage"] = 10;
+        $this->controllerName     = 'product';
+        $this->model              = new MainModel();
+        
         parent::__construct();
     }
 

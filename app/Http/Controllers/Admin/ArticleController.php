@@ -65,16 +65,7 @@ class ArticleController extends AdminController
         $params["id"]             = $request->id;
         $result=$this->model->saveItem($params, ['task' => 'change-type']);
         echo json_encode($result);
-
-//        return redirect()->route($this->controllerName)->with("zvn_notify", "Cập nhật kiểu bài viết thành công!");
     }
-
-/*    public function changeCategory(Request $request) {
-        $params['category_id'] = $request->category_id;
-        $params['id'] = $request->id;
-        $result = $this->model->saveItem($params, ['task' => 'change-category']);
-        return response()->json($result);
-    }*/
 
     public function sendMailToSubcribe(Request $request)
     {

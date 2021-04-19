@@ -10,34 +10,21 @@
     $typeMenuValues = ['default' => 'Select menu type'] + array_combine(array_keys(config('zvn.template.type_menu')), array_column(config('zvn.template.type_menu'), 'name'));
     $typeLinkValues = ['default' => 'Select link type'] + array_combine(array_keys(config('zvn.template.type_link')), array_column(config('zvn.template.type_link'), 'name'));
 
-    $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenID = Form::hidden('id', @$item['id']);
 
-    $elements = [
-        [
-            'label'     => Form::label('name', 'Name', $formLabelAttributes),
-            'element'   => Form::text('name', $item['name'] ?? '', $formInputAttributes)
-        ],
-        [
+    $elements = [[
+            'label'     => Form::label('name', 'Tên Quyền', $formLabelAttributes),
+            'element'   => Form::text('name', @$item['name'], $formInputAttributes)
+        ],[
+            'label'     => Form::label('route_name', 'Link Route', $formLabelAttributes),
+            'element'   => Form::text('route_name', @$item['route_name'], $formInputAttributes)
+        ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, $item['status'] ?? 'default', $formInputAttributes)
-        ],
-        [
-            'label'     => Form::label('type_menu', 'Menu type', $formLabelAttributes),
-            'element'   => Form::select('type_menu', $typeMenuValues, $item['type_menu'] ?? 'default', $formInputAttributes)
-        ],
-        [
-            'label'     => Form::label('type_link', 'Link type', $formLabelAttributes),
-            'element'   => Form::select('type_link', $typeLinkValues, $item['type_link'] ?? 'default', $formInputAttributes)
-        ],
-        [
-            'label'     => Form::label('link', 'Link', $formLabelAttributes),
-            'element'   => Form::text('link', $item['link'] ?? '#', $formInputAttributes)
-        ],
-        [
+        ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'
-        ]
-    ]
+    ]]
 @endphp
 @section('content')
     @include('admin.templates.page_header', ['pageIndex' => false])

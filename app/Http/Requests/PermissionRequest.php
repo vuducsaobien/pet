@@ -27,14 +27,14 @@ class PermissionRequest extends FormRequest
     {
         $id = $this->id;
 
-        $condName  = "bail|required|between:5,500|unique:$this->table,name";
+        $condRouteName  = "bail|required|unique:$this->table,route_name";
 
         if(!empty($id)){
-            $condName .= ",$id";
+            $condRouteName .= ",$id";
         }
 
         return [
-            // 'name'        => $condName,
+            'route_name'        => $condRouteName,
             // 'status'      => 'bail|in:active,inactive',
             // 'ordering'    => 'required',
             // 'content'     => 'required',

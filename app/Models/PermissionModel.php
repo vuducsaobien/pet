@@ -14,7 +14,7 @@ class PermissionModel extends AdminModel
     {
         $this->table               = 'permission';
         $this->folderUpload        = 'permission';
-        $this->fieldSearchAccepted = ['id', 'name'];
+        $this->fieldSearchAccepted = ['id', 'name', 'route_name'];
         $this->crudNotAccepted     = [
             '_token'
         ];    
@@ -43,6 +43,7 @@ class PermissionModel extends AdminModel
             }
 
             $result =  $query
+                ->orderBy('route_name', 'desc')
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
@@ -80,7 +81,7 @@ class PermissionModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'permission_ids', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'route_name', 'status')->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'auth-login-get-permission-ids-from-group-id') {
@@ -115,9 +116,11 @@ class PermissionModel extends AdminModel
 
         if($options['task'] == 'add-item') {
             $params['created_by'] = $createdBy;
-            $params['created']    = $created;
-            $params['password']   = md5($params['password']);
-            self::insert($this->prepareParams($params));        
+            $prepare = $this->prepareParams($params);
+
+            // echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+            self::insert( $prepare );        
         }
 
         if($options['task'] == 'edit-item') {
@@ -126,30 +129,6 @@ class PermissionModel extends AdminModel
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
 
-        if($options['task'] == 'change-level') {
-            $level = $params['currentLevel'];
-            self:: where('id', $params['id'])->update(['level' => $level]);
-        }
-
-        if($options['task'] == 'change-level-post') {
-            $level = $params['level'];
-            self::where('id', $params['id'])->update(['level' => $level]);
-        }
-        
-        if($options['task'] == 'change-password') {
-            $password       = md5($params['password']);
-            self::where('id', $params['id'])->update(['password' => $password]);
-        }
-
-        if ($options['task'] == 'change-logged-password') {
-            $password   = md5($params['password']);
-            
-            $this->where('id', session('userInfo')['id'])->update([
-                'password'    => $password,
-                'modified'    => $modified,
-                'modified_by' => $modifiedBy
-            ]);
-        }
     }
 
     public function deleteItem($params = null, $options = null) 

@@ -12,7 +12,7 @@
                 <tr class="headings">
                     <th class="column-title">#</th>
                     <th class="column-title">Tên Quyền</th>
-                    <th class="column-title">Tên Route</th>
+                    <th class="column-title">Link Route</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Taọ Mới</th>
                     <th class="column-title">Chỉnh Sửa</th>
