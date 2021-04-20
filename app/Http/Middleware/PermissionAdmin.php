@@ -33,8 +33,8 @@ class PermissionAdmin
             ) {
                 return $next($request);
             }else{
-                // return $next($request);
-                return redirect()->route('notify/noPermission');            
+                return $next($request);
+                // return redirect()->route('notify/noPermission');            
             }
         }
 
