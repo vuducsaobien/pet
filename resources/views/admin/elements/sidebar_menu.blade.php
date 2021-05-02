@@ -80,10 +80,17 @@
             <li>
                 <a><i class="fa fa-user"></i> Quản lý thành viên <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li id="controller"><a href="{{ route('controller') }}"> Controller</a></li>
+                    <li id="controller">
+                        <a href="{{ route('controller') }}"> Controller</a>
+                    </li>
+                    <li id="route">
+                        <a href="{{ route('route') }}"> Route</a>
+                    </li>
+                    <li id="permission">
+                        <a href="{{ route('permission') }}"> Permission</a>
+                    </li>
                     <li id="group"><a href="{{ route('group') }}"> Group</a></li>
                     <li id="user"><a href="{{ route('user') }}"> User</a></li>
-                    <li id="permission"><a href="{{ route('permission') }}"> Permission</a></li>
                     <li class="none"><a href="{{ route('user/change-logged-password') }}"> Change Password</a></li>
                 </ul>
             </li>

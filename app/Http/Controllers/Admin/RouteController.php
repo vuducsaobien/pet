@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Http\Request;
-use App\Models\ControllerModel as MainModel;
-use App\Http\Requests\ControllerRequest as MainRequest;
+use App\Models\RouteModel as MainModel;
+use App\Http\Requests\RouteRequest as MainRequest;
 
-class ControllerController extends AdminController
+class RouteController extends AdminController
 {
     
     public function __construct() 
     {
-        $this->pathViewController = 'admin.pages.controller.';
-        $this->controllerName     = 'controller';
+        $this->pathViewController = 'admin.pages.route.';
+        $this->controllerName     = 'route';
         $this->model              = new MainModel();
         parent::__construct();
     }

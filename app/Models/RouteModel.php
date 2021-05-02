@@ -5,15 +5,15 @@ namespace App\Models;
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB; 
 
-class ControllerModel extends AdminModel
+class RouteModel extends AdminModel
 {
 
     public $timestamps = false;
 
     public function __construct()
     {
-        $this->table               = 'controller';
-        $this->folderUpload        = 'controller';
+        $this->table               = 'route';
+        $this->folderUpload        = 'route';
         $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
             '_token'
@@ -24,7 +24,7 @@ class ControllerModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = self::select('id', 'name', 'status', 'controller',
+            $query = self::select('id', 'name', 'status', 'route',
             'created' , 'created_by', 'modified', 'modified_by');
 
             $result =  $query
@@ -65,7 +65,7 @@ class ControllerModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'controller', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'route', 'status')->where('id', $params['id'])->first();
         }
 
         return $result;
