@@ -19,6 +19,17 @@
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, $item['status'] ?? 'default', $formInputAttributes)
         ],[
+            'label' => Form::label('setting-product', 'Cấu Hình Sản Phẩm', $formLabelAttributes),
+            'text'  => [
+                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích', 'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích',
+                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích', 'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích'
+            ],
+            'name'  => [
+                'status', 'special', 'love', 'status', 'special', 'love',
+                'status', 'special', 'love', 'status', 'special', 'love'
+            ],
+            'type'  => 'multi-checkbox'
+        ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'
     ]]
@@ -34,11 +45,11 @@
                 @include('admin.templates.x_title', ['title' => 'Form'])
                 <div class="x_content">
                     {!! Form::open([
-                        'url' => route("$controllerName/save"), 
-                        'method' => 'POST', 
-                        'files' => true, 
-                        'class' => 'form-horizontal form-label-left',
-                        'id' => 'main-form'
+                        'url'    => route("$controllerName/save"),
+                        'method' => 'POST',
+                        'files'  => true,
+                        'class'  => 'form-horizontal form-label-left',
+                        'id'     => 'main-form'
                     ]) !!}
                         {!! FormTemplate::show($elements) !!}
                     {!! Form::close() !!}

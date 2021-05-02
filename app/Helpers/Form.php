@@ -103,8 +103,105 @@ class Form {
                     </div>', $element['element']
                 );
                 break;
-        }
 
+                case 'multi-checkbox':
+                    $eleText = $element['text'];
+                    $eleName = $element['name'];
+    
+                    $xhtmlPre = '';
+                    foreach ($eleText as $key => $value) {
+                        $xhtmlPre .= '
+                            <label class="">
+                                <div class="icheckbox_flat-green checked" style="position: relative;">
+                                    <input name="'.$eleName[$key].'" type="checkbox" class="flat" checked="checked" style="position: absolute; opacity: 0;">
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                                '.$eleText[$key].'
+                            </label>
+                        ';
+                    }
+    
+                    $xhtml = '
+                        <div class="form-group row">
+                            <label class="col-md-3 col-sm-3  control-label">Checkboxes and radios
+                                <br>
+                                <small class="text-navy">Normal Bootstrap elements</small>
+                            </label>
+                            <div class="col-md-9 col-sm-9 ">
+
+                                <div class="checkbox">
+                                    <label class="">
+                                        <div class="icheckbox_flat-green checked" style="position: relative;">
+                                            <input type="checkbox" class="flat" checked="checked" style="position: absolute; opacity: 0;">
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; 
+                                            left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); 
+                                            border: 0px; opacity: 0;"></ins>
+                                        </div>
+                                        Checkeddd
+                                    </label>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label class="">
+                                        <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        Uncheckeddd
+                                    </label>
+
+                                    <label class="">
+                                        <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        Uncheckeddd
+                                    </label>
+
+                                    <label class="">
+                                        <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        Uncheckeddd
+                                    </label>
+
+                                    <label class="">
+                                    <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                    Uncheckeddd
+                                </label>
+
+                                <label class="">
+                                <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                Uncheckeddd
+                            </label>
+
+                            <label class="">
+                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                            Uncheckeddd
+                        </label>
+
+                        <label class="">
+                        <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                        Uncheckeddd
+                    </label>
+
+                    <label class="">
+                    <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                    Uncheckeddd
+                </label>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    ';
+
+                    // $xhtml = sprintf('
+                    // <div class="form-group">
+                    //     %s
+                    //     <div class="checkbox">
+                    //         %s                
+                    //     </div>
+                    // </div>
+                    // ', $element['label'], $xhtmlPre);
+                    // break;
+        
+                    
+                }
+    
         return $xhtml;
     }
  

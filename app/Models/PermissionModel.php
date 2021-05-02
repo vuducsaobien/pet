@@ -147,6 +147,19 @@ class PermissionModel extends AdminModel
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
 
+        if($options['task'] == 'add-route-name') {
+            // $params['created_by'] = $createdBy;
+            // $prepare = $this->prepareParams($params);
+            foreach ($params as $key => $value) {
+                $prepare['controller'][] = $key; 
+            }
+            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
+
+            echo '<h3>Die is Called per Model</h3>';die;
+            // self::insert( $prepare );        
+        }
+
     }
 
     public function deleteItem($params = null, $options = null) 
