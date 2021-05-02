@@ -173,6 +173,7 @@ return [
             'subcribe'       => ['delete'],
             'group'          => ['edit', 'delete'],
             'permission'     => ['edit', 'delete'],
+            'controller'     => ['edit', 'delete'],
         ]
     ],
     'notify' => [
