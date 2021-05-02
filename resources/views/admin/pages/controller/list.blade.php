@@ -29,7 +29,7 @@
                             $status          = Template::showItemStatus($controllerName, $item['id'], $item['status']);
 
                             $createdHistory  = Template::showItemHistory($item['created_by'], $item['created']);
-                            $modifiedHistory = Template::showItemHistory($item['modified_by'], $item['modified']);
+                            $modifiedHistory = Template::showItemHistory($item['modified_by'], @$item['modified']);
                             $actionButtons   = Template::showButtonAction($controllerName, $item['id']);
                         @endphp
                         <tr>

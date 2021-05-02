@@ -164,21 +164,24 @@ class Template
         return $xhtml;
     }
 
-    public static function showItemHistory($by, $time, $type='both')
+    public static function showItemHistory($by, $time=null, $type='both')
     {
+        if ( $time !== null ) 
+        $time = date(Config::get('zvn.format.long_time'), strtotime($time) );
+
         switch ($type) {
             case 'single':
                 $xhtml = sprintf('
                 <p><i class="fa fa-user"></i> %s</p>
                 <p><i class="fa fa-clock-o"></i> %s</p>', 
-                $by, date(Config::get('zvn.format.long_time'), strtotime($time))
+                $by, $time 
             );
             break;
 
             case 'only_time':
                 $xhtml = sprintf('
                 <p> %s</p>', 
-                date(Config::get('zvn.format.long_time'), strtotime($time))
+                $time
             );
             break;
             
@@ -186,7 +189,7 @@ class Template
                 $xhtml = sprintf('
                 <p><i class="fa fa-user"></i> %s</p>
                 <p><i class="fa fa-clock-o"></i> %s</p>', 
-                $by, date(Config::get('zvn.format.long_time'), strtotime($time))
+                $by, $time
             );
 
             break;

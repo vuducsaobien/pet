@@ -66,7 +66,7 @@ class ControllerModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'permission_ids', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'controller', 'status')->where('id', $params['id'])->first();
         }
 
         return $result;
@@ -97,8 +97,6 @@ class ControllerModel extends AdminModel
 
         if($options['task'] == 'add-item') {
             $params['created_by'] = $createdBy;
-            $params['created']    = $created;
-            $params['password']   = md5($params['password']);
             self::insert($this->prepareParams($params));        
         }
 

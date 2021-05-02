@@ -6,21 +6,22 @@
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = config('zvn.template.form_label');
     
-    $statusValues   = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
-    $typeMenuValues = ['default' => 'Select menu type'] + array_combine(array_keys(config('zvn.template.type_menu')), array_column(config('zvn.template.type_menu'), 'name'));
-    $typeLinkValues = ['default' => 'Select link type'] + array_combine(array_keys(config('zvn.template.type_link')), array_column(config('zvn.template.type_link'), 'name'));
+    $statusValues   = [
+        'active'   => config('zvn.template.status.active.name'),
+        'inactive' => config('zvn.template.status.inactive.name')
+    ];
 
-    $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenID = Form::hidden('id', @$item['id']);
 
     $elements = [[
-            'label'     => Form::label('controller', 'Controller', $formLabelAttributes),
-            'element'   => Form::text('controller', $item['controller'] ?? '', $formInputAttributes)
+            'label'     => Form::label('controller', 'Tên Controller Dev', $formLabelAttributes),
+            'element'   => Form::text('controller', @$item['controller'], $formInputAttributes)
         ],[
-            'label'     => Form::label('name', 'Tên Controller', $formLabelAttributes),
+            'label'     => Form::label('name', 'Tên Controller Hiển Thị', $formLabelAttributes),
             'element'   => Form::text('name', @$item['name'], $formInputAttributes)
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
-            'element'   => Form::select('status', $statusValues, $item['status'] ?? 'default', $formInputAttributes)
+            'element'   => Form::select('status', $statusValues, $item['status'], $formInputAttributes)
         ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'
