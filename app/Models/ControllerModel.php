@@ -32,6 +32,22 @@ class ControllerModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
+        if($options['task'] == 'admin-list-items-get-all-controller') {
+            $query = self::select('id', 'name', 'controller'
+            );
+
+            $result =  $query
+                ->where('status', 'active')
+                ->orderBy('id', 'desc')
+                ->paginate($params['pagination']['totalItemsPerPage'])
+                // ->get()
+                // ->toArray()
+            ;
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+        }
+
         return $result;
     }
 

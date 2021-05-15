@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB; 
+use App\Models\ControllerModel;
 
 class PermissionModel extends AdminModel
 {
@@ -23,29 +24,9 @@ class PermissionModel extends AdminModel
     public function listItems($params = null, $options = null) {
         $result = null;
 
-        if($options['task'] == "admin-list-items") {
-            $query = $this->select('id', 'name', 'route_name', 'status', 'created' , 'created_by', 'modified', 'modified_by');
-
-            if ($params['filter']['status'] !== "all")  {
-                $query->where('status', '=', $params['filter']['status'] );
-            }
-
-            if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
-                    $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
-                        }
-                    });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
-                } 
-            }
-
-            $result =  $query
-                ->orderBy('route_name', 'desc')
-                ->orderBy('id', 'desc')
-                ->paginate($params['pagination']['totalItemsPerPage']);
+        if($options['task'] == 'admin-list-items-get-all-controller') {
+            $model  = new ControllerModel();
+            $result = $model->listItems(null, ['task'  => 'admin-list-items-get-all-controller']);
         }
 
         if($options['task'] == 'admin-list-items-get-list-permission') {
