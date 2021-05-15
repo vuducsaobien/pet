@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
+use App\Models\RouteModel;
 use Illuminate\Support\Facades\DB; 
 
 class ControllerModel extends AdminModel
@@ -24,30 +25,47 @@ class ControllerModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = self::select('id', 'name', 'status', 'controller',
-            'created' , 'created_by', 'modified', 'modified_by');
+            $query = self::select(
+                'id', 'name', 'status', 'controller', 'route_id',
+                'created' , 'created_by', 'modified', 'modified_by');
 
             $result =  $query
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage']);
+                // ->get()->toArray();
         }
 
         if($options['task'] == 'admin-list-items-get-all-controller') {
-            $query = self::select('id', 'name', 'controller'
+            $query = self::select(
+                'id', 'name', 'controller', 'status'
             );
 
             $result =  $query
                 ->where('status', 'active')
                 ->orderBy('id', 'desc')
                 ->paginate($params['pagination']['totalItemsPerPage'])
-                // ->get()
-                // ->toArray()
+                // ->get()->toArray()
             ;
 
             // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
             // echo '<h3>Die is Called </h3>';die;
         }
 
+        if($options['task'] == 'admin-list-items-get-all-route') 
+        {
+            $model  = new RouteModel();
+            $items = $model->listItems($params, ['task' => 'admin-list-items-get-all-route']);
+
+            foreach ($items as $key => $value) 
+            {
+                        $keyC  = $value['id'];
+                $result[$keyC] = $items[$key];
+            }
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Controller Model</h3>';die;
+        }
+        
         return $result;
     }
 

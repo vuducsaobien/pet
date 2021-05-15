@@ -32,6 +32,17 @@ class RouteModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
+        if($options['task'] == 'admin-list-items-get-all-route') {
+
+            $query = self::select('id', 'name', 'route');
+            $result =  $query
+            ->where('status', 'active')
+            ->get()->toArray();
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Route Model</h3>';die;
+        }
+
         return $result;
     }
 

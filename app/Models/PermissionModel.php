@@ -26,7 +26,7 @@ class PermissionModel extends AdminModel
 
         if($options['task'] == 'admin-list-items-get-all-controller') {
             $model  = new ControllerModel();
-            $result = $model->listItems(null, ['task'  => 'admin-list-items-get-all-controller']);
+            $result = $model->listItems($params, ['task'  => 'admin-list-items-get-all-controller']);
         }
 
         if($options['task'] == 'admin-list-items-get-list-permission') {

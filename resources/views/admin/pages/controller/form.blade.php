@@ -13,6 +13,9 @@
 
     $inputHiddenID = Form::hidden('id', @$item['id']);
 
+    // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+    // echo '<h3>Die is Called </h3>';die;
+    
     $elements = [[
             'label'     => Form::label('controller', 'Tên Controller Dev', $formLabelAttributes),
             'element'   => Form::text('controller', @$item['controller'], $formInputAttributes)
@@ -21,7 +24,7 @@
             'element'   => Form::text('name', @$item['name'], $formInputAttributes)
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
-            'element'   => Form::select('status', $statusValues, $item['status'], $formInputAttributes)
+            'element'   => Form::select('status', $statusValues, @$item['status'], $formInputAttributes)
         ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'

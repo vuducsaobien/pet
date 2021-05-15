@@ -13,6 +13,7 @@
                     <th class="column-title">#</th>
                     <th class="column-title">Tên Controller Dev</th>
                     <th class="column-title">Tên Controller Hiển Thị</th>
+                    <th class="column-title">Tên Các Route của Controller</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Tạo mới</th>
                     <th class="column-title">Chỉnh sửa</th>
@@ -23,10 +24,11 @@
                 @if(count($items) > 0)
                     @foreach($items as $key => $item)
                         @php
-                            $index           = $key + 1;
-                            $controller      = $item['controller'];
-                            $name            = $item['name'];
-                            $status          = Template::showItemStatus($controllerName, $item['id'], $item['status']);
+                            $index      = $key + 1;
+                            $controller = $item['controller'];
+                            $name       = $item['name'];
+                            $route      = $routesName[$key];
+                            $status     = Template::showItemStatus($controllerName, $item['id'], $item['status']);
 
                             $createdHistory  = Template::showItemHistory($item['created_by'], $item['created']);
                             $modifiedHistory = Template::showItemHistory($item['modified_by'], @$item['modified']);
@@ -36,6 +38,7 @@
                             <td>{{ $index }}</td>
                             <td>{!! $controller !!}</td>
                             <td>{!! $name !!}</td>
+                            <td>{!! $route !!}</td>
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>
                             <td class="modified-{{$item->id}}">{!! $modifiedHistory !!}</td>
