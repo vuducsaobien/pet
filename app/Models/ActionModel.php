@@ -5,15 +5,14 @@ namespace App\Models;
 use App\Models\AdminModel;
 use Illuminate\Support\Facades\DB; 
 
-class RouteModel extends AdminModel
+class ActionModel extends AdminModel
 {
 
     public $timestamps = false;
 
     public function __construct()
     {
-        $this->table               = 'route';
-        $this->folderUpload        = 'route';
+        $this->table               = 'action';
         $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
             '_token'
@@ -32,10 +31,22 @@ class RouteModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
-        if($options['task'] == 'admin-list-items-get-all-route') {
+        if($options['task'] == 'admin-list-items-get-all-route-form') {
 
-            $query = self::select('id', 'name', 'route');
-            $result =  $query
+            $query  = self::select('id', 'name_route', 'name_friendly');
+            $result = $query
+            ->where('status', 'active')
+            ->get()->toArray()
+            ;
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Route Model</h3>';die;
+        }
+
+        if($options['task'] == 'get-route-info-from-route-list-ids') 
+        {
+            $query  = self::select('id', 'name', 'route')->whereIn('id', $params);
+            $result = $query
             ->where('status', 'active')
             ->get()->toArray();
 

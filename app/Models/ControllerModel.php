@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\AdminModel;
-use App\Models\RouteModel;
+use App\Models\ActionModel;
+use App\Models\PermissionModel;
+
 use Illuminate\Support\Facades\DB; 
 
 class ControllerModel extends AdminModel
@@ -14,7 +16,6 @@ class ControllerModel extends AdminModel
     public function __construct()
     {
         $this->table               = 'controller';
-        $this->folderUpload        = 'controller';
         $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
             '_token'
@@ -26,8 +27,9 @@ class ControllerModel extends AdminModel
 
         if($options['task'] == "admin-list-items") {
             $query = self::select(
-                'id', 'name', 'status', 'controller', 'route_id',
-                'created' , 'created_by', 'modified', 'modified_by');
+                'id', 'name_route', 'name_friendly', 
+                'status', 'created' , 'created_by', 'modified', 'modified_by'
+            );
 
             $result =  $query
                 ->orderBy('id', 'desc')
@@ -51,18 +53,39 @@ class ControllerModel extends AdminModel
             // echo '<h3>Die is Called </h3>';die;
         }
 
-        if($options['task'] == 'admin-list-items-get-all-route') 
+        if($options['task'] == 'admin-list-items-get-all-route-form') 
         {
-            $model  = new RouteModel();
-            $items = $model->listItems($params, ['task' => 'admin-list-items-get-all-route']);
+            $model = new ActionModel();
+            $items = $model->listItems($params, ['task' => 'admin-list-items-get-all-route-form']);
 
-            foreach ($items as $key => $value) 
-            {
-                        $keyC  = $value['id'];
-                $result[$keyC] = $items[$key];
+            foreach ($items as $value) {
+                $result .= $value['name'] . ',' ;
             }
+            $result = rtrim($result, ", ");
 
             // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called Controller Model</h3>';die;
+        }
+
+        if($options['task'] == 'admin-list-items-get-action-id-from-list-controller-id') 
+        {
+            $model = new PermissionModel();
+            $items = $model->listItems($params, ['task' => 'admin-list-items-get-action-id-from-list-controller-id']);
+
+            foreach ($params as $key => $value) {
+                $result[$key] = '';
+
+                foreach ($items as $keyC => $valueC) {
+                    if ( $valueC['controller_id'] == $value ) {
+                        $result[$key] .= '- ' . $valueC['name'] . ' - ' . $valueC['route_name'] . '<br>';
+                    }
+                }
+            }
+
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+
             // echo '<h3>Die is Called Controller Model</h3>';die;
         }
         
@@ -99,7 +122,21 @@ class ControllerModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'controller', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'controller', 'status', 'route_id')
+            ->where('id', $params['id'])->first()->toArray();
+        }
+
+        if($options['task'] == 'get-route-info-from-route-list-ids') {
+            $model  = new ActionModel();
+            $result = $model->listItems($params, ['task' => 'get-route-info-from-route-list-ids']);
+
+            // foreach ($items as $value) {
+            //     $result .= $value['name'] . ',' ;
+            // }
+            // $result = rtrim($result, ", ");
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
         }
 
         return $result;

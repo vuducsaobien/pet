@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RouteRequest extends FormRequest
+class ActionRequest extends FormRequest
 {
-    private $table = 'route';
+    private $table = 'action';
     /**
      * Determine if the user is authorized to make this request.
      *

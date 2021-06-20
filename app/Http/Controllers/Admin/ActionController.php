@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\RouteModel as MainModel;
-use App\Http\Requests\RouteRequest as MainRequest;
+use App\Models\ActionModel as MainModel;
+use App\Http\Requests\ActionRequest as MainRequest;
 
-class RouteController extends AdminController
+class ActionController extends AdminController
 {
     
     public function __construct() 
     {
-        $this->pathViewController = 'admin.pages.route.';
-        $this->controllerName     = 'route';
+        $this->pathViewController = 'admin.pages.action.';
+        $this->controllerName     = 'action';
         $this->model              = new MainModel();
         parent::__construct();
     }

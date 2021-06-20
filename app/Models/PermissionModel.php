@@ -43,6 +43,22 @@ class PermissionModel extends AdminModel
             }
         }
 
+        if($options['task'] == 'admin-list-items-get-action-id-from-list-controller-id') {
+            $query = self::select(
+                'id', 'name', 'route_name', 'controller_id', 'action_id'
+            );
+
+            $result =  $query
+                ->whereIn('controller_id', $params)
+                ->where('status', 'active')
+                ->orderBy('controller_id')
+                ->get()->toArray()
+            ;
+
+            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+            // echo '<h3>Die is Called </h3>';die;
+        }
+
         return $result;
     }
 

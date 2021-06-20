@@ -14,6 +14,9 @@
     $inputHiddenID = Form::hidden('id', @$item['id']);
 
     // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
+    // echo '<pre style="color:red";>$itemsAllRoute === '; print_r($itemsAllRoute);echo '</pre>';
+    // echo '<pre style="color:red";>$itemRoute === '; print_r($itemRoute);echo '</pre>';
+    
     // echo '<h3>Die is Called </h3>';die;
     
     $elements = [[
@@ -22,6 +25,13 @@
         ],[
             'label'     => Form::label('name', 'Tên Controller Hiển Thị', $formLabelAttributes),
             'element'   => Form::text('name', @$item['name'], $formInputAttributes)
+        ],[
+            'label' => Form::label('setting-product', 'Cấu Hình Sản Phẩm', $formLabelAttributes),
+            'text'  => [
+                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích'
+            ],
+            'name'  => $itemsAllRoute,
+            'type'  => 'multi-checkbox'
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, @$item['status'], $formInputAttributes)

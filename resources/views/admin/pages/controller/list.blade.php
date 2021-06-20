@@ -11,8 +11,7 @@
             <thead>
                 <tr class="headings">
                     <th class="column-title">#</th>
-                    <th class="column-title">Tên Controller Dev</th>
-                    <th class="column-title">Tên Controller Hiển Thị</th>
+                    <th class="column-title">Tên Controller</th>
                     <th class="column-title">Tên Các Route của Controller</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Tạo mới</th>
@@ -25,9 +24,11 @@
                     @foreach($items as $key => $item)
                         @php
                             $index      = $key + 1;
-                            $controller = $item['controller'];
-                            $name       = $item['name'];
-                            $route      = $routesName[$key];
+                            // $controller = $item['name_route'];
+                            $name       = $item['name_friendly'] . ' - ' .$item['name_route'];
+
+                            $route      = $controller_detail[$key];
+
                             $status     = Template::showItemStatus($controllerName, $item['id'], $item['status']);
 
                             $createdHistory  = Template::showItemHistory($item['created_by'], $item['created']);
@@ -36,11 +37,12 @@
                         @endphp
                         <tr>
                             <td>{{ $index }}</td>
-                            <td>{!! $controller !!}</td>
                             <td>{!! $name !!}</td>
+                            {{-- <td>{!! $name !!}</td> --}}
                             <td>{!! $route !!}</td>
                             <td>{!! $status !!}</td>
                             <td>{!! $createdHistory !!}</td>
+
                             <td class="modified-{{$item->id}}">{!! $modifiedHistory !!}</td>
                             <td class="last">{!! $actionButtons !!}</td>
                         </tr>
