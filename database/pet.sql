@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2021 at 12:26 PM
+-- Generation Time: Jun 21, 2021 at 07:12 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `action` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name_route` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_dev` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_friendly` varchar(255) CHARACTER SET utf8 NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `action` (
 -- Dumping data for table `action`
 --
 
-INSERT INTO `action` (`id`, `name_route`, `name_friendly`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+INSERT INTO `action` (`id`, `name_dev`, `name_friendly`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'index', 'Hiển thị Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 11:37:20', 'admin'),
 (2, 'status', 'Thay đổi Trạng thái', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
 (3, 'delete', 'Xóa Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
@@ -373,7 +373,7 @@ INSERT INTO `contact` (`id`, `name`, `status`, `email`, `subject`, `message`, `i
 
 CREATE TABLE `controller` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name_route` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_dev` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_friendly` varchar(255) CHARACTER SET utf8 NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -386,12 +386,15 @@ CREATE TABLE `controller` (
 -- Dumping data for table `controller`
 --
 
-INSERT INTO `controller` (`id`, `name_route`, `name_friendly`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+INSERT INTO `controller` (`id`, `name_dev`, `name_friendly`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 'product', 'Sản phẩm', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 11:37:20', 'admin'),
 (2, 'dashboard', 'Trang Chủ', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
 (3, 'contact', 'Liên Hệ', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
 (4, 'group', 'Nhóm', 'inactive', '2021-03-30 12:41:43', 'admin', '2021-06-20 20:42:46', 'admin'),
-(5, 'user', 'User', 'active', '2021-03-30 12:41:43', 'admin', '2021-06-21 10:06:03', 'admin');
+(5, 'user', 'User', 'active', '2021-03-30 12:41:43', 'admin', '2021-06-21 10:06:03', 'admin'),
+(6, 'slider', 'Slider', 'active', NULL, 'admin', NULL, NULL),
+(7, 'contact', 'Liên Hệ', 'active', NULL, 'admin', NULL, NULL),
+(8, 'subcribe', 'Đăng ký Mail', 'active', NULL, 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -689,7 +692,7 @@ CREATE TABLE `permission` (
   `action_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `route_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `modified` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -728,7 +731,17 @@ INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_nam
 (27, 0, 0, 'Tự Thay đổi Password của Chính User đó.', 'user/change-logged-password', 'active', '2021-04-19 22:26:35', 'admin', NULL, NULL),
 (29, 0, 0, 'Thêm mới / Chỉnh sửa Permission', 'permission/form', 'active', '2021-04-19 22:28:43', 'admin', NULL, NULL),
 (30, 0, 0, 'Xóa Permission', 'permission/delete', 'active', '2021-04-19 22:29:43', 'admin', NULL, NULL),
-(31, 0, 0, 'Thay đổi Trạng thái của Permission', 'permission/status', 'active', '2021-04-19 22:30:21', 'admin', NULL, NULL);
+(31, 0, 0, 'Thay đổi Trạng thái của Permission', 'permission/status', 'active', '2021-04-19 22:30:21', 'admin', NULL, NULL),
+(38, 6, 1, 'Hiển thị Dữ liệu của Slider', 'slider/index', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
+(39, 6, 2, 'Thay đổi Trạng thái của Slider', 'slider/status', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
+(40, 6, 3, 'Xóa Dữ liệu của Slider', 'slider/delete', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
+(41, 6, 4, 'Chỉnh sửa Dữ liệu của Slider', 'slider/form', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
+(42, 7, 1, 'Hiển thị Dữ liệu của Liên Hệ', 'contact/index', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
+(43, 7, 2, 'Thay đổi Trạng thái của Liên Hệ', 'contact/status', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
+(44, 7, 3, 'Xóa Dữ liệu của Liên Hệ', 'contact/delete', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
+(45, 7, 4, 'Chỉnh sửa Dữ liệu của Liên Hệ', 'contact/form', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
+(46, 8, 1, 'Hiển thị Dữ liệu của Đăng ký Mail', 'subcribe/index', 'active', '2021-06-22 00:09:33', 'admin', NULL, NULL),
+(47, 8, 5, 'Sắp xếp Dữ liệu của Đăng ký Mail', 'subcribe/ordering', 'active', '2021-06-22 00:09:33', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1764,7 +1777,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT for table `controller`
 --
 ALTER TABLE `controller`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -1818,7 +1831,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `product`

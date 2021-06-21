@@ -31,16 +31,13 @@ class ActionModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage']);
         }
 
-        if($options['task'] == 'admin-list-items-get-all-route-form') {
+        if($options['task'] == 'admin-list-items-get-all-action') {
 
-            $query  = self::select('id', 'name_route', 'name_friendly');
+            $query  = self::select('id', 'name_friendly');
             $result = $query
             ->where('status', 'active')
             ->get()->toArray()
             ;
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Route Model</h3>';die;
         }
 
         if($options['task'] == 'get-route-info-from-route-list-ids') 
@@ -49,9 +46,6 @@ class ActionModel extends AdminModel
             $result = $query
             ->where('status', 'active')
             ->get()->toArray();
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Route Model</h3>';die;
         }
 
         return $result;
@@ -88,6 +82,10 @@ class ActionModel extends AdminModel
         
         if($options['task'] == 'get-item') {
             $result = self::select('id', 'name', 'route', 'status')->where('id', $params['id'])->first();
+        }
+
+        if($options['task'] == 'get-action-info-from-arr-action-id') {
+            $result = self::select('name_dev', 'name_friendly')->whereIn('id', $params)->get()->toArray();
         }
 
         return $result;

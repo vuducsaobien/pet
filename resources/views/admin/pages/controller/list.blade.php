@@ -25,7 +25,7 @@
                         @php
                             $index      = $key + 1;
                             // $controller = $item['name_route'];
-                            $name       = $item['name_friendly'] . ' - ' .$item['name_route'];
+                            $name       = $item['name_friendly'] . ' - ' .$item['name_dev'];
 
                             $route      = $controller_detail[$key];
 

@@ -12,25 +12,17 @@
     ];
 
     $inputHiddenID = Form::hidden('id', @$item['id']);
-
-    // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
-    // echo '<pre style="color:red";>$itemsAllRoute === '; print_r($itemsAllRoute);echo '</pre>';
-    // echo '<pre style="color:red";>$itemRoute === '; print_r($itemRoute);echo '</pre>';
-    
-    // echo '<h3>Die is Called </h3>';die;
     
     $elements = [[
-            'label'     => Form::label('controller', 'Tên Controller Dev', $formLabelAttributes),
-            'element'   => Form::text('controller', @$item['controller'], $formInputAttributes)
+            'label'     => Form::label('name_dev', 'Tên Controller Dev', $formLabelAttributes),
+            'element'   => Form::text('name_dev', @$item['name_dev'], $formInputAttributes)
         ],[
-            'label'     => Form::label('name', 'Tên Controller Hiển Thị', $formLabelAttributes),
-            'element'   => Form::text('name', @$item['name'], $formInputAttributes)
+            'label'     => Form::label('name_friendly', 'Tên Controller Hiển Thị', $formLabelAttributes),
+            'element'   => Form::text('name_friendly', @$item['name_friendly'], $formInputAttributes)
         ],[
             'label' => Form::label('setting-product', 'Cấu Hình Sản Phẩm', $formLabelAttributes),
-            'text'  => [
-                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích'
-            ],
-            'name'  => $itemsAllRoute,
+            'text'  => $itemsAllAction['name_friendly'],
+            'name'  => $itemsAllAction['id'],
             'type'  => 'multi-checkbox'
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),

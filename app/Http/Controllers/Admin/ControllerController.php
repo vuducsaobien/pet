@@ -32,11 +32,6 @@ class ControllerController extends AdminController
             'task' => 'admin-list-items-get-action-id-from-list-controller-id'
         ]);
 
-        // echo '<pre style="color:red";>$itemsRoute === '; print_r($itemsRoute);echo '</pre>';
-        // echo '<pre style="color:red";>$controller_detail === '; print_r($controller_detail);echo '</pre>';
-        // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-        // echo '<h3>Die is Called </h3>';die;
-
         $params = $this->params;
         return view($this->pathViewController . 'index', compact(
             'params', 'items', 'itemsStatusCount', 'controller_detail'
@@ -48,23 +43,17 @@ class ControllerController extends AdminController
         $item = null;
         if($request->id !== null ) {
             $params["id"] = $request->id;
-            $item = $this->model->getItem( $params, ['task' => 'get-item']);
 
-            $itemsAllRoute    = $this->model->listItems(null, ['task'  => 'admin-list-items-get-all-route-form']);
-
+            $item      = $this->model->getItem( $params, ['task' => 'get-item']);
             $itemRoute = $this->model->getItem( json_decode( $item['route_id'], true ), 
             ['task' => 'get-route-info-from-route-list-ids']);
 
         }
 
-        // echo '<pre style="color:red";>$itemRoute === '; print_r($itemRoute);echo '</pre>';
-        // echo '<pre style="color:red";>$itemsAllRoute === '; print_r($itemsAllRoute);echo '</pre>';
-        // echo '<pre style="color:red";>$item === '; print_r($item);echo '</pre>';
-
-        // echo '<h3>Die is Called </h3>';die;
+        $itemsAllAction    = $this->model->listItems(null, ['task'  => 'admin-list-items-get-all-action']);
 
         return view($this->pathViewController . 'form', compact(
-            'item', 'itemRoute', 'itemsAllRoute'
+            'item', 'itemsAllAction'
         ));
     }
 
@@ -72,9 +61,6 @@ class ControllerController extends AdminController
     {
         if ($request->method() == 'POST') {
             $params = $request->all();
-
-            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            echo '<h3>Die is Called </h3>';die;
             
             $task   = "add-item";
             $notify = "Thêm phần tử thành công!";

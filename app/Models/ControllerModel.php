@@ -18,7 +18,7 @@ class ControllerModel extends AdminModel
         $this->table               = 'controller';
         $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
-            '_token'
+            '_token', 'multi_checkbox'
         ];
     }
     
@@ -27,7 +27,7 @@ class ControllerModel extends AdminModel
 
         if($options['task'] == "admin-list-items") {
             $query = self::select(
-                'id', 'name_route', 'name_friendly', 
+                'id', 'name_dev', 'name_friendly', 
                 'status', 'created' , 'created_by', 'modified', 'modified_by'
             );
 
@@ -53,16 +53,17 @@ class ControllerModel extends AdminModel
             // echo '<h3>Die is Called </h3>';die;
         }
 
-        if($options['task'] == 'admin-list-items-get-all-route-form') 
+        if($options['task'] == 'admin-list-items-get-all-action') 
         {
             $model = new ActionModel();
-            $items = $model->listItems($params, ['task' => 'admin-list-items-get-all-route-form']);
+            $items = $model->listItems($params, ['task' => 'admin-list-items-get-all-action']);
 
             foreach ($items as $value) {
-                $result .= $value['name'] . ',' ;
+                $result['name_friendly'][] = $value['name_friendly'];
+                $result['id'][]            = $value['id'];
             }
-            $result = rtrim($result, ", ");
 
+            // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
             // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
             // echo '<h3>Die is Called Controller Model</h3>';die;
         }
@@ -124,6 +125,9 @@ class ControllerModel extends AdminModel
         if($options['task'] == 'get-item') {
             $result = self::select('id', 'name', 'controller', 'status', 'route_id')
             ->where('id', $params['id'])->first()->toArray();
+
+            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            echo '<h3>Die is Called model</h3>';die;
         }
 
         if($options['task'] == 'get-route-info-from-route-list-ids') {
@@ -167,7 +171,31 @@ class ControllerModel extends AdminModel
 
         if($options['task'] == 'add-item') {
             $params['created_by'] = $createdBy;
-            self::insert($this->prepareParams($params));        
+
+            // Insert New Controller
+            self::insert($this->prepareParams($params));  
+
+            // Prepare param
+            $controller_info['controller_id'] = self::max('id');
+            $controller_info['name']          = self::select('name_dev', 'name_friendly')->where('id', $controller_info['controller_id'])
+            ->first()->toArray();
+
+            foreach ($params['multi_checkbox'] as $key => $value) {
+                if ( $value == 'on' ) {
+                    $arrActionIds[] = $key;
+                }
+            }
+
+            $actionModel = new ActionModel();
+            $action_info = $actionModel->getItem($arrActionIds, ['task' => 'get-action-info-from-arr-action-id']);
+
+            $paramsPermission['arr_action_id']   = $arrActionIds;
+            $paramsPermission['controller_info'] = $controller_info;
+            $paramsPermission['action_info']     = $action_info;
+
+            // Save to Action Model Multi Checkbox
+            $model = new PermissionModel();
+            $model->saveItem($paramsPermission, ['task' => 'save-action-from-controller-form']);
         }
 
         if($options['task'] == 'edit-item') {

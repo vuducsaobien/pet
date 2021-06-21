@@ -157,6 +157,20 @@ class PermissionModel extends AdminModel
             // self::insert( $prepare );        
         }
 
+        if($options['task'] == 'save-action-from-controller-form') {
+
+            foreach ($params['arr_action_id'] as $key => $value) {
+                self::insert([
+                    'controller_id' => $params['controller_info']['controller_id'],
+                    'action_id'     => $value,
+                    'name'          => $params['action_info'][$key]['name_friendly'] . ' của ' . $params['controller_info']['name']['name_friendly'],
+                    'route_name'    => $params['controller_info']['name']['name_dev'] . '/' . $params['action_info'][$key]['name_dev'],
+                    'created_by'    => $createdBy,
+                ]);
+            }
+    
+        }
+
     }
 
     public function deleteItem($params = null, $options = null) 
