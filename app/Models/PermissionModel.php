@@ -182,7 +182,11 @@ class PermissionModel extends AdminModel
         }
 
         if($options['task'] == 'delete-items-from-controller-id') {
-            self::where('controller_id', $params['controller_id'])->delete();
+            self::where('controller_id', $params)->delete();
+        }
+
+        if($options['task'] == 'delete-items-from-action-id') {
+            self::where('action_id', $params)->delete();
         }
 
     }

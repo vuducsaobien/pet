@@ -81,7 +81,7 @@ class ActionModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'route', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name_dev', 'name_friendly', 'status')->where('id', $params['id'])->first();
         }
 
         if($options['task'] == 'get-action-info-from-arr-action-id') {
@@ -130,8 +130,9 @@ class ActionModel extends AdminModel
     public function deleteItem($params = null, $options = null) 
     { 
         if($options['task'] == 'delete-item') {
-            $item   = self::getItem($params, ['task'=>'get-avatar']); // 
-            $this->deleteThumb($item['thumb']);
+            $model = new PermissionModel();
+            $model->deleteItem($params['id'], ['task' => 'delete-items-from-action-id']);
+
             self::where('id', $params['id'])->delete();
         }
     }

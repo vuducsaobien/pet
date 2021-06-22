@@ -14,14 +14,14 @@
     $inputHiddenID = Form::hidden('id', @$item['id']);
 
     $elements = [[
-            'label'     => Form::label('route', 'Tên Route Dev', $formLabelAttributes),
-            'element'   => Form::text('route', @$item['route'], $formInputAttributes)
+            'label'     => Form::label('name_dev', 'Tên Action Dev', $formLabelAttributes),
+            'element'   => Form::text('name_dev', @$item['name_dev'], $formInputAttributes)
         ],[
-            'label'     => Form::label('name', 'Tên Route Hiển Thị', $formLabelAttributes),
-            'element'   => Form::text('name', @$item['name'], $formInputAttributes)
+            'label'     => Form::label('name_friendly', 'Tên Action Hiển Thị', $formLabelAttributes),
+            'element'   => Form::text('name_friendly', @$item['name_friendly'], $formInputAttributes)
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
-            'element'   => Form::select('status', $statusValues, $item['status'], $formInputAttributes)
+            'element'   => Form::select('status', $statusValues, @$item['status'], $formInputAttributes)
         ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'

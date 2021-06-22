@@ -272,10 +272,7 @@ class ControllerModel extends AdminModel
 
             if ( $arrActDel != null )
             {
-                $paramsDel['controller_id']  = $params['id'];
-    
-                $model = new PermissionModel();
-                $model->deleteItem($paramsDel, ['task' => 'delete-items-from-controller-id']);
+                $model->deleteItem($params['id'], ['task' => 'delete-items-from-controller-id']);
             }
 
             self::where('id', $params['id'])->delete();
