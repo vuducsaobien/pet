@@ -195,59 +195,67 @@ class ControllerModel extends AdminModel
             self::where('id', $params['id'])->update($this->prepareParams($params));
 
             // Update table Permission
-            $flag_database = null;
-            $model = new PermissionModel();
-            $itemAction = $model->getItem( $params['id'], [
+            $arrActInsert = null;
+            $arrActDel    = null;
+            $model        = new PermissionModel();
+            $itemAction   = $model->getItem( $params['id'], [
                 'task' => 'get-arr-action-ids-from-controller-id'
             ]);
-
-            // If Insert New or Delete Action_Id
-
-                // Prepare param
-                $controller_info['controller_id'] = $params['id'];
-                $controller_info['name']          = self::select('name_dev', 'name_friendly')->where('id', $controller_info['controller_id'])
-                ->first()->toArray();
-
-                foreach ($params['multi_checkbox'] as $key => $value) {
+            
+            if ( !empty($params['multi_checkbox']) ) 
+            {
+                // Get List Arr Action ID Insert
+                foreach ($params['multi_checkbox'] as $key => $value) 
+                {
                     if ( $value == 'on' ) {
-                        // echo $key . '<br>';
-
-                        // Insert New Action to Table Permission
                         if ( !in_array($key, $itemAction) ) {
-                            // echo $key . '<br>';
-                            $arrActionIds[] = $key;
-                            $flag_database = 'insert';
+                            $arrActInsert[] = $key;
                         }
-                        
                     }
                 }
 
-                if ( $flag_database == 'insert' ) 
+                // Get List Arr Action ID Delete
+                foreach ($itemAction as $key => $value) 
                 {
-                    $actionModel = new ActionModel();
-                    $action_info = $actionModel->getItem($arrActionIds, ['task' => 'get-action-info-from-arr-action-id']);
-    
-                    $paramsPermission['arr_action_id']   = $arrActionIds;
-                    $paramsPermission['controller_info'] = $controller_info;
-                    $paramsPermission['action_info']     = $action_info;    
-    
-                    // Save to Action Model Multi Checkbox
-                    $model = new PermissionModel();
-                    $model->saveItem($paramsPermission, ['task' => 'save-action-from-controller-form']);
+                    if ( !array_key_exists($value, $params['multi_checkbox']) ) {
+                        $arrActDel[] = $value;
+                    }
                 }
 
+            }else{
+                // Get List Arr Action ID Delete
+                $arrActDel = $itemAction;
+            }
 
-            // If Insert New or Delete Action_Id
 
+            // Insert Action Id From Database : Controller-Form-Multi-checkbox-Action
+            if ( $arrActInsert !== null ) 
+            {
+                $controller_info['controller_id'] = $params['id'];
+                $controller_info['name']          = self::select('name_dev', 'name_friendly')->where('id', $controller_info['controller_id'])
+                ->first()->toArray();
+    
+                $actionModel = new ActionModel();
+                $action_info = $actionModel->getItem($arrActInsert, ['task' => 'get-action-info-from-arr-action-id']);
 
-            // echo '<pre style="color:red";>$arrActionIds === '; print_r($arrActionIds);echo '</pre>';
-            // echo '<pre style="color:red";>$paramsPermission === '; print_r($paramsPermission);echo '</pre>';
+                $paramsPermission['arr_action_id']   = $arrActInsert;
+                $paramsPermission['controller_info'] = $controller_info;
+                $paramsPermission['action_info']     = $action_info;    
 
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$this->prepareParams($params) === '; print_r($this->prepareParams($params));echo '</pre>';
-            // echo '<pre style="color:red";>$itemAction === '; print_r($itemAction);echo '</pre>';
+                // Save to Action Model Multi Checkbox
+                $model = new PermissionModel();
+                $model->saveItem($paramsPermission, ['task' => 'save-action-from-controller-form']);
+            }
 
-            // echo '<h3>Die is Called 213131</h3>';die;
+            // Delete Action Id From Database : Controller-Form-Multi-checkbox-Action
+            if ( $arrActDel !== null )
+            {
+                $paramsDel['controller_id']  = $params['id'];
+                $paramsDel['arr_action_ids'] = $arrActDel;
+
+                $model = new PermissionModel();
+                $model->deleteItem($paramsDel, ['task' => 'delete-items']);
+            }
 
         }
 

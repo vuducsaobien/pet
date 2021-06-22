@@ -176,10 +176,9 @@ class PermissionModel extends AdminModel
 
     public function deleteItem($params = null, $options = null) 
     { 
-        if($options['task'] == 'delete-item') {
-            $item   = self::getItem($params, ['task'=>'get-avatar']); // 
-            $this->deleteThumb($item['thumb']);
-            self::where('id', $params['id'])->delete();
+        if($options['task'] == 'delete-items') {
+            self::where('controller_id', $params['controller_id'])
+            ->whereIn('action_id', $params['arr_action_ids'])->delete();
         }
     }
 
