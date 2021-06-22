@@ -1,9 +1,12 @@
 @extends('admin.main')
 @php
     $type        = Request::input('type', 'general');
-    $linkGeneral = route('product/form', ['id'=>$item['id'],'type' => 'general']);
-    $linkForm    = route('product/form', ['id'=>$item['id'],'type' => 'attribute']);
-    $linkSeo     = route('product/form', ['id'=>$item['id'],'type' => 'seo']);
+    
+    if ( !empty($item['id']) ) {
+        $linkGeneral = route('product/form', ['id'=>$item['id'],'type' => 'general']);
+        $linkForm    = route('product/form', ['id'=>$item['id'],'type' => 'attribute']);
+        $linkSeo     = route('product/form', ['id'=>$item['id'],'type' => 'seo']);
+    }
 @endphp
 @section('content')
     @include ('admin.templates.page_header', ['pageIndex' => false])
