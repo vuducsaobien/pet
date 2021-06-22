@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2021 at 07:12 PM
+-- Generation Time: Jun 22, 2021 at 11:35 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -47,7 +47,15 @@ INSERT INTO `action` (`id`, `name_dev`, `name_friendly`, `status`, `created`, `c
 (2, 'status', 'Thay đổi Trạng thái', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
 (3, 'delete', 'Xóa Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
 (4, 'form', 'Chỉnh sửa Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(5, 'ordering', 'Sắp xếp Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin');
+(5, 'ordering', 'Sắp xếp Dữ liệu', 'active', '2021-03-30 12:41:43', 'admin', '2021-06-22 14:44:23', 'admin'),
+(7, 'move', 'Di chuyển', 'active', NULL, 'admin', NULL, NULL),
+(8, 'isHome', 'Hiển thị trang chủ', 'active', NULL, 'admin', NULL, NULL),
+(9, 'display', 'Display', 'active', NULL, 'admin', NULL, NULL),
+(10, 'view', 'Xem chi tiết', 'active', NULL, 'admin', NULL, NULL),
+(11, 'change-category', 'Thay đổi Category', 'active', NULL, 'admin', NULL, NULL),
+(12, 'sendMailToSubcribe', 'Gửi Mail Bài Viết cho Subcriber', 'active', NULL, 'admin', NULL, NULL),
+(13, 'type_menu', 'Menu type', 'active', NULL, 'admin', NULL, NULL),
+(14, 'type_link', 'Link type', 'active', NULL, 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -375,8 +383,8 @@ CREATE TABLE `controller` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name_dev` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name_friendly` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `created` timestamp(6) NULL DEFAULT NULL ON UPDATE current_timestamp(6),
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `modified` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `modified_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
@@ -387,14 +395,19 @@ CREATE TABLE `controller` (
 --
 
 INSERT INTO `controller` (`id`, `name_dev`, `name_friendly`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 'product', 'Sản phẩm', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 11:37:20', 'admin'),
-(2, 'dashboard', 'Trang Chủ', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(3, 'contact', 'Liên Hệ', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(4, 'group', 'Nhóm', 'inactive', '2021-03-30 12:41:43', 'admin', '2021-06-20 20:42:46', 'admin'),
-(5, 'user', 'User', 'active', '2021-03-30 12:41:43', 'admin', '2021-06-21 10:06:03', 'admin'),
-(6, 'slider', 'Slider', 'active', NULL, 'admin', NULL, NULL),
-(7, 'contact', 'Liên Hệ', 'active', NULL, 'admin', NULL, NULL),
-(8, 'subcribe', 'Đăng ký Mail', 'active', NULL, 'admin', NULL, NULL);
+(1, 'product', 'Sản phẩm', 'active', '2021-03-30 05:41:43.000000', 'admin', '2021-04-19 11:37:20', 'admin'),
+(2, 'dashboard', 'Trang Chủ', 'active', '2021-03-30 05:41:43.000000', 'admin', '2021-06-22 16:25:59', 'admin'),
+(3, 'contact', 'Liên Hệ', 'active', '2021-03-30 05:41:43.000000', 'admin', '2021-03-30 12:41:43', 'admin'),
+(4, 'group', 'Nhóm', 'active', '2021-03-30 05:41:43.000000', 'admin', '2021-06-22 16:26:07', 'admin'),
+(5, 'user', 'User', 'active', '2021-03-30 05:41:43.000000', 'admin', '2021-06-22 10:29:26', 'admin'),
+(6, 'slider', 'Slider', 'active', NULL, 'admin', '2021-06-22 16:26:51', 'admin'),
+(7, 'contact', 'Liên Hệ', 'active', NULL, 'admin', '2021-06-22 16:06:57', 'admin'),
+(10, 'payment', 'Thanh Toán', 'active', NULL, 'admin', NULL, NULL),
+(11, 'shipping', 'Phí Ship', 'active', NULL, 'admin', NULL, NULL),
+(12, 'cart', 'Đơn Hàng', 'active', '2021-06-22 09:34:23.960649', 'admin', '2021-06-22 16:34:23', 'admin'),
+(13, 'discount', 'Mã giảm giá', 'active', NULL, 'admin', NULL, NULL),
+(14, 'category', 'Danh mục Sản Phẩm', 'active', NULL, 'admin', NULL, NULL),
+(15, 'article', 'Bài Viết', 'active', NULL, 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -705,19 +718,11 @@ CREATE TABLE `permission` (
 
 INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_name`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 1, 1, 'Hiển thị Permission', 'permission', 'active', '2021-04-19 22:28:21', 'admin', NULL, NULL),
-(2, 2, 2, 'Hiển Thị Bài Viết', 'article', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:10', 'admin'),
 (3, 3, 3, 'Xóa Bài Viết', 'article/delete', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:06', 'admin'),
-(4, 4, 4, 'Hiển Thị Sản Phẩm', 'product', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:03', 'admin'),
 (5, 5, 5, 'Xóa Sản Phẩm', 'product/delete', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:00', 'admin'),
 (6, 1, 6, 'Thêm mới / Chỉnh sửa Sản Phẩm', 'product/form', 'active', '2021-04-19 10:13:08', 'admin', '2021-04-19 10:13:39', 'admin'),
-(7, 2, 7, 'Thay đổi Trạng thái của Sản Phẩm', 'product/status', 'active', '2021-04-19 10:16:06', 'admin', NULL, NULL),
 (8, 3, 8, 'Thay đổi Thứ tự của Sản Phẩm', 'product/ordering', 'active', '2021-04-19 10:17:42', 'admin', NULL, NULL),
-(9, 4, 9, 'Thay đổi Danh Mục của Sản Phẩm', 'product/change-category', 'active', '2021-04-19 10:22:55', 'admin', NULL, NULL),
 (10, 5, 10, 'Thêm mới / Chỉnh sửa Bài viết', 'article/form', 'active', '2021-04-19 10:25:04', 'admin', NULL, NULL),
-(11, 6, 11, 'Thay đổi Trạng thái của Bài viết', 'article/status', 'active', '2021-04-19 10:26:42', 'admin', NULL, NULL),
-(12, 7, 12, 'Thay đổi Kiểu của Bài viết', 'article/type', 'active', '2021-04-19 11:10:22', 'admin', NULL, NULL),
-(13, 8, 13, 'Gửi Bài viết Cho Subcribe', 'article/sendMailToSubcribe', 'active', '2021-04-19 11:11:11', 'admin', NULL, NULL),
-(16, 9, 0, 'Hiển thị Dashboard', 'dashboard', 'active', '2021-04-19 11:11:45', 'admin', NULL, NULL),
 (17, 1, 0, 'Hiển thị Group', 'group', 'active', '2021-04-19 22:04:23', 'admin', NULL, NULL),
 (18, 1, 0, 'Thêm mới / Chỉnh sửa Group', 'group/form', 'active', '2021-04-19 22:05:20', 'admin', NULL, NULL),
 (19, 0, 0, 'Xóa Group', 'group/delete', 'active', '2021-04-19 22:06:14', 'admin', NULL, NULL),
@@ -732,16 +737,48 @@ INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_nam
 (29, 0, 0, 'Thêm mới / Chỉnh sửa Permission', 'permission/form', 'active', '2021-04-19 22:28:43', 'admin', NULL, NULL),
 (30, 0, 0, 'Xóa Permission', 'permission/delete', 'active', '2021-04-19 22:29:43', 'admin', NULL, NULL),
 (31, 0, 0, 'Thay đổi Trạng thái của Permission', 'permission/status', 'active', '2021-04-19 22:30:21', 'admin', NULL, NULL),
-(38, 6, 1, 'Hiển thị Dữ liệu của Slider', 'slider/index', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
-(39, 6, 2, 'Thay đổi Trạng thái của Slider', 'slider/status', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
-(40, 6, 3, 'Xóa Dữ liệu của Slider', 'slider/delete', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
-(41, 6, 4, 'Chỉnh sửa Dữ liệu của Slider', 'slider/form', 'active', '2021-06-21 23:59:54', 'admin', NULL, NULL),
-(42, 7, 1, 'Hiển thị Dữ liệu của Liên Hệ', 'contact/index', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
-(43, 7, 2, 'Thay đổi Trạng thái của Liên Hệ', 'contact/status', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
-(44, 7, 3, 'Xóa Dữ liệu của Liên Hệ', 'contact/delete', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
-(45, 7, 4, 'Chỉnh sửa Dữ liệu của Liên Hệ', 'contact/form', 'active', '2021-06-22 00:01:15', 'admin', NULL, NULL),
-(46, 8, 1, 'Hiển thị Dữ liệu của Đăng ký Mail', 'subcribe/index', 'active', '2021-06-22 00:09:33', 'admin', NULL, NULL),
-(47, 8, 5, 'Sắp xếp Dữ liệu của Đăng ký Mail', 'subcribe/ordering', 'active', '2021-06-22 00:09:33', 'admin', NULL, NULL);
+(50, 5, 1, 'Hiển thị Dữ liệu của User', 'user/index', 'active', '2021-06-22 10:29:26', 'admin', NULL, NULL),
+(53, 2, 1, 'Hiển thị Dữ liệu của Trang Chủ', 'dashboard/index', 'active', '2021-06-22 10:34:00', 'admin', NULL, NULL),
+(54, 4, 1, 'Hiển thị Dữ liệu của Nhóm', 'group/index', 'active', '2021-06-22 11:40:32', 'admin', NULL, NULL),
+(55, 4, 2, 'Thay đổi Trạng thái của Nhóm', 'group/status', 'active', '2021-06-22 11:40:32', 'admin', NULL, NULL),
+(57, 4, 5, 'Sắp xếp Dữ liệu của Nhóm', 'group/ordering', 'active', '2021-06-22 11:40:48', 'admin', NULL, NULL),
+(60, 4, 3, 'Xóa Dữ liệu của Nhóm', 'group/delete', 'active', '2021-06-22 11:44:06', 'admin', NULL, NULL),
+(61, 4, 4, 'Chỉnh sửa Dữ liệu của Nhóm', 'group/form', 'active', '2021-06-22 11:44:06', 'admin', NULL, NULL),
+(67, 6, 1, 'Hiển thị Dữ liệu của Slider', 'slider/index', 'active', '2021-06-22 12:01:11', 'admin', NULL, NULL),
+(69, 6, 2, 'Thay đổi Trạng thái của Slider', 'slider/status', 'active', '2021-06-22 12:01:18', 'admin', NULL, NULL),
+(70, 6, 3, 'Xóa Dữ liệu của Slider', 'slider/delete', 'active', '2021-06-22 12:01:18', 'admin', NULL, NULL),
+(81, 7, 2, 'Thay đổi Trạng thái của Liên Hệ', 'contact/status', 'active', '2021-06-22 12:28:27', 'admin', NULL, NULL),
+(84, 7, 1, 'Hiển thị Dữ liệu của Liên Hệ', 'contact/index', 'active', '2021-06-22 16:06:57', 'admin', NULL, NULL),
+(85, 6, 4, 'Chỉnh sửa Dữ liệu của Slider', 'slider/form', 'active', '2021-06-22 16:26:51', 'admin', NULL, NULL),
+(86, 10, 1, 'Hiển thị Dữ liệu của Thanh Toán', 'payment/index', 'active', '2021-06-22 16:27:45', 'admin', NULL, NULL),
+(87, 10, 2, 'Thay đổi Trạng thái của Thanh Toán', 'payment/status', 'active', '2021-06-22 16:27:45', 'admin', NULL, NULL),
+(88, 10, 3, 'Xóa Dữ liệu của Thanh Toán', 'payment/delete', 'active', '2021-06-22 16:27:45', 'admin', NULL, NULL),
+(89, 10, 4, 'Chỉnh sửa Dữ liệu của Thanh Toán', 'payment/form', 'active', '2021-06-22 16:27:45', 'admin', NULL, NULL),
+(90, 11, 1, 'Hiển thị Dữ liệu của Phí Ship', 'shipping/index', 'active', '2021-06-22 16:28:05', 'admin', NULL, NULL),
+(91, 11, 2, 'Thay đổi Trạng thái của Phí Ship', 'shipping/status', 'active', '2021-06-22 16:28:05', 'admin', NULL, NULL),
+(92, 11, 3, 'Xóa Dữ liệu của Phí Ship', 'shipping/delete', 'active', '2021-06-22 16:28:05', 'admin', NULL, NULL),
+(93, 11, 4, 'Chỉnh sửa Dữ liệu của Phí Ship', 'shipping/form', 'active', '2021-06-22 16:28:05', 'admin', NULL, NULL),
+(94, 12, 1, 'Hiển thị Dữ liệu của Đơn Hàng', 'cart/index', 'active', '2021-06-22 16:31:00', 'admin', NULL, NULL),
+(95, 12, 2, 'Thay đổi Trạng thái của Đơn Hàng', 'cart/status', 'active', '2021-06-22 16:31:00', 'admin', NULL, NULL),
+(97, 12, 4, 'Chỉnh sửa Dữ liệu của Đơn Hàng', 'cart/form', 'active', '2021-06-22 16:31:00', 'admin', NULL, NULL),
+(98, 12, 10, 'Xem chi tiết của Đơn Hàng', 'cart/view', 'active', '2021-06-22 16:31:00', 'admin', NULL, NULL),
+(99, 13, 1, 'Hiển thị Dữ liệu của Mã giảm giá', 'discount/index', 'active', '2021-06-22 16:32:54', 'admin', NULL, NULL),
+(100, 13, 2, 'Thay đổi Trạng thái của Mã giảm giá', 'discount/status', 'active', '2021-06-22 16:32:54', 'admin', NULL, NULL),
+(101, 13, 3, 'Xóa Dữ liệu của Mã giảm giá', 'discount/delete', 'active', '2021-06-22 16:32:54', 'admin', NULL, NULL),
+(102, 13, 4, 'Chỉnh sửa Dữ liệu của Mã giảm giá', 'discount/form', 'active', '2021-06-22 16:32:54', 'admin', NULL, NULL),
+(103, 14, 1, 'Hiển thị Dữ liệu của Danh mục Sản Phẩm', 'category/index', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(104, 14, 2, 'Thay đổi Trạng thái của Danh mục Sản Phẩm', 'category/status', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(105, 14, 3, 'Xóa Dữ liệu của Danh mục Sản Phẩm', 'category/delete', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(106, 14, 4, 'Chỉnh sửa Dữ liệu của Danh mục Sản Phẩm', 'category/form', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(107, 14, 7, 'Di chuyển của Danh mục Sản Phẩm', 'category/move', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(108, 14, 8, 'Hiển thị trang chủ của Danh mục Sản Phẩm', 'category/isHome', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(109, 14, 9, 'Display của Danh mục Sản Phẩm', 'category/display', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(110, 14, 11, 'Thay đổi Category của Danh mục Sản Phẩm', 'category/change-category', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
+(111, 15, 1, 'Hiển thị Dữ liệu của Bài Viết', 'article/index', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
+(112, 15, 2, 'Thay đổi Trạng thái của Bài Viết', 'article/status', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
+(113, 15, 3, 'Xóa Dữ liệu của Bài Viết', 'article/delete', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
+(114, 15, 4, 'Chỉnh sửa Dữ liệu của Bài Viết', 'article/form', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
+(115, 15, 11, 'Thay đổi Category của Bài Viết', 'article/change-category', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1729,7 +1766,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `action`
 --
 ALTER TABLE `action`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `article`
@@ -1777,7 +1814,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT for table `controller`
 --
 ALTER TABLE `controller`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -1831,7 +1868,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT for table `product`
