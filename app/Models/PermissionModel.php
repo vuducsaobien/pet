@@ -59,32 +59,6 @@ class PermissionModel extends AdminModel
         return $result;
     }
 
-    public function countItems($params = null, $options  = null) {
-        $result = null;
-
-        if($options['task'] == 'admin-count-items-group-by-status') {
-         
-            $query = $this::groupBy('status')
-                        ->select( DB::raw('status , COUNT(id) as count') );
-
-            if ($params['search']['value'] !== "")  {
-                if($params['search']['field'] == "all") {
-                    $query->where(function($query) use ($params){
-                        foreach($this->fieldSearchAccepted as $column){
-                            $query->orWhere($column, 'LIKE',  "%{$params['search']['value']}%" );
-                        }
-                    });
-                } else if(in_array($params['search']['field'], $this->fieldSearchAccepted)) { 
-                    $query->where($params['search']['field'], 'LIKE',  "%{$params['search']['value']}%" );
-                } 
-            }
-
-            $result = $query->get()->toArray();
-        }
-
-        return $result;
-    }
-
     public function getItem($params = null, $options = null) { 
         $result = null;
         
@@ -143,19 +117,6 @@ class PermissionModel extends AdminModel
             $params['modified_by'] = $modifiedBy;
             $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
-        }
-
-        if($options['task'] == 'add-route-name') {
-            // $params['created_by'] = $createdBy;
-            // $prepare = $this->prepareParams($params);
-            foreach ($params as $key => $value) {
-                $prepare['controller'][] = $key; 
-            }
-            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            echo '<pre style="color:red";>$prepare === '; print_r($prepare);echo '</pre>';
-
-            echo '<h3>Die is Called per Model</h3>';die;
-            // self::insert( $prepare );        
         }
 
         if($options['task'] == 'save-action-from-controller-form') {

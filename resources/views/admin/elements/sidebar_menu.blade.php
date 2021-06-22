@@ -78,25 +78,15 @@
             </li>
 
             <li>
-                <a><i class="fa fa-user"></i> Quản lý thành viên <span class="fa fa-chevron-down"></span></a>
+                <a><i class="fa fa-user"></i> Quản lý Phân Quyền<span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li id="group"><a href="{{ route('group') }}"> Group</a></li>
                     <li id="user"><a href="{{ route('user') }}"> User</a></li>
-                    <li class="none"><a href="{{ route('user/change-logged-password') }}"> Change Password</a></li>
-                </ul>
-            </li>
-
-            <li>
-                <a><i class="fa fa-user"></i> Quản lý Phân Quyền<span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
                     <li id="controller">
                         <a href="{{ route('controller') }}"> Controller</a>
                     </li>
                     <li id="route">
                         <a href="{{ route('action') }}"> Action</a>
-                    </li>
-                    <li id="permission">
-                        <a href="{{ route('permission') }}"> Permission</a>
                     </li>
                 </ul>
             </li>
@@ -112,6 +102,7 @@
                 </ul>
             </li>
 
+            <li class="none"><a href="{{ route('user/change-logged-password') }}"> Change Password</a></li>
             <li id = "logs" class="none"><a href="{{ route('logs') }}"><i class="fa fa-history"></i> Logs</a></li>
             <li><a href="{{ route('home') }}"><i class="fa fa-globe"></i> {{__('message.view-website')}}</a></li>
             <li><a href="{{ route('auth/logout') }}"><i class="fa fa-sign-out"></i> {{__('message.logout')}}</a></li>
