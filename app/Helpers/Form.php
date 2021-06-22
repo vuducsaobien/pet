@@ -110,6 +110,7 @@ class Form {
                 $eleArrActionIds = @$element['arr_action_id'];
                 $checkbox        = [];
 
+
                 $xhtml           = '
                     <div class="form-group row">
                         <label class="col-md-3 col-sm-3  control-label">Các Action của Controller
@@ -121,7 +122,7 @@ class Form {
 
                 foreach ($eleName as $key => $value) 
                 {
-                    if ( $eleArrActionIds !== null ) 
+                    if ( $eleArrActionIds != null ) 
                     {
     
                         foreach ($eleArrActionIds as $keyC => $valueC) {
