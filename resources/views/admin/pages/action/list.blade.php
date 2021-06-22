@@ -24,8 +24,8 @@
                     @foreach($items as $key => $item)
                         @php
                             $index           = $key + 1;
-                            $route           = $item['route'];
-                            $name            = $item['name'];
+                            $route           = $item['name_friendly'];
+                            $name            = $item['name_dev'];
                             $status          = Template::showItemStatus($controllerName, $item['id'], $item['status']);
                             $createdHistory  = Template::showItemHistory($item['created_by'], $item['created']);
                             $modifiedHistory = Template::showItemHistory($item['modified_by'], @$item['modified']);

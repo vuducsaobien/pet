@@ -8,7 +8,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 @include('admin.templates.x_title', ['title' => 'Danh sách'])
-                @include('admin.pages.route.list')
+                @include('admin.pages.action.list')
             </div>
         </div>
     </div>

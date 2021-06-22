@@ -174,7 +174,7 @@ return [
             'group'          => ['edit', 'delete'],
             'permission'     => ['edit', 'delete'],
             'controller'     => ['edit', 'delete'],
-            'route'          => ['edit', 'delete'],
+            'action'         => ['edit', 'delete'],
         ]
     ],
     'notify' => [

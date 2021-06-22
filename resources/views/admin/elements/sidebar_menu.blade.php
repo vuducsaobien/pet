@@ -93,7 +93,7 @@
                         <a href="{{ route('controller') }}"> Controller</a>
                     </li>
                     <li id="route">
-                        <a href="{{ route('route') }}"> Route</a>
+                        <a href="{{ route('action') }}"> Action</a>
                     </li>
                     <li id="permission">
                         <a href="{{ route('permission') }}"> Permission</a>

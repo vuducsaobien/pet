@@ -23,7 +23,7 @@ class ActionModel extends AdminModel
         $result = null;
 
         if($options['task'] == "admin-list-items") {
-            $query = self::select('id', 'name', 'status', 'route',
+            $query = self::select('id', 'name_dev', 'name_friendly', 'status',
             'created' , 'created_by', 'modified', 'modified_by');
 
             $result =  $query

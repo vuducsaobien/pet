@@ -205,9 +205,9 @@ Route::group(['prefix' => $prefixAdmin, 'namespace' => 'Admin', 'middleware' => 
         Route::get('change-status-{status}/{id}',       [ 'as' => $controllerName . '/status',      'uses' => $controller . 'status']);
     });    
 
-    // ============================== ROUTE ==============================
-    $prefix         = 'route';
-    $controllerName = 'route';
+    // ============================== ACTION ==============================
+    $prefix         = 'action';
+    $controllerName = 'action';
     Route::group(['prefix' =>  $prefix], function () use($controllerName) {
         $controller = ucfirst($controllerName)  . 'Controller@';
         Route::get('/',                                 [ 'as' => $controllerName,                  'uses' => $controller . 'index' ]);
