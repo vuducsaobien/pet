@@ -180,6 +180,11 @@ class PermissionModel extends AdminModel
             self::where('controller_id', $params['controller_id'])
             ->whereIn('action_id', $params['arr_action_ids'])->delete();
         }
+
+        if($options['task'] == 'delete-items-from-controller-id') {
+            self::where('controller_id', $params['controller_id'])->delete();
+        }
+
     }
 
 }

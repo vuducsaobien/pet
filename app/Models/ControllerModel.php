@@ -229,7 +229,7 @@ class ControllerModel extends AdminModel
 
 
             // Insert Action Id From Database : Controller-Form-Multi-checkbox-Action
-            if ( $arrActInsert !== null ) 
+            if ( $arrActInsert != null ) 
             {
                 $controller_info['controller_id'] = $params['id'];
                 $controller_info['name']          = self::select('name_dev', 'name_friendly')->where('id', $controller_info['controller_id'])
@@ -248,7 +248,7 @@ class ControllerModel extends AdminModel
             }
 
             // Delete Action Id From Database : Controller-Form-Multi-checkbox-Action
-            if ( $arrActDel !== null )
+            if ( $arrActDel != null )
             {
                 $paramsDel['controller_id']  = $params['id'];
                 $paramsDel['arr_action_ids'] = $arrActDel;
@@ -264,8 +264,20 @@ class ControllerModel extends AdminModel
     public function deleteItem($params = null, $options = null) 
     { 
         if($options['task'] == 'delete-item') {
-            $item   = self::getItem($params, ['task'=>'get-avatar']); // 
-            $this->deleteThumb($item['thumb']);
+            $model     = new PermissionModel();
+            $arrActDel = null;
+            $arrActDel = $model->getItem( $params, [
+                'task' => 'get-arr-action-ids-from-controller-id'
+            ]);
+
+            if ( $arrActDel != null )
+            {
+                $paramsDel['controller_id']  = $params['id'];
+    
+                $model = new PermissionModel();
+                $model->deleteItem($paramsDel, ['task' => 'delete-items-from-controller-id']);
+            }
+
             self::where('id', $params['id'])->delete();
         }
     }
