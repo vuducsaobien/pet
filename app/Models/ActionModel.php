@@ -40,7 +40,7 @@ class ActionModel extends AdminModel
             ;
         }
 
-        if($options['task'] == 'get-route-info-from-route-list-ids') 
+        if($options['task'] == 'get-arr-action-ids-from-controller-id') 
         {
             $query  = self::select('id', 'name', 'route')->whereIn('id', $params);
             $result = $query

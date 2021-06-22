@@ -123,24 +123,13 @@ class ControllerModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'controller', 'status', 'route_id')
+            $result = self::select('id', 'name_dev', 'name_friendly', 'status')
             ->where('id', $params['id'])->first()->toArray();
-
-            echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            echo '<h3>Die is Called model</h3>';die;
         }
 
-        if($options['task'] == 'get-route-info-from-route-list-ids') {
-            $model  = new ActionModel();
-            $result = $model->listItems($params, ['task' => 'get-route-info-from-route-list-ids']);
-
-            // foreach ($items as $value) {
-            //     $result .= $value['name'] . ',' ;
-            // }
-            // $result = rtrim($result, ", ");
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
+        if($options['task'] == 'get-arr-action-ids-from-controller-id') {
+            $model  = new PermissionModel();
+            $result = $model->getItem($params, ['task' => 'get-arr-action-ids-from-controller-id']);
         }
 
         return $result;
@@ -199,9 +188,67 @@ class ControllerModel extends AdminModel
         }
 
         if($options['task'] == 'edit-item') {
+
+            // Update table Controller
             $params['modified_by'] = $modifiedBy;
             $params['modified']    = $modified;
             self::where('id', $params['id'])->update($this->prepareParams($params));
+
+            // Update table Permission
+            $flag_database = null;
+            $model = new PermissionModel();
+            $itemAction = $model->getItem( $params['id'], [
+                'task' => 'get-arr-action-ids-from-controller-id'
+            ]);
+
+            // If Insert New or Delete Action_Id
+
+                // Prepare param
+                $controller_info['controller_id'] = $params['id'];
+                $controller_info['name']          = self::select('name_dev', 'name_friendly')->where('id', $controller_info['controller_id'])
+                ->first()->toArray();
+
+                foreach ($params['multi_checkbox'] as $key => $value) {
+                    if ( $value == 'on' ) {
+                        // echo $key . '<br>';
+
+                        // Insert New Action to Table Permission
+                        if ( !in_array($key, $itemAction) ) {
+                            // echo $key . '<br>';
+                            $arrActionIds[] = $key;
+                            $flag_database = 'insert';
+                        }
+                        
+                    }
+                }
+
+                if ( $flag_database == 'insert' ) 
+                {
+                    $actionModel = new ActionModel();
+                    $action_info = $actionModel->getItem($arrActionIds, ['task' => 'get-action-info-from-arr-action-id']);
+    
+                    $paramsPermission['arr_action_id']   = $arrActionIds;
+                    $paramsPermission['controller_info'] = $controller_info;
+                    $paramsPermission['action_info']     = $action_info;    
+    
+                    // Save to Action Model Multi Checkbox
+                    $model = new PermissionModel();
+                    $model->saveItem($paramsPermission, ['task' => 'save-action-from-controller-form']);
+                }
+
+
+            // If Insert New or Delete Action_Id
+
+
+            // echo '<pre style="color:red";>$arrActionIds === '; print_r($arrActionIds);echo '</pre>';
+            // echo '<pre style="color:red";>$paramsPermission === '; print_r($paramsPermission);echo '</pre>';
+
+            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+            // echo '<pre style="color:red";>$this->prepareParams($params) === '; print_r($this->prepareParams($params));echo '</pre>';
+            // echo '<pre style="color:red";>$itemAction === '; print_r($itemAction);echo '</pre>';
+
+            // echo '<h3>Die is Called 213131</h3>';die;
+
         }
 
     }

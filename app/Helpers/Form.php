@@ -105,24 +105,46 @@ class Form {
                 break;
 
             case 'multi-checkbox':
-                $eleText = $element['text'];
-                $eleName = $element['name'];
-    
-                $xhtml = '
+                $eleText         = $element['text'];
+                $eleName         = $element['name'];
+                $eleArrActionIds = @$element['arr_action_id'];
+                $checkbox        = [];
+
+                $xhtml           = '
                     <div class="form-group row">
-                        <label class="col-md-3 col-sm-3  control-label">Các Link của Controller
+                        <label class="col-md-3 col-sm-3  control-label">Các Action của Controller
                         </label>
 
                         <div class="col-md-6 col-sm-6">
                             <div class="checkbox">
                 ';
 
+                foreach ($eleName as $key => $value) 
+                {
+                    if ( $eleArrActionIds !== null ) 
+                    {
+    
+                        foreach ($eleArrActionIds as $keyC => $valueC) {
+                            if ( $value == $valueC ) {
+                                $checkbox[$key] = 'checked = "checked"';
+                                break;
+                            }else{
+                                $checkbox[$key] = null;
+                            }
+                        }
+                        
+                    }else{
+                        $checkbox[$key] = null;
+                    }
+
+                }
+
                 foreach ($eleText as $key => $value) 
                 {
                     $xhtml .= '
                         <label class="">
                             <div class="icheckbox_flat-green checked" style="position: relative;">
-                                <input name="multi_checkbox['.$eleName[$key].']" type="checkbox" class="flat" style="position: absolute; opacity: 0;">
+                                <input name="multi_checkbox['.$eleName[$key].']" '.$checkbox[$key].' type="checkbox" class="flat" style="position: absolute; opacity: 0;">
                                 <ins class="iCheck-helper" style="position: absolute; top: 0%; 
                                     left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); 
                                     border: 0px; opacity: 0;">

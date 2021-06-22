@@ -54,9 +54,6 @@ class PermissionModel extends AdminModel
                 ->orderBy('controller_id')
                 ->get()->toArray()
             ;
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
         }
 
         return $result;
@@ -101,6 +98,10 @@ class PermissionModel extends AdminModel
 
         if($options['task'] == 'get-permission-id-from-route-name') {
             $result = self::where('route_name', $params)->value('id');
+        }
+
+        if($options['task'] == 'get-arr-action-ids-from-controller-id') {
+            $result = self::where('controller_id', $params)->pluck('action_id')->toArray();
         }
 
         return $result;

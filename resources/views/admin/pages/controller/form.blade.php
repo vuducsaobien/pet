@@ -20,10 +20,11 @@
             'label'     => Form::label('name_friendly', 'Tên Controller Hiển Thị', $formLabelAttributes),
             'element'   => Form::text('name_friendly', @$item['name_friendly'], $formInputAttributes)
         ],[
-            'label' => Form::label('setting-product', 'Cấu Hình Sản Phẩm', $formLabelAttributes),
-            'text'  => $itemsAllAction['name_friendly'],
-            'name'  => $itemsAllAction['id'],
-            'type'  => 'multi-checkbox'
+            'label'         => Form::label(null, null, $formLabelAttributes),
+            'text'          => $itemsAllAction['name_friendly'],
+            'name'          => $itemsAllAction['id'],
+            'arr_action_id' => @$itemAction,
+            'type'          => 'multi-checkbox'
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, @$item['status'], $formInputAttributes)

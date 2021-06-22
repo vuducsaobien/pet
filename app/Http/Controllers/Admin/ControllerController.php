@@ -40,20 +40,21 @@ class ControllerController extends AdminController
 
     public function form(Request $request)
     {
-        $item = null;
+        $item           = null;
+        $itemAction     = null;
+        $itemsAllAction = $this->model->listItems(null, ['task'  => 'admin-list-items-get-all-action']);
+
         if($request->id !== null ) {
-            $params["id"] = $request->id;
+            $params['id'] = $request->id;
 
-            $item      = $this->model->getItem( $params, ['task' => 'get-item']);
-            $itemRoute = $this->model->getItem( json_decode( $item['route_id'], true ), 
-            ['task' => 'get-route-info-from-route-list-ids']);
-
+            $item       = $this->model->getItem( $params, ['task' => 'get-item']);
+            $itemAction = $this->model->getItem( $params['id'], [
+                'task' => 'get-arr-action-ids-from-controller-id'
+            ]);
         }
 
-        $itemsAllAction    = $this->model->listItems(null, ['task'  => 'admin-list-items-get-all-action']);
-
         return view($this->pathViewController . 'form', compact(
-            'item', 'itemsAllAction'
+            'item', 'itemsAllAction', 'itemAction'
         ));
     }
 
