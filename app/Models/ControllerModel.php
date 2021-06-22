@@ -48,9 +48,6 @@ class ControllerModel extends AdminModel
                 ->paginate($params['pagination']['totalItemsPerPage'])
                 // ->get()->toArray()
             ;
-
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called </h3>';die;
         }
 
         if($options['task'] == 'admin-list-items-get-all-action') 
@@ -63,9 +60,6 @@ class ControllerModel extends AdminModel
                 $result['id'][]            = $value['id'];
             }
 
-            // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Controller Model</h3>';die;
         }
 
         if($options['task'] == 'admin-list-items-get-action-id-from-list-controller-id') 
@@ -83,11 +77,16 @@ class ControllerModel extends AdminModel
                 }
             }
 
-            // echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-            // echo '<pre style="color:red";>$items === '; print_r($items);echo '</pre>';
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
+        }
 
-            // echo '<h3>Die is Called Controller Model</h3>';die;
+        if($options['task'] == 'get-arr-controller-name-from-arr-controller-id') 
+        {
+            foreach ($params as $key => $value) 
+            {
+                $result[] = self::select('id', 'name_dev', 'name_friendly')
+                ->whereIn('id', $value)->get()->toArray()
+                ;
+            }
         }
         
         return $result;

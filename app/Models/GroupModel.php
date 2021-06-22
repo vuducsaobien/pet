@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AdminModel;
 use App\Models\PermissionModel;
+use App\Models\ControllerModel;
 use Illuminate\Support\Facades\DB; 
 
 class GroupModel extends AdminModel
@@ -34,9 +35,18 @@ class GroupModel extends AdminModel
 
         if($options['task'] == 'admin-list-items-get-list-permission') {
             $model = new PermissionModel();
-            $result = $model->listItems($params, ['task'  => 'admin-list-items-get-list-permission']);
-            // echo '<pre style="color:red";>$result === '; print_r($result);echo '</pre>';
-            // echo '<h3>Die is Called Group model</h3>';die;
+            $items = $model->listItems($params, ['task'  => 'admin-list-items-get-list-permission']);
+
+            $controllerModel = new ControllerModel();
+            $itemsController = $controllerModel->listItems($items, ['task'  => 'get-arr-controller-name-from-arr-controller-id']);
+
+            foreach ($itemsController as $key => $value) {
+                $result[$key] = '';
+                foreach ($value as $valueC) {
+                    $result[$key] .= '- ' . $valueC['name_friendly'] . ' (' . $valueC['name_dev'] .  ')<br>';
+                }
+            }
+            
         }
 
         if($options['task'] == 'get-permission_ids-of-list-user') {
@@ -47,6 +57,18 @@ class GroupModel extends AdminModel
                 ;
             }
         }
+
+        if($options['task'] == "admin-list-items-check") {
+            $users = DB::table($this->table)
+            ->where('id', 1)
+            ->whereJsonContains('permission_ids', "1")
+            ->get('id')
+            ;
+
+            echo '<pre style="color:red";>$users === '; print_r($users);echo '</pre>';
+            echo '<h3>Die is Called user</h3>';die;
+        }
+
 
         return $result;
     }

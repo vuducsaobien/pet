@@ -11,7 +11,7 @@
                 <tr class="headings">
                     <th class="column-title">#</th>
                     <th class="column-title">Tên Group</th>
-                    <th class="column-title">Tên Các Quyền</th>
+                    <th class="column-title">Tên Các Quyền thuộc Controller</th>
                     <th class="column-title">Trạng thái</th>
                     <th class="column-title">Hành động</th>
                 </tr>
@@ -22,7 +22,7 @@
                         @php
                             $index         = $key + 1;
                             $name          = $item['name'];
-                            $permission    = $stringPer[$key];
+                            $permission    = $list_permission[$key];
                             $status        = Template::showItemStatus($controllerName, $item['id'], $item['status']);
                             $actionButtons = Template::showButtonAction($controllerName, $item['id']);
                         @endphp
