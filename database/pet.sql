@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2021 at 11:35 AM
+-- Generation Time: Jun 23, 2021 at 06:11 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -549,7 +549,7 @@ INSERT INTO `faq` (`id`, `name`, `content`, `status`, `ordering`, `created`, `cr
 CREATE TABLE `group` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permission_ids` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -562,11 +562,14 @@ CREATE TABLE `group` (
 --
 
 INSERT INTO `group` (`id`, `name`, `permission_ids`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 'founder', '1,2,3,4,5,6,7,8,9,10,11,12,13,14', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 11:37:20', 'admin'),
-(2, 'admin', '1,2,3,4,5,6,7,8,9,10', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(3, 'editor', '1,2,3,4,5,6', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(4, 'viewer', '1,2,3,4', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
-(5, 'user', '2', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin');
+(1, 'founder', '', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 11:37:20', 'admin'),
+(2, 'admin', '[2,3,4,5,6,7]', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
+(3, 'editor', '[1,2,3]', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
+(4, 'viewer', '', 'active', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin'),
+(5, 'user', '[1,2,3,7,8,9]', 'inactive', '2021-03-30 12:41:43', 'admin', '2021-06-22 22:40:12', 'admin'),
+(7, 'Admin', '[111,112,97]', 'active', '2021-06-23 13:20:13', 'admin', NULL, NULL),
+(15, 'triple shadow t', '[111]', 'active', '2021-06-23 15:43:01', 'admin', '2021-06-23 19:27:35', 'admin'),
+(16, 'TEST', NULL, 'active', '2021-06-23 19:27:57', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -717,18 +720,20 @@ CREATE TABLE `permission` (
 --
 
 INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_name`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 'Hiển thị Permission', 'permission', 'active', '2021-04-19 22:28:21', 'admin', NULL, NULL),
+(1, 1, 1, 'Hiển thị Permission', 'permission/index', 'active', '2021-04-19 22:28:21', 'admin', NULL, NULL),
+(2, 15, 11, 'Thay đổi Category của Bài Viết', 'article/change-category', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
 (3, 3, 3, 'Xóa Bài Viết', 'article/delete', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:06', 'admin'),
+(4, 15, 4, 'Chỉnh sửa Dữ liệu của Bài Viết', 'article/form', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
 (5, 5, 5, 'Xóa Sản Phẩm', 'product/delete', 'active', '2021-03-30 12:41:43', 'admin', '2021-04-19 09:57:00', 'admin'),
 (6, 1, 6, 'Thêm mới / Chỉnh sửa Sản Phẩm', 'product/form', 'active', '2021-04-19 10:13:08', 'admin', '2021-04-19 10:13:39', 'admin'),
 (8, 3, 8, 'Thay đổi Thứ tự của Sản Phẩm', 'product/ordering', 'active', '2021-04-19 10:17:42', 'admin', NULL, NULL),
 (10, 5, 10, 'Thêm mới / Chỉnh sửa Bài viết', 'article/form', 'active', '2021-04-19 10:25:04', 'admin', NULL, NULL),
-(17, 1, 0, 'Hiển thị Group', 'group', 'active', '2021-04-19 22:04:23', 'admin', NULL, NULL),
+(17, 1, 0, 'Hiển thị Group', 'group/index', 'active', '2021-04-19 22:04:23', 'admin', NULL, NULL),
 (18, 1, 0, 'Thêm mới / Chỉnh sửa Group', 'group/form', 'active', '2021-04-19 22:05:20', 'admin', NULL, NULL),
 (19, 0, 0, 'Xóa Group', 'group/delete', 'active', '2021-04-19 22:06:14', 'admin', NULL, NULL),
 (20, 0, 0, 'Thay đổi Trạng thái của Group', 'group/status', 'active', '2021-04-19 22:06:35', 'admin', NULL, NULL),
 (21, 0, 0, 'Thay đổi Quyền của Group', 'group/permission_ids', 'active', '2021-04-19 22:11:50', 'admin', NULL, NULL),
-(22, 0, 0, 'Hiển thị User', 'user', 'active', '2021-04-19 22:13:45', 'admin', NULL, NULL),
+(22, 0, 0, 'Hiển thị User', 'user/index', 'active', '2021-04-19 22:13:45', 'admin', NULL, NULL),
 (23, 0, 0, 'Thêm mới / Chỉnh sửa User', 'user/form', 'active', '2021-04-19 22:14:05', 'admin', NULL, NULL),
 (24, 0, 0, 'Xóa User', 'user/delete', 'active', '2021-04-19 22:14:19', 'admin', NULL, NULL),
 (25, 0, 0, 'Thay đổi Trạng thái của User', 'user/status', 'inactive', '2021-04-19 22:14:56', 'admin', '2021-04-23 09:54:45', 'admin'),
@@ -776,9 +781,7 @@ INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_nam
 (110, 14, 11, 'Thay đổi Category của Danh mục Sản Phẩm', 'category/change-category', 'active', '2021-06-22 16:33:45', 'admin', NULL, NULL),
 (111, 15, 1, 'Hiển thị Dữ liệu của Bài Viết', 'article/index', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
 (112, 15, 2, 'Thay đổi Trạng thái của Bài Viết', 'article/status', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
-(113, 15, 3, 'Xóa Dữ liệu của Bài Viết', 'article/delete', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
-(114, 15, 4, 'Chỉnh sửa Dữ liệu của Bài Viết', 'article/form', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL),
-(115, 15, 11, 'Thay đổi Category của Bài Viết', 'article/change-category', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL);
+(113, 15, 3, 'Xóa Dữ liệu của Bài Viết', 'article/delete', 'active', '2021-06-22 16:35:11', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1534,8 +1537,8 @@ CREATE TABLE `user` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `group_id` int(3) NOT NULL,
-  `permission_deny` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `permission_new` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission_id_deny` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permission_id_add` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `level` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1556,15 +1559,15 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `group_id`, `permission_deny`, `permission_new`, `level`, `status`, `username`, `password`, `thumb`, `fullname`, `phone`, `address`, `created`, `created_by`, `modified`, `modified_by`, `created_at`, `updated_at`) VALUES
-(1, 'vuducsaobien95@gmail.com', 1, '2,4,3', NULL, 'admin', 'active', 'vanduc', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Vũ Văn Đức', 362344174, 'Long Bình Tân, Biên Hòa, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
-(2, 'admin@gmail.com', 2, '9,10', '11,12,13,15,16', 'admin', 'active', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Nguyễn Văn Admin', 989261781, 'Định Quán, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
-(3, 'admin1@gmail.com', 3, NULL, '7,8,11,12', 'admin', 'active', 'xuanhung', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admind', 564888154, 'Thanh Xuân, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
-(4, 'admin2@gmail.com', 4, '1,2,4,3', '5,6,7,8,9,10,11,12', 'admin', 'active', 'admin12', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admin', 1684596063, 'Cầu Giấy, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
+INSERT INTO `user` (`id`, `email`, `group_id`, `permission_id_deny`, `permission_id_add`, `level`, `status`, `username`, `password`, `thumb`, `fullname`, `phone`, `address`, `created`, `created_by`, `modified`, `modified_by`, `created_at`, `updated_at`) VALUES
+(1, 'vuducsaobien95@gmail.com', 1, '', NULL, 'admin', 'active', 'vanduc', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Vũ Văn Đức', 362344174, 'Long Bình Tân, Biên Hòa, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
+(2, 'admin@gmail.com', 2, '[1,2,3,4,5]', '', 'admin', 'active', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Nguyễn Văn Admin', 989261781, 'Định Quán, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
+(3, 'admin1@gmail.com', 3, '[1]', '[2]', 'admin', 'active', 'xuanhung', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admind', 564888154, 'Thanh Xuân, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
+(4, 'admin2@gmail.com', 4, '[3,4,5,6,7]', '[1,2]', 'admin', 'active', 'admin12', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admin', 1684596063, 'Cầu Giấy, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (5, 'vuducsaobien94@gmail.com', 5, NULL, NULL, 'admin', 'active', 'vanduc1', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Vũ Văn Đức', 362344174, 'Long Bình Tân, Biên Hòa, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (6, 'admin3@gmail.com', 1, NULL, NULL, 'admin', 'active', 'admin2', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Nguyễn Văn Admin', 989261781, 'Định Quán, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (7, 'admin4@gmail.com', 2, NULL, NULL, 'member', 'active', 'xuanhung3', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admind', 564888154, 'Thanh Xuân, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
-(8, 'admin5@gmail.com', 3, NULL, NULL, 'member', 'active', 'admin124', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admin', 1684596063, 'Cầu Giấy, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL);
+(8, 'admin5@gmail.com', 3, '[3,4,5,6,7]', '[8,9,10]', 'member', 'active', 'admin124', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admin', 1684596063, 'Cầu Giấy, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1838,7 +1841,7 @@ ALTER TABLE `faq`
 -- AUTO_INCREMENT for table `group`
 --
 ALTER TABLE `group`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `menu`
