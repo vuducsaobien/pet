@@ -163,6 +163,13 @@ class GroupModel extends AdminModel
         if($options['task'] == 'edit-item') {
             $params['modified_by'] = $modifiedBy;
             $params['modified']    = $modified;
+
+            if ( !empty( $params['multi_checkbox'] ) ) {
+                $params['permission_ids'] = json_encode( array_keys( $params['multi_checkbox'] ), true );
+            }else{
+                $params['permission_ids'] = '';
+            }
+            
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
 
@@ -171,25 +178,6 @@ class GroupModel extends AdminModel
             self:: where('id', $params['id'])->update(['level' => $level]);
         }
 
-        if($options['task'] == 'change-level-post') {
-            $level = $params['level'];
-            self::where('id', $params['id'])->update(['level' => $level]);
-        }
-        
-        if($options['task'] == 'change-password') {
-            $password       = md5($params['password']);
-            self::where('id', $params['id'])->update(['password' => $password]);
-        }
-
-        if ($options['task'] == 'change-logged-password') {
-            $password   = md5($params['password']);
-            
-            $this->where('id', session('userInfo')['id'])->update([
-                'password'    => $password,
-                'modified'    => $modified,
-                'modified_by' => $modifiedBy
-            ]);
-        }
     }
 
     public function deleteItem($params = null, $options = null) 
