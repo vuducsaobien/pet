@@ -27,6 +27,7 @@
             'itemsPerIDs'              => $itemsPerIDs,
             'itemsPerActName'          => $itemsPerActName,
             'itemsPerActRoute'         => $itemsPerActRoute,
+            'itemsPerIdsCheck'         => @$item['permission_ids'],
             'type'                     => 'multi-checkbox-2'
         ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),

@@ -61,23 +61,25 @@ class GroupController extends AdminController
         if($request->id !== null ) {
             $params["id"] = $request->id;
             $item = $this->model->getItem( $params, ['task' => 'get-item']);
+            $item['permission_ids'] = json_decode($item['permission_ids'], true);
 
-        }else{
+        }
 
-            $controllerInfo = $this->model->listItems( null, ['task' => 'get-all-controller-info']);
-            foreach ($controllerInfo as $key => $value) {
-                $itemsController['id'][]            = $value['id'];
-                $itemsController['name_dev'][]      = $value['name_dev'];
-                $itemsController['name_friendly'][] = $value['name_friendly'];
-            }
+        // Get All Controller
+        $controllerInfo = $this->model->listItems( null, ['task' => 'get-all-controller-info']);
+        foreach ($controllerInfo as $key => $value) {
+            $itemsController['id'][]            = $value['id'];
+            $itemsController['name_dev'][]      = $value['name_dev'];
+            $itemsController['name_friendly'][] = $value['name_friendly'];
+        }
 
-            $permissionInfo = $this->model->listItems( $itemsController['id'], ['task' => 'get-all-permission-info-of-all-controller']);
-            foreach ($permissionInfo as $key => $value) {
-                foreach ($value as $keyC => $valueC) {
-                    $itemsPerIDs      [$key][] = $valueC['id'];
-                    $itemsPerActName  [$key][] = $valueC['name'];
-                    $itemsPerActRoute [$key][] = $valueC['route_name'];
-                }
+        // Get All Action of Controller
+        $permissionInfo = $this->model->listItems( $itemsController['id'], ['task' => 'get-all-permission-info-of-all-controller']);
+        foreach ($permissionInfo as $key => $value) {
+            foreach ($value as $keyC => $valueC) {
+                $itemsPerIDs      [$key][] = $valueC['id'];
+                $itemsPerActName  [$key][] = $valueC['name'];
+                $itemsPerActRoute [$key][] = $valueC['route_name'];
             }
 
         }

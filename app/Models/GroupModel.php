@@ -115,7 +115,7 @@ class GroupModel extends AdminModel
         $result = null;
         
         if($options['task'] == 'get-item') {
-            $result = self::select('id', 'name', 'permission_ids', 'status')->where('id', $params['id'])->first();
+            $result = self::select('id', 'name', 'permission_ids', 'status')->where('id', $params['id'])->first()->toArray();
         }
 
         if($options['task'] == 'auth-login-get-permission-ids-from-group-id') {
