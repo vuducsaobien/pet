@@ -24,8 +24,7 @@
             'controller_id'            => $itemsController['id'],
             'controller_name_dev'      => $itemsController['name_dev'],
             'controller_name_friendly' => $itemsController['name_friendly'],
-            // 'itemsPermission'          => $itemsPermission,
-            'itemsPerActIDs'           => $itemsPerActIDs,
+            'itemsPerIDs'              => $itemsPerIDs,
             'itemsPerActName'          => $itemsPerActName,
             'itemsPerActRoute'         => $itemsPerActRoute,
             'type'                     => 'multi-checkbox-2'

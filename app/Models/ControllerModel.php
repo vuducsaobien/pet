@@ -83,9 +83,14 @@ class ControllerModel extends AdminModel
         {
             foreach ($params as $key => $value) 
             {
-                $result[] = self::select('id', 'name_dev', 'name_friendly')
-                ->whereIn('id', $value)->get()->toArray()
-                ;
+                if ( !empty($value) ) {
+                    $result[] = self::select('id', 'name_dev', 'name_friendly')
+                        ->whereIn('id', $value)->get()->toArray()
+                    ;
+                }else{
+                    $result[] = null;
+                }
+
             }
         }
 

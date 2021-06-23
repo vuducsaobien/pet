@@ -18,8 +18,9 @@ class GroupController extends AdminController
 
     public function index(Request $request)
     {
-        $items = $this->model->listItems($this->params, ['task'  => 'admin-list-items']);
-        $data  = $items->toArray()['data'];
+        $list_permission = [];
+        $items           = $this->model->listItems($this->params, ['task'  => 'admin-list-items']);
+        $data            = $items->toArray()['data'];
         // $itemsCheck = $this->model->listItems(null, ['task'  => 'admin-list-items-check']);
         // echo '<pre style="color:red";>$itemsCheck === '; print_r($itemsCheck);echo '</pre>';
 
@@ -73,16 +74,16 @@ class GroupController extends AdminController
             $permissionInfo = $this->model->listItems( $itemsController['id'], ['task' => 'get-all-permission-info-of-all-controller']);
             foreach ($permissionInfo as $key => $value) {
                 foreach ($value as $keyC => $valueC) {
-                    $itemsPerActIDs  [$key][] = $valueC['action_id'];
-                    $itemsPerActName [$key][] = $valueC['name'];
-                    $itemsPerActRoute  [$key][] = $valueC['route_name'];
+                    $itemsPerIDs      [$key][] = $valueC['id'];
+                    $itemsPerActName  [$key][] = $valueC['name'];
+                    $itemsPerActRoute [$key][] = $valueC['route_name'];
                 }
             }
 
         }
 
         return view($this->pathViewController . 'form', compact(
-            'item', 'itemsController', 'itemsPerActIDs', 'itemsPerActName', 'itemsPerActRoute'
+            'item', 'itemsController', 'itemsPerIDs', 'itemsPerActName', 'itemsPerActRoute'
         ));
     }
 

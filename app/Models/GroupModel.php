@@ -5,7 +5,8 @@ namespace App\Models;
 use App\Models\AdminModel;
 use App\Models\PermissionModel;
 use App\Models\ControllerModel;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use JsonException;
 
 class GroupModel extends AdminModel
 {
@@ -18,7 +19,7 @@ class GroupModel extends AdminModel
         $this->folderUpload        = 'group';
         $this->fieldSearchAccepted = ['id', 'name'];
         $this->crudNotAccepted     = [
-            '_token'
+            '_token', 'multi_checkbox'
         ];    
     }
     
@@ -41,9 +42,11 @@ class GroupModel extends AdminModel
             $itemsController = $controllerModel->listItems($items, ['task'  => 'get-arr-controller-name-from-arr-controller-id']);
 
             foreach ($itemsController as $key => $value) {
-                $result[$key] = '';
-                foreach ($value as $valueC) {
-                    $result[$key] .= '- ' . $valueC['name_friendly'] . ' (' . $valueC['name_dev'] .  ')<br>';
+                $result[$key] = null;
+                if ( !empty($value) ) {
+                    foreach ($value as $valueC) {
+                        $result[$key] .= '- ' . $valueC['name_friendly'] . ' (' . $valueC['name_dev'] .  ')<br>';
+                    }
                 }
             }
             
@@ -146,9 +149,14 @@ class GroupModel extends AdminModel
         }
 
         if($options['task'] == 'add-item') {
+            $this->table = 'group';
             $params['created_by'] = $createdBy;
             $params['created']    = $created;
-            $params['password']   = md5($params['password']);
+
+            if ( !empty( $params['multi_checkbox'] ) ) {
+                $params['permission_ids'] = json_encode( array_keys( $params['multi_checkbox'] ), true );
+            }
+            
             self::insert($this->prepareParams($params));        
         }
 
@@ -186,9 +194,8 @@ class GroupModel extends AdminModel
 
     public function deleteItem($params = null, $options = null) 
     { 
+        $this->table = 'group';
         if($options['task'] == 'delete-item') {
-            $item   = self::getItem($params, ['task'=>'get-avatar']); // 
-            $this->deleteThumb($item['thumb']);
             self::where('id', $params['id'])->delete();
         }
     }

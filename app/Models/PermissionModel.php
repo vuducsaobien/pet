@@ -30,11 +30,17 @@ class PermissionModel extends AdminModel
         }
 
         if($options['task'] == 'admin-list-items-get-list-permission') {
-            foreach ($params as $value) {
-                $result[] = self::select('controller_id')
-                ->whereIn('id', $value)
-                ->pluck('controller_id')->toArray()
-                ;
+            foreach ($params as $key => $value) {
+
+                if ( !empty($value) ) {
+                    $result[] = self::select('controller_id')
+                        ->whereIn('id', $value)
+                        ->pluck('controller_id')->toArray()
+                    ;
+                }else{
+                    $result[] = null;
+                }
+                
             }
         }
 
@@ -59,7 +65,7 @@ class PermissionModel extends AdminModel
 
         if($options['task'] == 'get-all-permission-info-of-all-controller') {
             foreach ($params as $key => $value) {
-                $result[] = self::select('action_id', 'name', 'route_name')
+                $result[] = self::select('id', 'name', 'route_name')
                     ->where('controller_id', $value)
                     ->orderBy('action_id')
                     ->get()->toArray()
