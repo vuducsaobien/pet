@@ -69,6 +69,15 @@ class GroupModel extends AdminModel
             echo '<h3>Die is Called user</h3>';die;
         }
 
+        if($options['task'] == 'get-all-controller-info') {
+            $model  = new ControllerModel();
+            $result = $model->listItems(null, ['task' => 'get-all-controller-info']);
+        }
+
+        if($options['task'] == 'get-all-permission-info-of-all-controller') {
+            $model  = new PermissionModel();
+            $result = $model->listItems($params, ['task' => 'get-all-permission-info-of-all-controller']);
+        }
 
         return $result;
     }

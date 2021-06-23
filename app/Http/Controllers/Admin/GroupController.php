@@ -51,4 +51,39 @@ class GroupController extends AdminController
         }
     }
 
+    public function form(Request $request)
+    {
+        $item           = null;
+        $controllerInfo = null;
+        $permissionInfo = null;
+
+        if($request->id !== null ) {
+            $params["id"] = $request->id;
+            $item = $this->model->getItem( $params, ['task' => 'get-item']);
+
+        }else{
+
+            $controllerInfo = $this->model->listItems( null, ['task' => 'get-all-controller-info']);
+            foreach ($controllerInfo as $key => $value) {
+                $itemsController['id'][]            = $value['id'];
+                $itemsController['name_dev'][]      = $value['name_dev'];
+                $itemsController['name_friendly'][] = $value['name_friendly'];
+            }
+
+            $permissionInfo = $this->model->listItems( $itemsController['id'], ['task' => 'get-all-permission-info-of-all-controller']);
+            foreach ($permissionInfo as $key => $value) {
+                foreach ($value as $keyC => $valueC) {
+                    $itemsPerActIDs  [$key][] = $valueC['action_id'];
+                    $itemsPerActName [$key][] = $valueC['name'];
+                    $itemsPerActRoute  [$key][] = $valueC['route_name'];
+                }
+            }
+
+        }
+
+        return view($this->pathViewController . 'form', compact(
+            'item', 'itemsController', 'itemsPerActIDs', 'itemsPerActName', 'itemsPerActRoute'
+        ));
+    }
+
 }

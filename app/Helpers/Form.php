@@ -151,7 +151,7 @@ class Form {
                                     border: 0px; opacity: 0;">
                                 </ins>
                             </div>
-                            '.$eleText[$key].'
+                            '.$eleText[$key].' '.str_repeat('&nbsp;', 75).'
                         </label>
                     ';
                 }
@@ -161,7 +161,54 @@ class Form {
                         </div>
                     </div>
                 ';      
-                break;
+            break;
+
+            case 'multi-checkbox-2':
+                $xhtml             = '';
+                $eleContID         = $element['controller_id'];
+                $eleContDev        = $element['controller_name_dev'];
+                $eleContFrie       = $element['controller_name_friendly'];
+                $eleArrPerIDs      = $element['itemsPerActIDs'];
+                $eleArrPerActName  = $element['itemsPerActName'];
+                $eleArrPerActRoute = $element['itemsPerActRoute'];
+
+                // $checkbox        = [];
+
+                foreach ($eleContDev as $key => $value) 
+                {
+                    $xhtml .= '
+                        <div class="form-group row">
+                            <label class="col-md-3 col-sm-3  control-label">
+                                Tên các Quyền của Controller: '.$eleContFrie[$key].' ('.$eleContDev[$key].')
+                            </label>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="checkbox">
+                    ';
+
+                    foreach ($eleArrPerActName[$key] as $keyC => $valueC) 
+                    {
+                        $xhtml .= '
+                            <label class="">
+                                <div class="icheckbox_flat-green checked" style="position: relative;">
+                                    <input name="multi_checkbox['.$eleContID[$key].']['.$eleArrPerIDs[$key][$keyC].']" type="checkbox" class="flat" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; 
+                                        left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); 
+                                        border: 0px; opacity: 0;">
+                                    </ins>
+                                </div>
+                                '.$valueC. ' ( ' .$eleArrPerActRoute[$key][$keyC].' ) '.str_repeat('&nbsp;', 15).'
+                            </label>
+                        ';
+                    }
+
+                    $xhtml .= '
+                                </div>
+                            </div>
+                        </div>
+                    ';
+                }
+            break;
         }
     
         return $xhtml;

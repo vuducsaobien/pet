@@ -6,33 +6,38 @@
     $formInputAttributes = config('zvn.template.form_input');
     $formLabelAttributes = config('zvn.template.form_label');
     
-    $statusValues   = ['active' => config('zvn.template.status.active.name'), 'inactive' => config('zvn.template.status.inactive.name')];
-    $typeMenuValues = ['default' => 'Select menu type'] + array_combine(array_keys(config('zvn.template.type_menu')), array_column(config('zvn.template.type_menu'), 'name'));
-    $typeLinkValues = ['default' => 'Select link type'] + array_combine(array_keys(config('zvn.template.type_link')), array_column(config('zvn.template.type_link'), 'name'));
+    $statusValues   = [
+        'active'   => config('zvn.template.status.active.name'),
+        'inactive' => config('zvn.template.status.inactive.name')
+    ];
 
-    $inputHiddenID = Form::hidden('id', $item['id'] ?? '');
+    $inputHiddenID = Form::hidden('id', @$item['id']);
 
     $elements = [[
-            'label'     => Form::label('name', 'Name', $formLabelAttributes),
-            'element'   => Form::text('name', $item['name'] ?? '', $formInputAttributes)
+            'label'     => Form::label('name', 'Tên Group', $formLabelAttributes),
+            'element'   => Form::text('name', @$item['name'], $formInputAttributes)
         ],[
             'label'     => Form::label('status', 'Status', $formLabelAttributes),
             'element'   => Form::select('status', $statusValues, $item['status'] ?? 'default', $formInputAttributes)
         ],[
-            'label' => Form::label('setting-product', 'Cấu Hình Sản Phẩm', $formLabelAttributes),
-            'text'  => [
-                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích', 'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích',
-                'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích', 'Kích Hoạt', 'Sp Đặc Biệt', 'Sp Yêu Thích'
-            ],
-            'name'  => [
-                'status', 'special', 'love', 'status', 'special', 'love',
-                'status', 'special', 'love', 'status', 'special', 'love'
-            ],
-            'type'  => 'multi-checkbox'
+            'label'                    => Form::label(null, null, $formLabelAttributes),
+            'controller_id'            => $itemsController['id'],
+            'controller_name_dev'      => $itemsController['name_dev'],
+            'controller_name_friendly' => $itemsController['name_friendly'],
+            // 'itemsPermission'          => $itemsPermission,
+            'itemsPerActIDs'           => $itemsPerActIDs,
+            'itemsPerActName'          => $itemsPerActName,
+            'itemsPerActRoute'         => $itemsPerActRoute,
+            'type'                     => 'multi-checkbox-2'
         ],[
             'element'   => $inputHiddenID . Form::submit('Save', ['class' => 'btn btn-success']),
             'type'      => 'btn-submit'
-    ]]
+    ]];
+
+    // echo '<pre style="color:red";>$arrController === '; print_r($arrController);echo '</pre>';
+
+    // echo '<pre style="color:red";>$elements === '; print_r($elements);echo '</pre>';
+    // echo '<h3>Die is Called </h3>';die;
 @endphp
 
 @section('content')

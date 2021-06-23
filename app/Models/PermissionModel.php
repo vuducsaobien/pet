@@ -57,6 +57,16 @@ class PermissionModel extends AdminModel
             ;
         }
 
+        if($options['task'] == 'get-all-permission-info-of-all-controller') {
+            foreach ($params as $key => $value) {
+                $result[] = self::select('action_id', 'name', 'route_name')
+                    ->where('controller_id', $value)
+                    ->orderBy('action_id')
+                    ->get()->toArray()
+                ;
+            }
+        }
+
         return $result;
     }
 

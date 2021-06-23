@@ -88,6 +88,12 @@ class ControllerModel extends AdminModel
                 ;
             }
         }
+
+        if($options['task'] == 'get-all-controller-info') {
+            $result = self::select('id', 'name_dev', 'name_friendly')->where('status', 'active')
+                ->orderBy('id', 'desc')->get()->toArray()
+            ;
+        }
         
         return $result;
     }
