@@ -38,8 +38,8 @@ class AuthController extends Controller
 
             $userModel       = new UserModel();
             $userInfo        = $userModel->getItem($params, ['task' => 'auth-login']);
-            $permission_deny = explode(',', $userInfo['permission_deny']);
-            $permission_new  = explode(',', $userInfo['permission_new']);
+            $permission_deny = explode(',', $userInfo['permission_id_deny']);
+            $permission_new  = explode(',', $userInfo['permission_id_add']);
 
             // Get Permission of Group User
             $groupModel     = new GroupModel();
@@ -60,8 +60,8 @@ class AuthController extends Controller
             }
 
             // Edit UserINfo
-            unset($userInfo['permission_deny']);
-            unset($userInfo['permission_new']);
+            unset($userInfo['permission_id_deny']);
+            unset($userInfo['permission_id_add']);
             $userInfo['permission_ids_accepted'] = $groupPermision;
 
             if (!$userInfo) return redirect()->route($this->controllerName . '/login')

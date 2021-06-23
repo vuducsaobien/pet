@@ -31,44 +31,16 @@ class UserController extends AdminController
         $itemsData        = $items->toArray()['data'];
 
         foreach ($itemsData as $key => $value) {
-            // $data['user_id'][$key]         = $value['id'];
-            $data['group_id'][$key]        = $value['group_id'];
-            $data['permission_deny'][$key] = explode(',', $value['permission_deny']);
-            $data['permission_new'][$key]  = explode(',', $value['permission_new']);
+            $data['group_id'][$key]           = $value['group_id'];
+            $data['permission_id_deny'][$key] = json_decode($value['permission_id_deny'], true);
+            $data['permission_id_add'][$key]  = json_decode($value['permission_id_add'], true);
         }
 
-        $listGroupPermision = $this->model->listItems($data['group_id'], ['task'  => 'get-permission_ids-of-list-user']);
-        foreach ($listGroupPermision as $key => $value) {
-            $listGroupPermision[$key] = explode(',', $value);
-        }
+        $list_permission_user  = $this->model->listItems($data, ['task' => 'admin-list-items-get-list-permission']);
+        $list_permission_group = $this->model->listItems($data['group_id'], ['task' => 'get-permission_ids-of-list-user']);
 
-        // Remove Deny Permission for user
-        foreach ($data['permission_deny'] as $key => $value) {
-            foreach ($value as $keyB => $valueB) {
-                $key_value = array_search($valueB, $listGroupPermision[$key]);
-                unset( $listGroupPermision[$key][$key_value] );
-            }
-        }
-
-        // Add New Permission for User
-        foreach ($data['permission_new'] as $key => $value) {
-            foreach ($value as $keyB => $valueB) {
-                if ($valueB !== '') {
-                    array_push($listGroupPermision[$key], $valueB);
-                }
-            }
-        }
-
-        // Get All Permission name form List Permision
-        $permissions      = $this->model->listItems($listGroupPermision, ['task'  => 'get-permission-name-of-list-permission-id']);
-        foreach ($permissions as $key => $value) {
-            $permissions[$key] = '- ' . implode('<br>- ', $value);
-        }
-
-        // echo '<pre style="color:red";>$permissions === '; print_r($permissions);echo '</pre>';
-        // echo '<h3>Die is Called </h3>';die;
         return view($this->pathViewController . 'index', compact(
-            'params', 'items', 'itemsStatusCount', 'permissions'
+            'params', 'items', 'itemsStatusCount', 'list_permission_user', 'list_permission_group'
         ));
     }
 

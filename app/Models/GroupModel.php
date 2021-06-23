@@ -54,9 +54,9 @@ class GroupModel extends AdminModel
 
         if($options['task'] == 'get-permission_ids-of-list-user') {
             foreach ($params as $key => $value) {
-                $result[] = self::where('id', $value)
-                ->where('status', 'active')
-                ->value('permission_ids')
+                $result[] = self::select('name', 'permission_ids')
+                    ->where('id', $value)
+                    ->first()->toArray()
                 ;
             }
         }

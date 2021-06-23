@@ -27,7 +27,7 @@ class UserModel extends AdminModel
 
         if($options['task'] == "admin-list-items") {
             $query = $this->select('id', 'username', 'email', 'fullname', 'thumb', 'status', 'level', 'group_id',
-            'permission_deny', 'permission_new', 'created' ,'created_by','modified','modified_by');
+            'permission_id_deny', 'permission_id_add', 'created' ,'created_by','modified','modified_by');
                
             if ($params['filter']['status'] !== "all")  {
                 $query->where('status', '=', $params['filter']['status'] );
@@ -51,13 +51,89 @@ class UserModel extends AdminModel
         }
 
         if($options['task'] == 'get-permission-name-of-list-permission-id') {
-            $model = new PermissionModel();
+            $model  = new PermissionModel();
             $result = $model->listItems($params, ['task'  => 'get-permission-name-of-list-permission-id']);
         }
 
         if($options['task'] == 'get-permission_ids-of-list-user') {
-            $model  = new GroupModel();
-            $result = $model->listItems($params, ['task' => 'get-permission_ids-of-list-user']);
+            $model = new GroupModel();
+            $items = $model->listItems($params, ['task' => 'get-permission_ids-of-list-user']);
+
+            foreach ($items as $key => $value) {
+                $result['group_name'][$key] = $value['name'];
+                $data   [$key]              = json_decode($value['permission_ids'], true);
+            }
+
+            $permissionModel      = new PermissionModel();
+            $dataPermissionPgroup = $permissionModel->listItems($data, ['task' => 'admin-list-items-get-list-permission-name-route_name']);
+
+            foreach ($dataPermissionPgroup as $key => $value) 
+            {
+                if ( !empty( $value ) ) 
+                {
+                    foreach ($value as $keyB => $valueB) 
+                    {
+                        $result['permission_group'][$key][] = $valueB . " - (" . $keyB . ")";
+                        unset($result['permission_group'][$key][$keyB]);
+                    }
+
+                    $result['permission_group'][$key] = null;
+                    foreach ($value as $keyC => $valueC) 
+                    {
+                        $result['permission_group'][$key] .= '- ' . $valueC . " - (" . $keyC . ")<br>";
+                    }
+                }else{
+                    $result['permission_group'][$key] = null;
+                }
+            }
+
+        }
+
+        if($options['task'] == 'admin-list-items-get-list-permission') {
+            $model = new PermissionModel();
+
+            $result['permission_id_deny'] = $model->listItems($params['permission_id_deny'], [
+                'task'  => 'admin-list-items-get-list-permission-name-route_name'
+            ]);
+
+            foreach ($result['permission_id_deny'] as $key => $value) 
+            {
+                if ( !empty( $value ) ) 
+                {
+                    foreach ($value as $keyB => $valueB) 
+                    {
+                        $result['permission_id_deny'][$key][] = $valueB . " - (" . $keyB . ")";
+                        unset($result['permission_id_deny'][$key][$keyB]);
+                    }
+
+                    $result['permission_id_deny'][$key] = null;
+                    foreach ($value as $keyC => $valueC) 
+                    {
+                        $result['permission_id_deny'][$key] .= '- ' . $valueC . " - (" . $keyC . ")<br>";
+                    }
+                }else{
+                    $result['permission_id_deny'][$key] = null;
+                }
+            }
+
+            $items  = $model->listItems($params['permission_id_add'], [
+                'task'  => 'admin-list-items-get-list-permission'
+            ]);
+
+            $controllerModel = new ControllerModel();
+            $itemsController = $controllerModel->listItems($items, [
+                'task'  => 'get-arr-controller-name-from-arr-controller-id'
+            ]);
+
+            foreach ($itemsController as $key => $value) {
+                $result['permission_id_add'][$key] = null;
+                if ( !empty($value) ) {
+                    foreach ($value as $valueC) {
+                        $result['permission_id_add'][$key] .= '- ' . $valueC['name_friendly'] . ' (' . $valueC['name_dev'] .  ')<br>';
+                    }
+                }
+            }
+            
         }
 
         return $result;
@@ -101,7 +177,7 @@ class UserModel extends AdminModel
         }
 
         if($options['task'] == 'auth-login') {
-            $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb', 'group_id', 'permission_deny', 'permission_new')
+            $result = self::select('id', 'username', 'fullname', 'email', 'level', 'thumb', 'group_id', 'permission_id_deny', 'permission_id_add')
                 ->where('status', 'active')
                 ->where('email', $params['email'])
                 ->where('password', md5($params['password']) )->first();
