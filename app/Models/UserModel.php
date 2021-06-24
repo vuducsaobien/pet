@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\AdminModel;
 use App\Models\PermissionModel;
 use Illuminate\Support\Facades\DB; 
+use JsonException;
 
 class UserModel extends AdminModel
 {
@@ -204,6 +205,31 @@ class UserModel extends AdminModel
             ->first()->toArray()
             ;
         }
+
+        if ($options['task'] == 'check-id-permission-deny-user') {
+            $users = DB::table($this->table)
+                ->where('username', $params['username'])
+                ->whereJsonContains('permission_id_deny', $params['permission_id_current'])
+                // ->whereJsonContains('permission_id_deny', 6)
+                ->get('id')->toArray()
+            ;
+
+            $result = true;
+            if ( empty($users) ) $result = false;
+        }
+
+        if ($options['task'] == 'check-id-permission-add-user') {
+            $users = DB::table($this->table)
+                ->where('username', $params['username'])
+                ->whereJsonContains('permission_id_add', $params['permission_id_current'])
+                // ->whereJsonContains('permission_id_add', 24)
+                ->get('id')->toArray()
+            ;
+
+            $result = false;
+            if ( !empty($users) ) $result = true;
+        }
+
 
         return $result;
     }

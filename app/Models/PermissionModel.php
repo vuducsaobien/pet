@@ -106,6 +106,7 @@ class PermissionModel extends AdminModel
         }
 
         if($options['task'] == 'get-permission-id-from-route-name') {
+            if ( !is_numeric( strpos($params, '/') ) )$params = $params . '/index';
             $result = self::where('route_name', $params)->value('id');
         }
 

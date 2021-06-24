@@ -122,6 +122,18 @@ class GroupModel extends AdminModel
             $result = self::where('id', $params['id'])->value('permission_ids');
         }
 
+        if($options['task'] == 'check-id-permission-default-group') {
+            $users = DB::table($this->table)
+                ->where('id', $params['group_id'])
+                ->whereJsonContains('permission_ids', $params['permission_id_current'])
+                // ->whereJsonContains('permission_ids', 10)
+                ->get('id')->toArray()
+            ;
+
+            $result = false;
+            if ( !empty($users) ) $result = true;
+        }
+
         return $result;
     }
 
