@@ -34,43 +34,49 @@ class PermissionAdmin
             $params['username']              = $userInfo['username'];
 
             $checkPerDenyUser = $userModel->getItem($params, ['task' => 'check-id-permission-deny-user']);
+            $checkPermission  = config('zvn.checkPermission');
 
-            // Check permission_id Thuộc Deny User ?
-            if ( $checkPerDenyUser ) 
+            if ( $checkPermission ) 
             {
-                echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-                var_dump( $checkPerDenyUser );
-                echo '<h3>Die is Called - noPermission Deny User</h3>';die;
-                return redirect()->route('notify/noPermission');
-            } else {
-
-                // Check Default Group Permission
-                $params['group_id'] = $userInfo['group_id'];
-                $groupModel         = new GroupModel();
-                $checkPerDefGroup   = $groupModel->getItem($params, ['task' => 'check-id-permission-default-group']);
-
-                // Check Add User Permission
-                $checkPerAddUser    = $userModel->getItem($params, ['task' => 'check-id-permission-add-user']);
-
-                if ( $checkPerDefGroup ) {
+                // Check permission_id Thuộc Deny User ?
+                if ( $checkPerDenyUser ) 
+                {
                     echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-                    var_dump( $checkPerDefGroup );    
-                    return $next($request);
-
-                }elseif ( $checkPerAddUser ) {
-                    echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-                    var_dump( $checkPerAddUser );    
-                    return $next($request);
-
-                }else{
-                    echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
-                    var_dump( $checkPerDefGroup );  
-                    var_dump( $checkPerAddUser );    
-                    echo '<h3>Die is Called - noPermission</h3>';die;
-
+                    var_dump( $checkPerDenyUser );
+                    echo '<h3>Die is Called - noPermission Deny User</h3>';die;
                     return redirect()->route('notify/noPermission');
-                }
+                } else {
 
+                    // Check Default Group Permission
+                    $params['group_id'] = $userInfo['group_id'];
+                    $groupModel         = new GroupModel();
+                    $checkPerDefGroup   = $groupModel->getItem($params, ['task' => 'check-id-permission-default-group']);
+
+                    // Check Add User Permission
+                    $checkPerAddUser    = $userModel->getItem($params, ['task' => 'check-id-permission-add-user']);
+
+                    if ( $checkPerDefGroup ) {
+                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        var_dump( $checkPerDefGroup );    
+                        return $next($request);
+
+                    }elseif ( $checkPerAddUser ) {
+                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        var_dump( $checkPerAddUser );    
+                        return $next($request);
+
+                    }else{
+                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        var_dump( $checkPerDefGroup );  
+                        var_dump( $checkPerAddUser );    
+                        echo '<h3>Die is Called - noPermission</h3>';die;
+
+                        return redirect()->route('notify/noPermission');
+                    }
+
+                }
+            }else{
+                return $next($request);
             }
             
         }
