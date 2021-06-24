@@ -116,21 +116,27 @@ class UserModel extends AdminModel
                 }
             }
 
-            $items  = $model->listItems($params['permission_id_add'], [
-                'task'  => 'admin-list-items-get-list-permission'
+            $result['permission_id_add'] = $model->listItems($params['permission_id_add'], [
+                'task'  => 'admin-list-items-get-list-permission-name-route_name'
             ]);
 
-            $controllerModel = new ControllerModel();
-            $itemsController = $controllerModel->listItems($items, [
-                'task'  => 'get-arr-controller-name-from-arr-controller-id'
-            ]);
-
-            foreach ($itemsController as $key => $value) {
-                $result['permission_id_add'][$key] = null;
-                if ( !empty($value) ) {
-                    foreach ($value as $valueC) {
-                        $result['permission_id_add'][$key] .= '- ' . $valueC['name_friendly'] . ' (' . $valueC['name_dev'] .  ')<br>';
+            foreach ($result['permission_id_add'] as $key => $value) 
+            {
+                if ( !empty( $value ) ) 
+                {
+                    foreach ($value as $keyB => $valueB) 
+                    {
+                        $result['permission_id_add'][$key][] = $valueB . " - (" . $keyB . ")";
+                        unset($result['permission_id_add'][$key][$keyB]);
                     }
+
+                    $result['permission_id_add'][$key] = null;
+                    foreach ($value as $keyC => $valueC) 
+                    {
+                        $result['permission_id_add'][$key] .= '- ' . $valueC . " - (" . $keyC . ")<br>";
+                    }
+                }else{
+                    $result['permission_id_add'][$key] = null;
                 }
             }
             
