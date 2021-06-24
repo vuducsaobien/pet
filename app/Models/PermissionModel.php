@@ -68,6 +68,12 @@ class PermissionModel extends AdminModel
             }
         }
 
+        if($options['task'] == 'get-permission-route_name-of-list-permission-id') {
+            if ( !empty( $params ) ) {
+                $result = self::whereIn('id', $params)->pluck('route_name')->toArray();
+            }
+        }
+
         if($options['task'] == 'admin-list-items-get-action-id-from-list-controller-id') {
             $query = self::select(
                 'id', 'name', 'route_name', 'controller_id', 'action_id'

@@ -56,17 +56,17 @@ class PermissionAdmin
                     $checkPerAddUser    = $userModel->getItem($params, ['task' => 'check-id-permission-add-user']);
 
                     if ( $checkPerDefGroup ) {
-                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        echo '<pre style="color:red";>$params 1 === '; print_r($params);echo '</pre>';
                         var_dump( $checkPerDefGroup );    
                         return $next($request);
 
                     }elseif ( $checkPerAddUser ) {
-                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        echo '<pre style="color:red";>$params 2 === '; print_r($params);echo '</pre>';
                         var_dump( $checkPerAddUser );    
                         return $next($request);
 
                     }else{
-                        echo '<pre style="color:red";>$params === '; print_r($params);echo '</pre>';
+                        echo '<pre style="color:red";>$params 3 === '; print_r($params);echo '</pre>';
                         var_dump( $checkPerDefGroup );  
                         var_dump( $checkPerAddUser );    
                         echo '<h3>Die is Called - noPermission</h3>';die;

@@ -5,7 +5,8 @@ return [
         'prefix_admin' => 'admin123',
         'prefix_news'  => 'news69',
     ],
-    'checkPermission' => false,
+    // 'checkPermission' => false,
+    'checkPermission' => true,
     'format'          => [
         'long_time'        => 'H:i:s d/m/Y',
         'long_time_front'  => 'H:i:s m/d/Y',
