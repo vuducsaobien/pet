@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2021 at 06:11 PM
+-- Generation Time: Jun 24, 2021 at 04:21 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -733,9 +733,9 @@ INSERT INTO `permission` (`id`, `controller_id`, `action_id`, `name`, `route_nam
 (19, 0, 0, 'Xóa Group', 'group/delete', 'active', '2021-04-19 22:06:14', 'admin', NULL, NULL),
 (20, 0, 0, 'Thay đổi Trạng thái của Group', 'group/status', 'active', '2021-04-19 22:06:35', 'admin', NULL, NULL),
 (21, 0, 0, 'Thay đổi Quyền của Group', 'group/permission_ids', 'active', '2021-04-19 22:11:50', 'admin', NULL, NULL),
-(22, 0, 0, 'Hiển thị User', 'user/index', 'active', '2021-04-19 22:13:45', 'admin', NULL, NULL),
-(23, 0, 0, 'Thêm mới / Chỉnh sửa User', 'user/form', 'active', '2021-04-19 22:14:05', 'admin', NULL, NULL),
-(24, 0, 0, 'Xóa User', 'user/delete', 'active', '2021-04-19 22:14:19', 'admin', NULL, NULL),
+(22, 5, 1, 'Hiển thị User', 'user/index', 'active', '2021-04-19 22:13:45', 'admin', NULL, NULL),
+(23, 5, 4, 'Thêm mới / Chỉnh sửa User', 'user/form', 'active', '2021-04-19 22:14:05', 'admin', NULL, NULL),
+(24, 5, 3, 'Xóa User', 'user/delete', 'active', '2021-04-19 22:14:19', 'admin', NULL, NULL),
 (25, 0, 0, 'Thay đổi Trạng thái của User', 'user/status', 'inactive', '2021-04-19 22:14:56', 'admin', '2021-04-23 09:54:45', 'admin'),
 (26, 0, 0, 'Thay đổi Level của User', 'user/level', 'active', '2021-04-19 22:17:03', 'admin', NULL, NULL),
 (27, 0, 0, 'Tự Thay đổi Password của Chính User đó.', 'user/change-logged-password', 'active', '2021-04-19 22:26:35', 'admin', NULL, NULL),
@@ -1561,7 +1561,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `group_id`, `permission_id_deny`, `permission_id_add`, `level`, `status`, `username`, `password`, `thumb`, `fullname`, `phone`, `address`, `created`, `created_by`, `modified`, `modified_by`, `created_at`, `updated_at`) VALUES
 (1, 'vuducsaobien95@gmail.com', 1, '', NULL, 'admin', 'active', 'vanduc', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Vũ Văn Đức', 362344174, 'Long Bình Tân, Biên Hòa, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
-(2, 'admin@gmail.com', 2, '[1,2,3,4,5]', '', 'admin', 'active', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Nguyễn Văn Admin', 989261781, 'Định Quán, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
+(2, 'admin@gmail.com', 2, '[1,2,3,4,5,24]', '[6,7,8,9,10,11,12,13,22,23]', 'admin', 'active', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Nguyễn Văn Admin', 989261781, 'Định Quán, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (3, 'admin1@gmail.com', 3, '[1]', '[2]', 'admin', 'active', 'xuanhung', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admind', 564888154, 'Thanh Xuân, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (4, 'admin2@gmail.com', 4, '[3,4,5,6,7]', '[1,2]', 'admin', 'active', 'admin12', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'admin', 1684596063, 'Cầu Giấy, Hà Nội', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
 (5, 'vuducsaobien94@gmail.com', 5, NULL, NULL, 'admin', 'active', 'vanduc1', 'c4ca4238a0b923820dcc509a6f75849b', '/images/user/1ctW8mj8vq.png', 'Vũ Văn Đức', 362344174, 'Long Bình Tân, Biên Hòa, Đồng Nai', '2021-03-30 12:41:43', 'admin', '2021-03-30 12:41:43', 'admin', '2021-03-30 05:41:43', NULL),
