@@ -72,14 +72,34 @@ class DashboardController extends AdminController
         $itemsContact = $this->contact($request);
         
         return view($this->pathViewController .  'index', compact([
-            'itemsSliderCount', 'itemsUserCount', 'itemsCategoryCount', 'itemsArticleCount',
-            'itemsAttributeCount', 'itemsCartCount', 'itemsCommentArticleCount', 
-            'itemsCommentCount', 'itemsContactCount', 'itemsCustomerCount', 'itemsDiscountCount',
-            'itemsMenuCount', 'itemsPaymentCount', 'itemsProductAttributeCount',
-            'itemsProductImageCount', 'itemsProductCount', 'itemsRecruitmentCount', 'itemsRssCount',
-            'itemsSettingCount', 'itemsShippingCount', 'itemsTeamCount',
-            'itemsTestimoniaCount', 'itemsUserCount', 'itemsRssContentCount', 
-            'itemsCart', 'itemsContact', 'itemsFaqCount', 'itemsSubcribeCount'
+            'itemsSliderCount',
+            'itemsUserCount',
+            'itemsCategoryCount',
+            'itemsArticleCount',
+            'itemsAttributeCount',
+            'itemsCartCount',
+            'itemsCommentArticleCount',
+            'itemsCommentCount',
+            'itemsContactCount',
+            'itemsCustomerCount',
+            'itemsDiscountCount',
+            'itemsMenuCount',
+            'itemsPaymentCount',
+            'itemsProductAttributeCount',
+            'itemsProductImageCount',
+            'itemsProductCount',
+            'itemsRecruitmentCount',
+            'itemsRssCount',
+            'itemsSettingCount',
+            'itemsShippingCount',
+            'itemsTeamCount',
+            'itemsTestimoniaCount',
+            'itemsUserCount',
+            'itemsRssContentCount',
+            'itemsCart',
+            'itemsContact',
+            'itemsFaqCount',
+            'itemsSubcribeCount'
         ]));
     }
 

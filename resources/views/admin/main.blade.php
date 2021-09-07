@@ -13,7 +13,13 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 @include('admin.elements.sidebar_title')
-                @include('admin.elements.sidebar_menu')
+
+                @if ( config('zvn.checkPermission') )
+                    @include('admin.elements.sidebar_menu_permission')
+                @else
+                    @include('admin.elements.sidebar_menu_default')
+                @endif
+                
             </div>
         </div>
         <div class="top_nav">

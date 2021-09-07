@@ -56,8 +56,8 @@ class PermissionAdmin
                     $checkPerAddUser    = $userModel->getItem($params, ['task' => 'check-id-permission-add-user']);
 
                     if ( $checkPerDefGroup ) {
-                        echo '<pre style="color:red";>$params 1 === '; print_r($params);echo '</pre>';
-                        var_dump( $checkPerDefGroup );    
+                        // echo '<pre style="color:red";>$params 1 === '; print_r($params);echo '</pre>';
+                        // var_dump( $checkPerDefGroup );    
                         return $next($request);
 
                     }elseif ( $checkPerAddUser ) {
